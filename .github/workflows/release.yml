@@ -1,0 +1,81 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4.1.0
+      with:
+        fetch-depth: 0 # Necessary to fetch all tags for version calculation
+
+    - name: Setup MSBuild Path
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Download References
+      run: |
+        echo "[Download References] Downloading dependencies"
+        mkdir DepotDownloader
+        cd DepotDownloader
+        Invoke-WebRequest -Uri "https://github.com/SteamRE/DepotDownloader/releases/latest/download/DepotDownloader-windows-x64.zip" -OutFile "DepotDownloader-windows-x64.zip"
+        Expand-Archive -Path "DepotDownloader-windows-x64.zip" -DestinationPath "."
+        echo 'regex:RustDedicated_Data/Managed/.*\.dll' > filelist.txt
+        
+        echo "[Download References] Downloading Rust dlls"
+        .\DepotDownloader -app 258550 -depot 258552 -filelist filelist.txt -dir "$(pwd)"
+        cd ..
+        mkdir src\dependencies
+        echo "[Download References] Moving Rust dlls"
+        Move-Item DepotDownloader\RustDedicated_Data\Managed\*.dll src\dependencies\ -Force
+        
+        mkdir Oxide
+        cd Oxide
+        echo "[Download References] Downloading Oxide"
+        Invoke-WebRequest -Uri "https://github.com/OxideMod/Oxide.Rust/releases/latest/download/Oxide.Rust.zip" -OutFile "Oxide.Rust.zip"
+        Expand-Archive -Path "Oxide.Rust.zip" -DestinationPath "."
+        cd ..
+        echo "[Download References] Moving Oxide dlls"
+        Move-Item Oxide\RustDedicated_Data\Managed\*.dll src\dependencies\ -Force
+        
+        Invoke-WebRequest -Uri "https://github.com/dassjosh/Rust.UIFramework/releases/latest/download/Oxide.Ext.UiFramework.dll" -OutFile "Oxide.Ext.UiFramework.dll"
+        Move-Item -Path "Oxide.Ext.UiFramework.dll" -Destination "src\dependencies\" -Force
+        
+        Invoke-WebRequest -Uri "https://github.com/ilovepatatos-rust/console-extension/releases/latest/download/Oxide.Ext.ConsoleExt.dll" -OutFile "Oxide.Ext.ConsoleExt.dll"
+        Move-Item -Path "Oxide.Ext.ConsoleExt.dll" -Destination "src\dependencies\" -Force
+
+    - name: Restore NuGet packages
+      run: msbuild -t:restore src/IlovepatatosExt/IlovepatatosExt.csproj
+
+    - name: Build DLL
+      run: msbuild src/IlovepatatosExt/IlovepatatosExt.csproj /p:Configuration=Release /p:Platform="Any CPU"
+
+    - name: Automated Versioning
+      if: github.ref == 'refs/heads/main'
+      run: |
+        git fetch --tags
+        $latestTag = git tag -l --sort=-v:refname | Select-Object -First 1
+        if (-not $latestTag) {
+          $latestTag = "v1.0.0"
+        }
+        $versionNumbers = $latestTag.TrimStart('v').Split('.')
+        $newPatch = [int]$versionNumbers[2] + 1
+        $newTag = "v{0}.{1}.{2}" -f $versionNumbers[0], $versionNumbers[1], $newPatch
+        git tag $newTag
+        git push origin $newTag
+        echo "New Tag: $newTag"
+        echo "NEW_TAG=$newTag" | Out-File -FilePath $env:GITHUB_ENV -Append
+      shell: pwsh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload Release Assets
+      run: |
+        gh release create ${{ env.NEW_TAG }} "src\IlovepatatosExt\bin\Any CPU\Release\net48\Oxide.Ext.IlovepatatosExt.dll" --title "Release ${{ env.NEW_TAG }}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
