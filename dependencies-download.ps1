@@ -60,3 +60,15 @@ Remove-Item -Path $tmpDir -Force -Recurse
 
 # Display a completion message
 Write-Host "References downloaded and copied to $PSScriptRoot."
+
+# Delete dll breaking automated builds using git actions
+$filesToDelete = @("Facepunch.Steamworks.Win64.dll", "UnityEngine.ARModule.dll", "UnityEngine.NVIDIAModule.dll")
+
+foreach ($filename in $filesToDelete)
+{
+    $filePath = Join-Path -Path $resourcesDir -ChildPath $filename
+    if (Test-Path -Path $filePath)
+    {
+        Remove-Item -Path $filePath -Force
+    }
+}

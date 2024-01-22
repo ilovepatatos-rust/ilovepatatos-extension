@@ -76,9 +76,6 @@
         <Reference Include="Facepunch.SteamNetworking">
             <HintPath>..\dependencies\Facepunch.SteamNetworking.dll</HintPath>
         </Reference>
-        <Reference Include="Facepunch.Steamworks.Win64">
-            <HintPath>..\dependencies\Facepunch.Steamworks.Win64.dll</HintPath>
-        </Reference>
         <Reference Include="Facepunch.System">
             <HintPath>..\dependencies\Facepunch.System.dll</HintPath>
         </Reference>
@@ -367,9 +364,6 @@
         <Reference Include="UnityEngine.AnimationModule">
             <HintPath>..\dependencies\UnityEngine.AnimationModule.dll</HintPath>
         </Reference>
-        <Reference Include="UnityEngine.ARModule">
-            <HintPath>..\dependencies\UnityEngine.ARModule.dll</HintPath>
-        </Reference>
         <Reference Include="UnityEngine.AssetBundleModule">
             <HintPath>..\dependencies\UnityEngine.AssetBundleModule.dll</HintPath>
         </Reference>
@@ -426,9 +420,6 @@
         </Reference>
         <Reference Include="UnityEngine.LocalizationModule">
             <HintPath>..\dependencies\UnityEngine.LocalizationModule.dll</HintPath>
-        </Reference>
-        <Reference Include="UnityEngine.NVIDIAModule">
-            <HintPath>..\dependencies\UnityEngine.NVIDIAModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.ParticleSystemModule">
             <HintPath>..\dependencies\UnityEngine.ParticleSystemModule.dll</HintPath>
