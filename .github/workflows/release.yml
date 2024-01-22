@@ -43,9 +43,11 @@ jobs:
         echo "[Download References] Moving Oxide dlls"
         Move-Item Oxide\RustDedicated_Data\Managed\*.dll src\dependencies\ -Force
         
+        echo "[Download References] Downloading Oxide.Ext.UiFramework.dll"
         Invoke-WebRequest -Uri "https://github.com/dassjosh/Rust.UIFramework/releases/latest/download/Oxide.Ext.UiFramework.dll" -OutFile "Oxide.Ext.UiFramework.dll"
         Move-Item -Path "Oxide.Ext.UiFramework.dll" -Destination "src\dependencies\" -Force
         
+        echo "[Download References] Downloading Oxide.Ext.ConsoleExt.dll"
         Invoke-WebRequest -Uri "https://github.com/ilovepatatos-rust/console-extension/releases/latest/download/Oxide.Ext.ConsoleExt.dll" -OutFile "Oxide.Ext.ConsoleExt.dll"
         Move-Item -Path "Oxide.Ext.ConsoleExt.dll" -Destination "src\dependencies\" -Force
 
