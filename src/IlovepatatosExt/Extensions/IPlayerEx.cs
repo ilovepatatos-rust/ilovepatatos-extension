@@ -42,12 +42,12 @@ public static class IPlayerEx
         }
     }
 
-    public static bool DoesPlayerHavePerms(this IPlayer iPlayer, params string[] perms)
+    public static bool HasAnyPerms(this IPlayer iPlayer, params string[] perms)
     {
         return iPlayer != null && perms.Any(iPlayer.HasPermission);
     }
 
-    public static bool DoesPlayerHavePerms(this IPlayer iPlayer, bool warn, params string[] perms)
+    public static bool HasAnyPerms(this IPlayer iPlayer, bool warn, params string[] perms)
     {
         bool isPlayerNull = iPlayer == null;
         bool hasPerms = !isPlayerNull && perms.Any(iPlayer.HasPermission);

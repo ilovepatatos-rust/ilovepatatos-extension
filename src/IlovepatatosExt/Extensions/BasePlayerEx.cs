@@ -7,9 +7,29 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class BasePlayerEx
 {
+    public static bool IsSelf(this BasePlayer player, BasePlayer other)
+    {
+        return other != null && player.userID == other.userID;
+    }
+
+    public static bool IsModerator(this BasePlayer player)
+    {
+        return player.Connection != null && player.Connection.IsModerator();
+    }
+
     public static void ReplyToPlayer(this BasePlayer player, string msg)
     {
         player.IPlayer?.ReplyToPlayer(msg);
+    }
+
+    public static bool HasAnyPerms(this BasePlayer player, params string[] perms)
+    {
+        return player != null && player.IPlayer.HasAnyPerms(perms);
+    }
+
+    public static bool HasAnyPerms(this BasePlayer player, bool warn, params string[] perms)
+    {
+        return player != null && player.IPlayer.HasAnyPerms(warn, perms);
     }
 
     public static IEnumerable<Connection> GetOnlineConnections(this IEnumerable<BasePlayer> players)
@@ -23,6 +43,16 @@ public static class BasePlayerEx
     }
 
     public static void ChatMessage(this IEnumerable<BasePlayer> players, string msg, ulong steam64 = 0)
+    {
+        if (string.IsNullOrEmpty(msg))
+            return;
+
+        List<Connection> connections = players.GetOnlineConnectionsPooled();
+        connections.ChatMessage(msg, steam64);
+        PoolUtility.Free(ref connections);
+    }
+
+    public static void ChatMessageAsCopyable(this IEnumerable<BasePlayer> players, string msg, ulong steam64 = 0)
     {
         if (string.IsNullOrEmpty(msg))
             return;
@@ -53,5 +83,35 @@ public static class BasePlayerEx
     {
         Physics.Raycast(player.eyes.HeadRay(), out RaycastHit hit, distance, layer);
         return hit.GetEntity();
+    }
+
+    public static void AddUi(this BasePlayer player, string json)
+    {
+        player.Connection.AddUi(json);
+    }
+
+    public static void AddUi(this IEnumerable<BasePlayer> players, string json)
+    {
+        if (string.IsNullOrEmpty(json))
+            return;
+
+        List<Connection> connections = players.GetOnlineConnectionsPooled();
+        connections.AddUi(json);
+        PoolUtility.Free(ref connections);
+    }
+
+    public static void DestroyUi(this BasePlayer player, string name)
+    {
+        player.Connection.DestroyUi(name);
+    }
+
+    public static void DestroyUi(this IEnumerable<BasePlayer> players, string name)
+    {
+        if (string.IsNullOrEmpty(name))
+            return;
+
+        List<Connection> connections = players.GetOnlineConnectionsPooled();
+        connections.DestroyUi(name);
+        PoolUtility.Free(ref connections);
     }
 }
