@@ -10,7 +10,7 @@ public static class ListEx
         return index >= 0 && list != null && index < list.Count;
     }
 
-    public static T GetAt<T>(this List<T> list, int index)
+    public static T GetOrFallback<T>(this List<T> list, int index)
     {
         return list.ContainsIndex(index) ? list[index] : default;
     }
