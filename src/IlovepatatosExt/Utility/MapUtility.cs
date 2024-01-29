@@ -54,6 +54,51 @@ public static class MapUtility
         return layer.ContainsTopology(topology);
     }
 
+    public static IEnumerator KillNetworkablesOverTimeWhitelist(Vector3 pos, float radius, float delay,
+        ICollection<uint> whitelist, Action<int, long> onComplete = null)
+    {
+        var all = PoolUtility.Get<List<BaseNetworkable>>();
+        Vis.Entities(pos, radius, all);
+
+        IEnumerable<BaseNetworkable> toRemove = all.Where(networkable => whitelist.Contains(networkable.prefabID));
+        yield return KillNetworkablesOverTime(toRemove, delay, onComplete);
+
+        PoolUtility.Free(ref all);
+    }
+
+    public static IEnumerator KillNetworkablesOverTimeBlacklist(Vector3 pos, float radius, float delay,
+        ICollection<uint> blacklist, Action<int, long> onComplete = null)
+    {
+        var all = PoolUtility.Get<List<BaseNetworkable>>();
+        Vis.Entities(pos, radius, all);
+
+        IEnumerable<BaseNetworkable> toRemove = all.Where(networkable => !blacklist.Contains(networkable.prefabID));
+        yield return KillNetworkablesOverTime(toRemove, delay, onComplete);
+
+        PoolUtility.Free(ref all);
+    }
+
+    public static IEnumerator KillNetworkablesOverTime(IEnumerable<BaseNetworkable> networkables, float delay, Action<int, long> onComplete)
+    {
+        int killed = 0;
+        var stopwatch = Stopwatch.StartNew();
+        var waitFor = new WaitForSeconds(delay);
+
+        foreach (BaseNetworkable networkable in networkables)
+        {
+            if (!KillNetworkable(networkable))
+                continue;
+
+            killed++;
+
+            if (delay > 0)
+                yield return waitFor;
+        }
+
+        stopwatch.Stop();
+        onComplete?.Invoke(killed, stopwatch.Elapsed.Seconds);
+    }
+
     /// <summary>
     /// Create spawn points on a topology inside a rect at a given position and size.
     /// </summary>
@@ -87,6 +132,35 @@ public static class MapUtility
         });
 
         CoroutineUtility.StartCoroutine(task);
+    }
+
+    private static bool KillNetworkable(BaseNetworkable networkable)
+    {
+        if (networkable == null || networkable.IsDestroyed)
+            return false;
+
+        switch (networkable)
+        {
+            case StorageContainer container:
+            {
+                container.inventory?.Clear();
+                break;
+            }
+            case DroppedItemContainer container:
+            {
+                container.inventory?.Clear();
+                break;
+            }
+            case LootableCorpse corpse:
+            {
+                foreach (ItemContainer container in corpse.containers)
+                    container.Kill();
+                break;
+            }
+        }
+
+        networkable.Kill();
+        return true;
     }
 
     private static Rect CreateRectAt(Vector3 center, float lenght)
