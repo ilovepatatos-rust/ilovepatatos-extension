@@ -1,6 +1,5 @@
 ﻿using JetBrains.Annotations;
 using Newtonsoft.Json;
-using Oxide.Ext.IlovepatatosExt.Interfaces;
 
 namespace Oxide.Ext.IlovepatatosExt;
 

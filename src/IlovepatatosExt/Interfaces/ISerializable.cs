@@ -1,3 +1,3 @@
-﻿namespace Oxide.Ext.IlovepatatosExt.Interfaces;
+﻿namespace Oxide.Ext.IlovepatatosExt;
 
 public interface ISerializable { }
