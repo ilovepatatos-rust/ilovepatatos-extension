@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using JetBrains.Annotations;
-using Oxide.Core;
 using UnityEngine;
 using Parallel = UnityEngine.Parallel;
 
