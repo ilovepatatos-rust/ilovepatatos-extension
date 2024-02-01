@@ -6,8 +6,8 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class BaseEntityEx
 {
-    public static IEnumerable<T> FilterByTopologyBiome<T>(this IEnumerable<T> values,
-        TerrainTopology.Enum targetTopology, TerrainBiome.Enum targetBiome) where T : BaseEntity
+    public static IEnumerable<T> FilterByTopology<T>(this IEnumerable<T> values,
+        TerrainTopology.Enum targetTopology) where T : BaseEntity
     {
         foreach (T entity in values.Where(x => x != null))
         {
@@ -16,6 +16,17 @@ public static class BaseEntityEx
             int topology = TerrainMeta.TopologyMap.GetTopology(pos);
             if (!topology.ContainsTopology(targetTopology))
                 continue;
+
+            yield return entity;
+        }
+    }
+
+    public static IEnumerable<T> FilterByTopologyBiome<T>(this IEnumerable<T> values,
+        TerrainTopology.Enum targetTopology, TerrainBiome.Enum targetBiome) where T : BaseEntity
+    {
+        foreach (T entity in FilterByTopology(values, targetTopology))
+        {
+            Vector3 pos = entity.transform.position;
 
             int biome = TerrainMeta.BiomeMap.GetBiomeMaxType(pos);
             if ((TerrainBiome.Enum)biome != targetBiome)
