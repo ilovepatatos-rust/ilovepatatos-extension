@@ -7,9 +7,27 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public class GenericMarker
 {
+    [Serializable]
+    public class Settings
+    {
+        public float Radius = 50;
+        public float Alpha = 1;
+        public string HexInnerColor = "#0f961d", HexOuterColor = "#000000";
+
+        public Color InnerColor()
+        {
+            return ColorUtility.ParseHexString(HexInnerColor);
+        }
+
+        public Color OuterColor()
+        {
+            return ColorUtility.ParseHexString(HexOuterColor);
+        }
+    }
+
     public MapMarkerGenericRadius Marker;
 
-    public void CreateAt(Vector3 pos, GenericMarkerSettings settings)
+    public void CreateAt(Vector3 pos, Settings settings)
     {
         CreateAt(pos, settings.Radius, settings.Alpha, settings.InnerColor(), settings.OuterColor());
     }
