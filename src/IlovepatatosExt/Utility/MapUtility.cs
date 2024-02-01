@@ -20,7 +20,6 @@ public static class MapUtility
                                            (1 << (int)Rust.Layer.Tree);
 
     private const float MAX_DELAY = 30f;
-    private static int s_Count;
 
     public static string ToGrid(Vector3 pos)
     {
@@ -185,14 +184,14 @@ public static class MapUtility
         int size = (xMax - xMin) * (yMax - yMin);
         var list = new ConcurrentBag<Vector3>();
 
-        s_Count = 0;
+        int count = 0;
         TimeSince timeSince = 0;
 
         Parallel.For(0, Math.Abs(xMax - xMin), x =>
         {
             for (int z = yMin; z < yMax; z++)
             {
-                Interlocked.Increment(ref s_Count);
+                Interlocked.Increment(ref count);
 
                 var pos = new Vector3(x + xMin, 0, z);
                 int topology = TerrainMeta.TopologyMap.GetTopology(pos);
@@ -204,9 +203,9 @@ public static class MapUtility
             }
         });
 
-        while (s_Count < size && timeSince < MAX_DELAY)
+        while (count < size && timeSince < MAX_DELAY)
             yield return null;
 
-        Interface.Oxide.NextTick(() => onComplete.Invoke(list)); // NextTick() to bring back on main thread
+        onComplete.Invoke(list);
     }
 }
