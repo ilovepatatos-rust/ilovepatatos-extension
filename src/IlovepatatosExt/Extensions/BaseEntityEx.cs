@@ -24,4 +24,30 @@ public static class BaseEntityEx
             yield return entity;
         }
     }
+
+    public static T GetClosestOf<T>(this BaseEntity entity, float radius) where T : BaseNetworkable
+    {
+        Vector3 pos = entity.transform.position;
+
+        var list = PoolUtility.Get<List<T>>();
+        Vis.Entities(pos, radius, list);
+
+        float smallestDistance = float.MaxValue;
+        T closest = null;
+
+        foreach (T other in list)
+        {
+            if (other == null || other.IsDestroyed)
+                continue;
+
+            float distance = Vector3.Distance(pos, other.transform.position);
+            if (distance > smallestDistance) continue;
+
+            smallestDistance = distance;
+            closest = other;
+        }
+
+        PoolUtility.Free(ref list);
+        return closest;
+    }
 }
