@@ -2,19 +2,18 @@
 using Oxide.Core;
 using Oxide.Core.Extensions;
 
-namespace Oxide.Ext.IlovepatatosExt
+namespace Oxide.Ext.IlovepatatosExt;
+
+[UsedImplicitly]
+public class IlovepatatosExt : Extension
 {
-    [UsedImplicitly]
-    public class IlovepatatosExt : Extension
-    {
-        private static readonly VersionNumber s_ExtensionVersion = new(1, 0, 0);
+    private static readonly VersionNumber s_extensionVersion = new(1, 0, 0);
 
-        public override string Name => "IlovepatatosExt";
-        public override string Author => "Ilovepatatos";
-        public override VersionNumber Version => s_ExtensionVersion;
+    public override string Name => "IlovepatatosExt";
+    public override string Author => "Ilovepatatos";
+    public override VersionNumber Version => s_extensionVersion;
 
-        public override bool SupportsReloading => true;
+    public override bool SupportsReloading => true;
 
-        public IlovepatatosExt(ExtensionManager manager) : base(manager) { }
-    }
+    public IlovepatatosExt(ExtensionManager manager) : base(manager) { }
 }
