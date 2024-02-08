@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using Oxide.Ext.ConsoleExt;
 
 namespace Oxide.Ext.IlovepatatosExt;
 
@@ -51,7 +52,7 @@ public class ChatBroadcaster
 
     private void Continue(ChatMsg msg, List<ChatMsg> messages, Func<object[]> format = null, Action onComplete = null)
     {
-        string text = format == null ? msg.Msg : string.Format(msg.Msg, format.Invoke());
+        string text = format == null ? msg.Msg : msg.Msg.FormatNoThrow(format.Invoke());
 
         var players = m_PlayerProvider.GetPlayers();
         players.ChatMessage(text, Steam64);

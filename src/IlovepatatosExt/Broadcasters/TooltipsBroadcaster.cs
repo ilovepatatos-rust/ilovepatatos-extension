@@ -51,7 +51,7 @@ public class TooltipsBroadcaster
     private void Continue(TooltipMsg msg, List<TooltipMsg> messages, Func<object[]> format = null, Action onComplete = null)
     {
         GameTip.Styles style = msg.Style;
-        string text = format == null ? msg.Msg : string.Format(msg.Msg, format.Invoke());
+        string text = format == null ? msg.Msg : msg.Msg.FormatNoThrow(format.Invoke());
 
         var players = m_PlayerProvider.GetPlayers();
         players.ShowToast(style, text);
