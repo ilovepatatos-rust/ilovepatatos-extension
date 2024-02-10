@@ -1,5 +1,4 @@
 ﻿using JetBrains.Annotations;
-using Oxide.Ext.ConsoleExt;
 
 namespace Oxide.Ext.IlovepatatosExt;
 
