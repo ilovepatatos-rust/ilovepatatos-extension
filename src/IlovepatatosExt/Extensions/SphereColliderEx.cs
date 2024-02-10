@@ -5,9 +5,9 @@ using Random = UnityEngine.Random;
 namespace Oxide.Ext.IlovepatatosExt;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-internal static class SphereColliderEx
+public static class SphereColliderEx
 {
-    internal static Vector3 GetRandomPointWithinBounds(this SphereCollider col, float offset = 0)
+    public static Vector3 GetRandomPointWithinBounds(this SphereCollider col, float offset = 0)
     {
         return col.center + Random.insideUnitSphere * (col.radius - offset);
     }
