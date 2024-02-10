@@ -1,19 +1,23 @@
-﻿using JetBrains.Annotations;
+﻿using Facepunch;
+using JetBrains.Annotations;
+using Oxide.Core.Plugins;
 using UnityEngine;
 using Timer = Oxide.Core.Libraries.Timer;
 
 namespace Oxide.Ext.IlovepatatosExt;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-public class Callback
+public class Callback : Pool.IPooled
 {
-    private float m_Interval;
-    private int m_CurrentTime;
-    private TimeSince m_TimeSinceLastUpdate;
+    public Plugin PluginOwner;
 
-    private Timer.TimerInstance m_Callback;
+    private float _interval;
+    private int _currentTime;
+    private TimeSince _timeSinceLastUpdate;
 
-    private Action m_OnUpdateCallback, m_OnCompleteCallback;
+    private Timer.TimerInstance _callback;
+
+    private Action _onUpdateCallback, _onCompleteCallback;
 
 #region Getters/Setters
 
@@ -21,7 +25,7 @@ public class Callback
     public bool IsCounting { get; private set; }
     public int Duration { get; private set; }
 
-    public int TimeUntil => Math.Max(0, Duration - m_CurrentTime);
+    public int TimeUntil => Math.Max(0, Duration - _currentTime);
     public TimeSince TimeSinceStart { get; private set; }
 
     public int Hours => TimeUntil / IntegerEx.HOUR;
@@ -33,21 +37,21 @@ public class Callback
     public virtual void Start(int duration, float interval = 1f, Action onUpdate = null, Action onComplete = null)
     {
         IsCounting = true;
-        m_CurrentTime = 0;
+        _currentTime = 0;
 
         Duration = duration;
         TimeSinceStart = 0;
 
-        m_Interval = interval;
-        m_TimeSinceLastUpdate = interval;
+        _interval = interval;
+        _timeSinceLastUpdate = interval;
 
-        m_OnUpdateCallback = onUpdate;
-        m_OnCompleteCallback = onComplete;
+        _onUpdateCallback = onUpdate;
+        _onCompleteCallback = onComplete;
 
-        m_Callback?.Destroy();
+        _callback?.Destroy();
 
         if (!StopOnCompletion || Duration > 0)
-            m_Callback = TimerUtility.TimersPool.Repeat(interval, -1, InternalUpdate);
+            _callback = TimerUtility.TimersPool.Repeat(interval, -1, InternalUpdate, PluginOwner);
 
         InternalUpdate();
     }
@@ -55,9 +59,9 @@ public class Callback
     public virtual void Cancel()
     {
         Duration = 0;
-        m_CurrentTime = 0;
+        _currentTime = 0;
         IsCounting = false;
-        m_Callback?.Destroy();
+        _callback?.Destroy();
     }
 
     public void Add(int seconds)
@@ -67,7 +71,7 @@ public class Callback
 
     protected virtual void Update()
     {
-        m_OnUpdateCallback?.Invoke();
+        _onUpdateCallback?.Invoke();
     }
 
     private void InternalUpdate()
@@ -75,7 +79,7 @@ public class Callback
         int timeUntil = TimeUntil;
 
         if (timeUntil > 0)
-            m_CurrentTime += Mathf.RoundToInt(m_Interval);
+            _currentTime += Mathf.RoundToInt(_interval);
 
         Update();
 
@@ -86,7 +90,16 @@ public class Callback
     protected virtual void OnComplete()
     {
         IsCounting = false;
-        m_Callback?.Destroy();
-        m_OnCompleteCallback?.Invoke();
+        _callback?.Destroy();
+        _onCompleteCallback?.Invoke();
     }
+
+    public void EnterPool()
+    {
+        Cancel();
+        _onUpdateCallback = null;
+        _onCompleteCallback = null;
+    }
+
+    public void LeavePool() { }
 }
