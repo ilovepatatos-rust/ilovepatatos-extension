@@ -11,6 +11,11 @@ public static class PoolUtility
         return Facepunch.Pool.Get<T>();
     }
 
+    public static void Free<T>(ref T obj) where T : class, new()
+    {
+        Facepunch.Pool.Free(ref obj);
+    }
+
     public static void Free(ref StringBuilder sb)
     {
         sb.Clear();
