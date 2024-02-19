@@ -5,17 +5,17 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class ListEx
 {
-    public static bool ContainsIndex<T>(this List<T> list, int index)
+    public static bool ContainsIndex<T>(this IList<T> list, int index)
     {
         return index >= 0 && list != null && index < list.Count;
     }
 
-    public static T GetOrFallback<T>(this List<T> list, int index)
+    public static T GetOrFallback<T>(this IList<T> list, int index)
     {
         return list.ContainsIndex(index) ? list[index] : default;
     }
 
-    public static T GetAtPlusRemove<T>(this List<T> list, int index)
+    public static T GetAtPlusRemove<T>(this IList<T> list, int index)
     {
         if (!list.ContainsIndex(index))
             throw new ArgumentOutOfRangeException();
@@ -25,7 +25,7 @@ public static class ListEx
         return item;
     }
 
-    public static void Randomize<T>(this List<T> list)
+    public static void Randomize<T>(this IList<T> list)
     {
         for (int i = list.Count - 1; i > 0; i--)
         {
