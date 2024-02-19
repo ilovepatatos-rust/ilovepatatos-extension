@@ -27,7 +27,7 @@ public class CycleSettings
             int value = i % DayOfWeekEx.AmountDays;
             string name = $"{(DayOfWeek)value}";
 
-            foreach (var settings in ActiveDays)
+            foreach (DailySettings settings in ActiveDays)
             {
                 if (!string.Equals(settings.Day, name))
                     continue;
@@ -49,12 +49,14 @@ public class CycleSettings
         cycle.ActiveDays.Clear();
 
         DateTime now = DateTimeUtility.TimezoneToDateTime(timezone);
-        TimeSpan time = now.ToTimeSpan();
+        var time = now.ToTimeSpan();
 
-        DailySettings settings = new();
-        settings.Day = $"{now.DayOfWeek}";
-        settings.ActivationTime = time + delay;
-        settings.DeactivationTime = time + delay + duration;
+        DailySettings settings = new()
+        {
+            Day = $"{now.DayOfWeek}",
+            ActivationTime = time + delay,
+            DeactivationTime = time + delay + duration
+        };
 
         cycle.ActiveDays.Add(settings);
         return cycle;

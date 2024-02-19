@@ -25,7 +25,7 @@ public class DailySettings
 
     public int AmountDaysUntilFrom(DateTime now)
     {
-        TimeSpan time = now.ToTimeSpan();
+        var time = now.ToTimeSpan();
         DayOfWeek day = now.DayOfWeek;
 
         int amount = 0;

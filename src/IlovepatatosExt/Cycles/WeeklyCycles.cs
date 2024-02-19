@@ -10,9 +10,9 @@ public class WeeklyCycles
 {
     public CycleSettings CycleSettings;
 
-    private Timer m_Callback;
-    private readonly PluginTimers m_PluginTimers;
-    private readonly IConsoleLogger m_Console;
+    private Timer _callback;
+    private readonly PluginTimers _pluginTimers;
+    private readonly IConsoleLogger _console;
 
     public event Action OnEnable, OnDisable;
 
@@ -42,7 +42,7 @@ public class WeeklyCycles
             int amountDaysUntilActiveDay = GetAmountDaysUntil(settings);
             TimeSpan objective = new TimeSpan(amountDaysUntilActiveDay * 24, 0, 0) + settings.ActivationTime;
 
-            TimeSpan time = now.ToTimeSpan();
+            var time = now.ToTimeSpan();
             return time.TimeUntil(objective);
         }
     }
@@ -57,7 +57,7 @@ public class WeeklyCycles
             DateTime now = GetCurrentDatetimeAtTimezone();
             DailySettings settings = GetNextActivationDayFrom(now);
 
-            TimeSpan time = now.ToTimeSpan();
+            var time = now.ToTimeSpan();
             TimeSpan duration = GetTotalDuration(time, settings);
             TimeSpan objective = time + duration;
 
@@ -70,9 +70,9 @@ public class WeeklyCycles
     public WeeklyCycles(string name, PluginTimers timers, CycleSettings settings, IConsoleLogger console = null)
     {
         Name = name;
-        m_PluginTimers = timers ?? throw new NullReferenceException($"{nameof(timers)} cannot be null!");
+        _pluginTimers = timers ?? throw new NullReferenceException($"{nameof(timers)} cannot be null!");
         CycleSettings = settings ?? throw new NullReferenceException($"{nameof(settings)} cannot be null!");
-        m_Console = console;
+        _console = console;
 
         IsAlwaysActive = settings.IsAlwaysEnable;
     }
@@ -100,13 +100,13 @@ public class WeeklyCycles
             OnDisable?.Invoke();
         }
 
-        TimerUtility.DestroyToPool(ref m_Callback);
+        TimerUtility.DestroyToPool(ref _callback);
     }
 
     private void Enable()
     {
         IsEnabled = true;
-        m_Console?.WriteLine($"Enabling cycle {Name} at {DateTime.Now}");
+        _console?.WriteLine($"Enabling cycle {Name} at {DateTime.Now}");
 
         OnEnable?.Invoke();
         ScheduleDisabling();
@@ -115,7 +115,7 @@ public class WeeklyCycles
     private void Disable()
     {
         IsEnabled = false;
-        m_Console?.WriteLine($"Disabling cycle {Name} at {DateTime.Now}");
+        _console?.WriteLine($"Disabling cycle {Name} at {DateTime.Now}");
 
         OnDisable?.Invoke();
         ScheduleEnabling();
@@ -124,7 +124,6 @@ public class WeeklyCycles
     private void ScheduleEnabling()
     {
         DateTime now = GetCurrentDatetimeAtTimezone();
-        TimeSpan time = now.ToTimeSpan();
         DailySettings settings = GetNextActivationDayFrom(now);
 
         bool isActiveDay = IsActiveDay(settings);
@@ -137,22 +136,22 @@ public class WeeklyCycles
         else
         {
             int amountDaysUntilActiveDay = GetAmountDaysUntil(settings);
-
             TimeSpan objective = new TimeSpan(amountDaysUntilActiveDay * 24, 0, 0) + settings.ActivationTime;
+
+            var time = now.ToTimeSpan();
             TimeSpan timeUntil = time.TimeUntil(objective);
 
             float seconds = (float)timeUntil.TotalSeconds;
-            m_Console?.WriteLine($"Scheduling enabling of {Name} in {timeUntil} at {GetCurrentDatetimeAtTimezone()}");
+            _console?.WriteLine($"Scheduling enabling of {Name} in {timeUntil} at {now + timeUntil} (Now: {now})");
 
-            m_Callback?.Destroy();
-            m_Callback = m_PluginTimers.Once(seconds, Enable);
+            _callback?.Destroy();
+            _callback = _pluginTimers.Once(seconds, Enable);
         }
     }
 
     private void ScheduleDisabling()
     {
         DateTime now = GetCurrentDatetimeAtTimezone();
-        TimeSpan time = now.ToTimeSpan();
         DailySettings settings = GetNextActivationDayFrom(now);
 
         bool isActiveDay = IsActiveDay(settings);
@@ -160,13 +159,14 @@ public class WeeklyCycles
 
         if (isActiveHours)
         {
+            var time = now.ToTimeSpan();
             TimeSpan duration = GetTotalDuration(time, settings);
 
             float seconds = (float)duration.TotalSeconds;
-            m_Console?.WriteLine($"Scheduling disabling of {Name} in {duration} at {GetCurrentDatetimeAtTimezone()}");
+            _console?.WriteLine($"Scheduling disabling of {Name} in {duration} at {now + duration} (Now: {now})");
 
-            m_Callback?.Destroy();
-            m_Callback = m_PluginTimers.Once(seconds, Disable);
+            _callback?.Destroy();
+            _callback = _pluginTimers.Once(seconds, Disable);
         }
         else
         {
@@ -181,7 +181,7 @@ public class WeeklyCycles
 
     private DailySettings GetNextActivationDayFrom(DateTime now)
     {
-        TimeSpan time = now.ToTimeSpan();
+        var time = now.ToTimeSpan();
         return CycleSettings.GetNextActivationDayFrom(now.DayOfWeek, time);
     }
 
