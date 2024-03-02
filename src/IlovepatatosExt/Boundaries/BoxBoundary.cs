@@ -19,6 +19,8 @@ public class BoxBoundary : IBoundary
 
         [JsonProperty("Size")]
         public Vector3Value Size = Vector3.one;
+
+        public BoxBoundary CreateAt(Transform trans) => BoxBoundary.CreateAt(this, trans);
     }
 
     public Vector3 Pos;

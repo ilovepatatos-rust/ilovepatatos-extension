@@ -16,6 +16,8 @@ public class SphereBoundary : IBoundary
 
         [JsonProperty("Radius")]
         public float Radius;
+
+        public SphereBoundary CreateAt(Transform trans) => SphereBoundary.CreateAt(this, trans);
     }
 
     public Vector3 Pos;
