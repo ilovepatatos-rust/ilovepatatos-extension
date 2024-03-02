@@ -11,6 +11,7 @@ $tmpDir = New-Item -ItemType Directory -Force -Path "$env:TEMP\download-dependen
 
 $urls = @(
 "https://github.com/ilovepatatos-rust/console-extension/releases/latest/download/Oxide.Ext.ConsoleExt.dll",
+"https://github.com/ilovepatatos-rust/gizmos-extension/releases/latest/download/Oxide.Ext.GizmosExt.dll",
 "https://github.com/dassjosh/Rust.UIFramework/releases/latest/download/Oxide.Ext.UiFramework.dll"
 )
 

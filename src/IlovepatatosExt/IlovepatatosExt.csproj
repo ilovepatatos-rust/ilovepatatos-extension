@@ -172,6 +172,9 @@
         <Reference Include="Oxide.Ext.ConsoleExt">
           <HintPath>..\dependencies\Oxide.Ext.ConsoleExt.dll</HintPath>
         </Reference>
+        <Reference Include="Oxide.Ext.GizmosExt">
+          <HintPath>..\dependencies\Oxide.Ext.GizmosExt.dll</HintPath>
+        </Reference>
         <Reference Include="Oxide.Ext.UiFramework">
           <HintPath>..\dependencies\Oxide.Ext.UiFramework.dll</HintPath>
         </Reference>

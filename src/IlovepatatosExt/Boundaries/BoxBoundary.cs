@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Newtonsoft.Json;
+using Oxide.Ext.GizmosExt;
 using UnityEngine;
 
 namespace Oxide.Ext.IlovepatatosExt;
@@ -31,6 +32,11 @@ public class BoxBoundary : IBoundary
         return Mathf.Abs(localPoint.x) <= Size.x / 2 &&
                Mathf.Abs(localPoint.y) <= Size.y / 2 &&
                Mathf.Abs(localPoint.z) <= Size.z / 2;
+    }
+
+    public void DrawGizmos(BasePlayer player, float duration, Color color)
+    {
+        OxideGizmos.Box(player, Pos, Rot, Size, color, duration);
     }
 
     public static BoxBoundary CreateAt(Settings settings, Transform trans)

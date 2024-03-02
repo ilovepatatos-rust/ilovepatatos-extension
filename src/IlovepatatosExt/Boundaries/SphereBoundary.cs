@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Newtonsoft.Json;
+using Oxide.Ext.GizmosExt;
 using UnityEngine;
 
 namespace Oxide.Ext.IlovepatatosExt;
@@ -23,6 +24,11 @@ public class SphereBoundary : IBoundary
     public bool Contains(Vector3 pos)
     {
         return (Pos - pos).sqrMagnitude <= Radius * Radius;
+    }
+
+    public void DrawGizmos(BasePlayer player, float duration, Color color)
+    {
+        OxideGizmos.Sphere(player, Pos, Radius, color, duration);
     }
 
     [UsedImplicitly]

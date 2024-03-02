@@ -50,6 +50,10 @@ jobs:
         echo "[Download References] Downloading Oxide.Ext.ConsoleExt.dll"
         Invoke-WebRequest -Uri "https://github.com/ilovepatatos-rust/console-extension/releases/latest/download/Oxide.Ext.ConsoleExt.dll" -OutFile "Oxide.Ext.ConsoleExt.dll"
         Move-Item -Path "Oxide.Ext.ConsoleExt.dll" -Destination "src\dependencies\" -Force
+        
+        echo "[Download References] Downloading Oxide.Ext.GizmosExt.dll"
+        Invoke-WebRequest -Uri ""https://github.com/ilovepatatos-rust/gizmos-extension/releases/latest/download/Oxide.Ext.GizmosExt.dll"," -OutFile "Oxide.Ext.GizmosExt.dll"
+        Move-Item -Path "Oxide.Ext.GizmosExt.dll" -Destination "src\dependencies\" -Force
 
     - name: Restore NuGet packages
       run: msbuild -t:restore src/IlovepatatosExt/IlovepatatosExt.csproj
