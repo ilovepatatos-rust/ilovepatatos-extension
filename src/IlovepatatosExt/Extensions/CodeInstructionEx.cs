@@ -1,5 +1,5 @@
 ﻿using System.Reflection.Emit;
-using Harmony;
+using HarmonyLib;
 using JetBrains.Annotations;
 
 namespace Oxide.Ext.IlovepatatosExt;
