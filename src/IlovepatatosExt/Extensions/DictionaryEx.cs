@@ -39,6 +39,26 @@ public static class DictionaryEx
     }
 
     /// <summary>
+    /// Removes all elements that satisfy the predicate.
+    /// </summary>
+    /// <returns>The amount of elements removed.</returns>
+    public static int RemoveAll<TKey, TValue>(this Dictionary<TKey, TValue> dict, Func<TValue, bool> predicate)
+    {
+        var toRemove = PoolUtility.Get<HashSet<TKey>>();
+
+        foreach (KeyValuePair<TKey, TValue> pair in dict.Where(pair => predicate(pair.Value)))
+            toRemove.Add(pair.Key);
+
+        foreach (TKey key in toRemove)
+            dict.Remove(key);
+
+        int count = toRemove.Count;
+
+        PoolUtility.Free(ref toRemove);
+        return count;
+    }
+
+    /// <summary>
     /// Returns the value that is present the most in the dictionary.
     /// </summary>
     public static TValue GetMostPresentValue<TKey, TValue>(this Dictionary<TKey, TValue> self)
