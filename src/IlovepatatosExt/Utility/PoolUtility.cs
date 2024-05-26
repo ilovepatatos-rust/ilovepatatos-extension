@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Concurrent;
+using System.Text;
 using JetBrains.Annotations;
 
 namespace Oxide.Ext.IlovepatatosExt;
@@ -44,5 +45,11 @@ public static class PoolUtility
     {
         dict.Clear();
         Facepunch.Pool.Free(ref dict);
+    }
+
+    public static void Free<T>(ref ConcurrentBag<T> list)
+    {
+        list.Clear();
+        Facepunch.Pool.Free(ref list);
     }
 }
