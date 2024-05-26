@@ -9,6 +9,13 @@ public static class IntegerEx
     public const int MINUTE = 60 * SECOND;
     public const int SECOND = 1;
 
+    public static int GetAmountDigits(this int value)
+    {
+        double log = Math.Log10(value);
+        double floor = Math.Floor(log + 1);
+        return (int)floor;
+    }
+
     public static int Seconds(this int value)
     {
         return value % HOUR % MINUTE;
