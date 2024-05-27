@@ -72,6 +72,11 @@ public static class BasePlayerEx
         PoolUtility.Free(ref connections);
     }
 
+    public static bool HasInventorySpaceFor(this BasePlayer player, string shortname, int amount)
+    {
+        return player.inventory != null && player.inventory.HasInventorySpaceFor(shortname, amount);
+    }
+
     public static bool Cast(this BasePlayer player, out Vector3 pos, float distance = float.PositiveInfinity, int layerMask = -1)
     {
         bool result = Physics.Raycast(player.eyes.HeadRay(), out RaycastHit hit, distance, layerMask);
