@@ -38,6 +38,33 @@ public static class DictionaryEx
         return true;
     }
 
+    public static float Increase<TKey>(this Dictionary<TKey, float> dict, TKey key, float value)
+    {
+        if (!dict.ContainsKey(key))
+            dict[key] = default;
+
+        dict[key] += value;
+        return dict[key];
+    }
+
+    public static int Increase<TKey>(this Dictionary<TKey, int> dict, TKey key, int value)
+    {
+        if (!dict.ContainsKey(key))
+            dict[key] = default;
+
+        dict[key] += value;
+        return dict[key];
+    }
+
+    public static long Increase<TKey>(this Dictionary<TKey, long> dict, TKey key, long value)
+    {
+        if (!dict.ContainsKey(key))
+            dict[key] = default;
+
+        dict[key] += value;
+        return dict[key];
+    }
+
     /// <summary>
     /// Removes all elements that satisfy the predicate.
     /// </summary>
