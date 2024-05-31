@@ -83,6 +83,30 @@ public static class BasePlayerEx
     }
 
     /// <summary>
+    /// Sends a sound effect to the player at the player's location.
+    /// </summary>
+    /// <remarks>
+    /// Use <see cref="Effects"/> for a list of sound effects.
+    /// </remarks>
+    public static void PlaySfx(this BasePlayer player, string sfx)
+    {
+        var effect = new Effect(sfx, player, 0, Vector3.zero, Vector3.forward);
+        EffectNetwork.Send(effect, player.Connection);
+    }
+
+    /// <summary>
+    /// Sends a sound effect to each player at their location.
+    /// </summary>
+    /// <remarks>
+    /// Use <see cref="Effects"/> for a list of sound effects.
+    /// </remarks>
+    public static void PlaySfx(this IEnumerable<BasePlayer> players, string sfx)
+    {
+        foreach (BasePlayer player in players)
+            player.PlaySfx(sfx);
+    }
+
+    /// <summary>
     /// Returns the last <see cref="HitInfo"/> that caused the player to die or wound.
     /// Use this to get the actual killer when the player is wounded and f1 kills.
     /// </summary>
