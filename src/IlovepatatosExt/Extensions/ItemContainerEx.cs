@@ -18,6 +18,11 @@ public static class ItemContainerEx
         return count;
     }
 
+    public static int GetAmountAvailableSlots(this ItemContainer container)
+    {
+        return container.capacity - container.itemList.Count;
+    }
+
     public static int GetNextAvailableSlot(this ItemContainer container, Item item)
     {
         for (int i = 0; i < container.capacity; i++)
