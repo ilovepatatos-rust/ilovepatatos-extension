@@ -16,4 +16,23 @@ public static class DataFileSystemEx
     {
         self.GetFile(name).WriteObject(obj, format);
     }
+
+    /// <summary>
+    /// Parse a file as an object or return a new instance of the object if the file does not exist.
+    /// </summary>
+    /// <remarks>
+    /// This method handles cases where the file exists but is empty.
+    /// </remarks>
+    public static T ReadObjectOrFallback<T>(this DataFileSystem self, string name) where T : class
+    {
+        T value = null;
+
+        if (self.ExistsDatafile(name))
+            value = self.GetFile(name).ReadObject<T>();
+
+        if (value == null)
+            value = Activator.CreateInstance<T>();
+
+        return value;
+    }
 }
