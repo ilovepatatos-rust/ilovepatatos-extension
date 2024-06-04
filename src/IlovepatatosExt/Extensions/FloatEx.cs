@@ -6,6 +6,21 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class FloatEx
 {
+    public static int ToInt(this float value)
+    {
+        return Mathf.RoundToInt(value);
+    }
+
+    public static int FloorToInt(this float value)
+    {
+        return Mathf.Floor(value).ToInt();
+    }
+
+    public static int CeilToInt(this float value)
+    {
+        return Mathf.Ceil(value).ToInt();
+    }
+
     public static int Seconds(this float value)
     {
         return Mathf.RoundToInt(value).Seconds();
