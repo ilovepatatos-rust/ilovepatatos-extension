@@ -9,12 +9,24 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class HarmonyEx
 {
+    /// <summary>
+    /// Try to patch a method with a Harmony attribute.
+    /// </summary>
     public static void TrySmartPatch(this Harmony harmony, MethodInfo method)
     {
         string result = TrySmartPatchInternal(harmony, method);
 
         if (!string.IsNullOrEmpty(result))
             OxideConsole.Log($"Harmony exception! {result}", OxideConsole.YELLOW);
+    }
+
+    /// <summary>
+    /// Try to patch all methods within a type.
+    /// </summary>
+    public static void TrySmartPatch(this Harmony harmony, Type type)
+    {
+        foreach (MethodInfo method in type.GetMethods((BindingFlags)~0))
+            TrySmartPatch(harmony, method);
     }
 
     private static string TrySmartPatchInternal(Harmony harmony, MethodInfo method)
