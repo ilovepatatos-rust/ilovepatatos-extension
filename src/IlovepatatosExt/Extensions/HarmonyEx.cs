@@ -37,8 +37,8 @@ public static class HarmonyEx
         var harmonyPatch = method.GetCustomAttribute<HarmonyPatch>();
         if (harmonyPatch == null) return $"Couldn't patch {method.Name}, because it doesn't have any {nameof(HarmonyPatch)} attribute!";
 
-        MethodInfo original = AccessTools.Method(harmonyPatch.info.declaringType, harmonyPatch.info.methodName, harmonyPatch.info.argumentTypes);
-        var patch = new HarmonyMethod(method.DeclaringType, method.Name);
+        MethodInfo original = GetOriginalMethod(harmonyPatch);
+        HarmonyMethod patch = method;
 
         try
         {
@@ -56,5 +56,15 @@ public static class HarmonyEx
         {
             return $"Couldn't patch {method.Name}! {ex.Message}";
         }
+    }
+
+    private static MethodInfo GetOriginalMethod(HarmonyPatch patch)
+    {
+        return patch.info.methodType switch
+        {
+            MethodType.Getter => AccessTools.PropertyGetter(patch.info.declaringType, patch.info.methodName),
+            MethodType.Setter => AccessTools.PropertySetter(patch.info.declaringType, patch.info.methodName),
+            _ => AccessTools.Method(patch.info.declaringType, patch.info.methodName, patch.info.argumentTypes)
+        };
     }
 }
