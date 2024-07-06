@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace Oxide.Ext.AtlasExt;
+namespace Oxide.Ext.IlovepatatosExt;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class ItemEx
