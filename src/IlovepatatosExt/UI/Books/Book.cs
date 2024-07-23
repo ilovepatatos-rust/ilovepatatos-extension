@@ -19,7 +19,7 @@ public abstract class Book
     public virtual bool Open(BasePlayer player, int page = 0)
     {
         if (player == null)
-            throw new NullReferenceException("Player can't be null");
+            throw new ArgumentNullException(nameof(player));
 
         if (!Pages.ContainsIndex(page))
             return false;
@@ -41,7 +41,7 @@ public abstract class Book
     public virtual bool Open(IEnumerable<BasePlayer> players, int page = 0)
     {
         if (players == null)
-            throw new NullReferenceException("Enumerable can't be null");
+            throw new ArgumentNullException(nameof(players));
 
         if (!Pages.ContainsIndex(page))
             return false;
@@ -74,7 +74,7 @@ public abstract class Book
     public virtual void Close(BasePlayer player)
     {
         if (player == null)
-            throw new NullReferenceException("Player can't be null");
+            throw new ArgumentNullException(nameof(player));
 
         ulong userID = player.userID;
         ActiveReaders.Remove(userID);
@@ -86,7 +86,7 @@ public abstract class Book
     public virtual void Close(IEnumerable<BasePlayer> players)
     {
         if (players == null)
-            throw new NullReferenceException("Enumerable can't be null");
+            throw new ArgumentNullException(nameof(players));
 
         foreach (BasePlayer player in players)
         {
@@ -116,7 +116,7 @@ public abstract class Book
     protected virtual void Write(IPage page, bool createPageUserInterface = true)
     {
         if (page == null)
-            throw new NullReferenceException("Page can't be null");
+            throw new ArgumentNullException(nameof(page));
 
         if (createPageUserInterface)
             page.UserInterface = page.CreateUserInterface().ToCachedBuilder();

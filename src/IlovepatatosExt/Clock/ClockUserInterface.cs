@@ -20,7 +20,7 @@ public abstract class ClockUserInterface : Clock
     public virtual void Activate(BasePlayer player)
     {
         if (player == null)
-            throw new NullReferenceException($"{nameof(player)} cannot be null!");
+            throw new ArgumentNullException(nameof(player));
 
         Players.TryAdd(player.userID, player);
         ActivateUserInterface(player);
@@ -28,6 +28,9 @@ public abstract class ClockUserInterface : Clock
 
     public virtual void Activate(IEnumerable<BasePlayer> players)
     {
+        if (players == null)
+            throw new ArgumentNullException(nameof(players));
+
         foreach (BasePlayer player in players)
             Players.TryAdd(player.userID, player);
 
@@ -37,7 +40,7 @@ public abstract class ClockUserInterface : Clock
     public virtual void Deactivate(BasePlayer player, bool destroyUserInterface = true)
     {
         if (player == null)
-            throw new NullReferenceException($"{nameof(player)} cannot be null!");
+            throw new ArgumentNullException(nameof(player));
 
         Players.Remove(player.userID);
 
@@ -47,6 +50,9 @@ public abstract class ClockUserInterface : Clock
 
     public virtual void Deactivate(IEnumerable<BasePlayer> players, bool destroyUserInterface = true)
     {
+        if (players == null)
+            throw new ArgumentNullException(nameof(players));
+
         foreach (BasePlayer player in players)
             Players.Remove(player.userID);
 

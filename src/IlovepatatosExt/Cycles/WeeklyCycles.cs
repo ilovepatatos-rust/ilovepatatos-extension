@@ -70,8 +70,8 @@ public class WeeklyCycles
     public WeeklyCycles(string name, PluginTimers timers, CycleSettings settings, IConsoleLogger console = null)
     {
         Name = name;
-        _pluginTimers = timers ?? throw new NullReferenceException($"{nameof(timers)} cannot be null!");
-        CycleSettings = settings ?? throw new NullReferenceException($"{nameof(settings)} cannot be null!");
+        _pluginTimers = timers ?? throw new ArgumentNullException(nameof(timers));
+        CycleSettings = settings ?? throw new ArgumentNullException(nameof(settings));
         _console = console;
 
         IsAlwaysActive = settings.IsAlwaysEnable;
