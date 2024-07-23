@@ -12,4 +12,16 @@ public static class TimeSpanEx
 
         return to - from; // 13:00 -> 17:00
     }
+
+    public static string FormatToTime(this TimeSpan value, string format = "{0:00}:{1:00}:{2:00}")
+    {
+        float seconds = (float)value.TotalSeconds;
+        return seconds.FormatToTime(format);
+    }
+
+    public static string FormatToTimeSmart(this TimeSpan value, string hour = "h", string minute = "m", string second = "s")
+    {
+        float seconds = (float)value.TotalSeconds;
+        return seconds.FormatToTimeSmart(hour, minute, second);
+    }
 }
