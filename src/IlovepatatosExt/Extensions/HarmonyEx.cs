@@ -37,11 +37,11 @@ public static class HarmonyEx
         var harmonyPatch = method.GetCustomAttribute<HarmonyPatch>();
         if (harmonyPatch == null) return $"Couldn't patch {method.Name}, because it doesn't have any {nameof(HarmonyPatch)} attribute!";
 
-        MethodInfo original = GetOriginalMethod(harmonyPatch);
-        HarmonyMethod patch = method;
-
         try
         {
+            MethodInfo original = GetOriginalMethod(harmonyPatch);
+            HarmonyMethod patch = method;
+
             if (method.HasAttribute(typeof(HarmonyPrefix)))
                 harmony.Patch(original, patch);
             else if (method.HasAttribute(typeof(HarmonyPostfix)))
