@@ -34,8 +34,8 @@ public static class ConnectionEx
         if (string.IsNullOrEmpty(json))
             return;
 
-        var info = new SendInfo(connection);
-        CommunityEntity.ServerInstance.ClientRPCEx(info, null, "AddUI", json);
+        RpcTarget target = RpcTarget.Player("AddUI", connection);
+        CommunityEntity.ServerInstance.ClientRPC(target, json);
     }
 
     public static void AddUi(this List<Connection> connections, string json)
@@ -43,25 +43,25 @@ public static class ConnectionEx
         if (connections.Count == 0 || string.IsNullOrEmpty(json))
             return;
 
-        var info = new SendInfo(connections);
-        CommunityEntity.ServerInstance.ClientRPCEx(info, null, "AddUI", json);
+        RpcTarget target = RpcTarget.Players("AddUI", connections);
+        CommunityEntity.ServerInstance.ClientRPC(target, json);
     }
 
     public static void DestroyUi(this Connection connection, string name)
     {
         if (string.IsNullOrEmpty(name))
             return;
-
-        var info = new SendInfo(connection);
-        CommunityEntity.ServerInstance.ClientRPCEx(info, null, "DestroyUI", name);
+        
+        RpcTarget target = RpcTarget.Player("DestroyUI", connection);
+        CommunityEntity.ServerInstance.ClientRPC(target, name);
     }
 
     public static void DestroyUi(this List<Connection> connections, string name)
     {
         if (connections.Count == 0 || string.IsNullOrEmpty(name))
             return;
-
-        var info = new SendInfo(connections);
-        CommunityEntity.ServerInstance.ClientRPCEx(info, null, "DestroyUI", name);
+        
+        RpcTarget target = RpcTarget.Players("DestroyUI", connections);
+        CommunityEntity.ServerInstance.ClientRPC(target, name);
     }
 }
