@@ -16,6 +16,12 @@ public static class ConnectionEx
         if (connections.Count > 0 && !string.IsNullOrEmpty(msg))
             ConsoleNetwork.SendClientCommand(connections, "chat.add", ConVar.Chat.ChatChannel.Global, steam64, msg);
     }
+    
+    public static void ChatMessageAsCopyable(this Connection connection, string msg, ulong steam64 = 0)
+    {
+        if (!string.IsNullOrEmpty(msg))
+            ConsoleNetwork.SendClientCommand(connection, "chat.add2", ConVar.Chat.ChatChannel.Global, steam64, msg);
+    }
 
     public static void ChatMessageAsCopyable(this List<Connection> connections, string msg, ulong steam64 = 0)
     {

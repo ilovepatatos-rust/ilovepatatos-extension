@@ -57,13 +57,18 @@ public static class BasePlayerEx
         PoolUtility.Free(ref connections);
     }
 
+    public static void ChatMessageAsCopyable(this BasePlayer player, string msg, ulong steam64 = 0)
+    {
+        player.Connection.ChatMessageAsCopyable(msg, steam64);
+    }
+
     public static void ChatMessageAsCopyable(this IEnumerable<BasePlayer> players, string msg, ulong steam64 = 0)
     {
         if (string.IsNullOrEmpty(msg))
             return;
 
         List<Connection> connections = players.GetOnlineConnectionsPooled();
-        connections.ChatMessage(msg, steam64);
+        connections.ChatMessageAsCopyable(msg, steam64);
         PoolUtility.Free(ref connections);
     }
 
