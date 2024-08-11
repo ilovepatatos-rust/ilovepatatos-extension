@@ -41,19 +41,21 @@ public static class PlayerInventoryEx
 
     public static int Take(this PlayerInventory inventory, int itemId, int amount)
     {
-        var items = Facepunch.Pool.GetList<Item>();
-        inventory.Take(items, itemId, amount);
+        var items = PoolUtility.Get<List<Item>>();
+        int count = inventory.Take(items, itemId, amount);
 
-        BasePlayer owner = inventory._baseEntity;
-
-        if (owner != null && owner.IsConnected)
-            owner.Command("note.inv", itemId, -amount);
-
-        int count = items.Count;
-        foreach (var item in items)
+        foreach (Item item in items)
             item.Remove();
 
-        Facepunch.Pool.FreeList(ref items);
+        if (count > 0)
+        {
+            BasePlayer owner = inventory._baseEntity;
+
+            if (owner != null && owner.IsConnected)
+                owner.Command("note.inv", itemId, -count);
+        }
+
+        PoolUtility.Free(ref items);
         return count;
     }
 
