@@ -9,6 +9,15 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class BasePlayerEx
 {
+    private const int CAST_LAYER = 1 << (int)Layer.Default |
+                                   1 << (int)Layer.Deployed |
+                                   1 << (int)Layer.Ragdoll |
+                                   1 << (int)Layer.AI |
+                                   1 << (int)Layer.Player_Server |
+                                   1 << (int)Layer.Construction |
+                                   1 << (int)Layer.Terrain |
+                                   1 << (int)Layer.Tree;
+
     private static readonly FieldInfo s_playerNonSuicideInfoField =
         typeof(BasePlayer).GetField("cachedNonSuicideHitInfo", BindingFlags.Instance | BindingFlags.NonPublic);
 
@@ -124,14 +133,14 @@ public static class BasePlayerEx
         return other ?? info;
     }
 
-    public static bool Cast(this BasePlayer player, out Vector3 pos, float distance = float.PositiveInfinity, int layerMask = -1)
+    public static bool Cast(this BasePlayer player, out Vector3 pos, float distance = float.PositiveInfinity, int layerMask = CAST_LAYER)
     {
         bool result = Physics.Raycast(player.eyes.HeadRay(), out RaycastHit hit, distance, layerMask);
         pos = hit.point;
         return result;
     }
 
-    public static BaseEntity CastEntity(this BasePlayer player, float distance = float.PositiveInfinity, int layer = -1)
+    public static BaseEntity CastEntity(this BasePlayer player, float distance = float.PositiveInfinity, int layer = CAST_LAYER)
     {
         Physics.Raycast(player.eyes.HeadRay(), out RaycastHit hit, distance, layer);
         return hit.GetEntity();
