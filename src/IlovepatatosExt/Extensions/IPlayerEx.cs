@@ -57,4 +57,12 @@ public static class IPlayerEx
 
         return hasPerms;
     }
+    
+    public static bool IsAdmin(this IPlayer iPlayer)
+    {
+        if (iPlayer.IsAdmin)
+            return true;
+
+        return iPlayer.Object is BasePlayer { IsAdmin: true };
+    }
 }
