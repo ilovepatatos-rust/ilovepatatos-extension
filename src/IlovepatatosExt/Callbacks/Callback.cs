@@ -48,7 +48,7 @@ public class Callback : Pool.IPooled
         _onUpdateCallback = onUpdate;
         _onCompleteCallback = onComplete;
 
-        _callback?.Destroy();
+        _callback?.DestroyToPool();
 
         if (!StopOnCompletion || Duration > 0)
             _callback = TimerUtility.TimersPool.Repeat(interval, -1, InternalUpdate, PluginOwner);
@@ -61,7 +61,7 @@ public class Callback : Pool.IPooled
         Duration = 0;
         _currentTime = 0;
         IsCounting = false;
-        _callback?.Destroy();
+        _callback?.DestroyToPool();
     }
 
     public void Add(int seconds)
@@ -94,12 +94,17 @@ public class Callback : Pool.IPooled
         _onCompleteCallback?.Invoke();
     }
 
-    public void EnterPool()
+    void Pool.IPooled.EnterPool()
     {
         Cancel();
+
+        PluginOwner = null;
+        _interval = 0f;
+        
+        _callback = null;
         _onUpdateCallback = null;
         _onCompleteCallback = null;
     }
 
-    public void LeavePool() { }
+    void Pool.IPooled.LeavePool() { }
 }
