@@ -11,7 +11,6 @@ public class Callback : Pool.IPooled
 {
     public Plugin PluginOwner;
 
-    private float _interval;
     private int _currentTime;
     private TimeSince _timeSinceLastUpdate;
 
@@ -23,6 +22,8 @@ public class Callback : Pool.IPooled
 
     public bool StopOnCompletion { get; set; } = true;
     public bool IsCounting { get; private set; }
+    
+    public float Interval { get; private set; }
     public int Duration { get; private set; }
 
     public int TimeUntil => Math.Max(0, Duration - _currentTime);
@@ -42,7 +43,7 @@ public class Callback : Pool.IPooled
         Duration = duration;
         TimeSinceStart = 0;
 
-        _interval = interval;
+        Interval = interval;
         _timeSinceLastUpdate = interval;
 
         _onUpdateCallback = onUpdate;
@@ -79,7 +80,7 @@ public class Callback : Pool.IPooled
         int timeUntil = TimeUntil;
 
         if (timeUntil > 0)
-            _currentTime += Mathf.RoundToInt(_interval);
+            _currentTime += Mathf.RoundToInt(Interval);
 
         Update();
 
@@ -99,8 +100,8 @@ public class Callback : Pool.IPooled
         Cancel();
 
         PluginOwner = null;
-        _interval = 0f;
-        
+        Interval = 0f;
+
         _callback = null;
         _onUpdateCallback = null;
         _onCompleteCallback = null;
