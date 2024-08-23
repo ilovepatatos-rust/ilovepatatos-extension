@@ -14,42 +14,48 @@ public static class PoolUtility
 
     public static void Free<T>(ref T obj) where T : class, new()
     {
-        Facepunch.Pool.Free(ref obj);
+        FreeInternal(ref obj);
     }
 
     public static void Free(ref StringBuilder sb)
     {
-        sb.Clear();
-        Facepunch.Pool.Free(ref sb);
+        sb?.Clear();
+        FreeInternal(ref sb);
     }
 
     public static void Free<T>(ref List<T> list)
     {
-        list.Clear();
-        Facepunch.Pool.Free(ref list);
+        list?.Clear();
+        FreeInternal(ref list);
     }
 
     public static void Free<T>(ref Stack<T> stack)
     {
-        stack.Clear();
-        Facepunch.Pool.Free(ref stack);
+        stack?.Clear();
+        FreeInternal(ref stack);
     }
 
     public static void Free<T>(ref HashSet<T> set)
     {
-        set.Clear();
-        Facepunch.Pool.Free(ref set);
+        set?.Clear();
+        FreeInternal(ref set);
     }
 
     public static void Free<TKey, TValue>(ref Dictionary<TKey, TValue> dict)
     {
-        dict.Clear();
-        Facepunch.Pool.Free(ref dict);
+        dict?.Clear();
+        FreeInternal(ref dict);
     }
 
     public static void Free<T>(ref ConcurrentBag<T> list)
     {
-        list.Clear();
-        Facepunch.Pool.Free(ref list);
+        list?.Clear();
+        FreeInternal(ref list);
+    }
+
+    public static void FreeInternal<T>(ref T obj) where T : class, new()
+    {
+        if (obj != null)
+            Facepunch.Pool.Free(ref obj);
     }
 }
