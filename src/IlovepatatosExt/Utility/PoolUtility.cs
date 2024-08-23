@@ -53,7 +53,7 @@ public static class PoolUtility
         FreeInternal(ref list);
     }
 
-    public static void FreeInternal<T>(ref T obj) where T : class, new()
+    private static void FreeInternal<T>(ref T obj) where T : class, new()
     {
         if (obj != null)
             Facepunch.Pool.Free(ref obj);
