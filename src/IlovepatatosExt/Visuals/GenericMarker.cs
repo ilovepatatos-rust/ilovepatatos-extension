@@ -1,11 +1,12 @@
-﻿using JetBrains.Annotations;
+﻿using Facepunch;
+using JetBrains.Annotations;
 using Network;
 using UnityEngine;
 
 namespace Oxide.Ext.IlovepatatosExt;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-public class GenericMarker
+public class GenericMarker : Pool.IPooled
 {
     [Serializable]
     public class Settings
@@ -25,6 +26,7 @@ public class GenericMarker
         }
     }
 
+    public static readonly HashSet<GenericMarker> All = new();
     public MapMarkerGenericRadius Marker;
 
     public void CreateAt(Vector3 pos, Settings settings)
@@ -34,6 +36,7 @@ public class GenericMarker
 
     public void CreateAt(Vector3 pos, float radius, float alpha, Color inner, Color outer)
     {
+        All.Add(this);
         Kill();
 
         Marker = GameManager.server.CreateEntity(Prefabs.GENERIC_MARKER, pos) as MapMarkerGenericRadius;
@@ -50,7 +53,9 @@ public class GenericMarker
 
     public void Kill()
     {
-        if (Marker != null)
+        All.Remove(this);
+        
+        if (Marker != null) 
             Marker.Kill();
     }
 
@@ -82,13 +87,24 @@ public class GenericMarker
 
     public void SendAsSnapshotToNewPlayer(BasePlayer player)
     {
-        if (player == null) return;
+        if (player == null)
+            return;
 
         Connection connection = player.Connection;
         if (connection == null) return;
 
         Marker.SendAsSnapshot(player.Connection, true);
-        Marker.SendUpdate();
         Marker.SendUpdateToPlayer(player); // Required to send the colors to the client
     }
+
+    void Pool.IPooled.EnterPool()
+    {
+        if (Marker == null)
+            return;
+
+        Marker.Kill();
+        Marker = null;
+    }
+
+    void Pool.IPooled.LeavePool() { }
 }
