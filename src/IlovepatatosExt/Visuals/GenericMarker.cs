@@ -36,8 +36,8 @@ public class GenericMarker : Pool.IPooled
 
     public void CreateAt(Vector3 pos, float radius, float alpha, Color inner, Color outer)
     {
-        All.Add(this);
         Kill();
+        All.Add(this);
 
         Marker = GameManager.server.CreateEntity(Prefabs.GENERIC_MARKER, pos) as MapMarkerGenericRadius;
         if (Marker == null) return;
