@@ -54,9 +54,9 @@ public class GenericMarker : Pool.IPooled
     public void Kill()
     {
         All.Remove(this);
-        
-        if (Marker != null) 
-            Marker.Kill();
+
+        Marker.KillOnce();
+        Marker = null;
     }
 
     public void SetColors(Color inner, Color outer)
@@ -99,11 +99,7 @@ public class GenericMarker : Pool.IPooled
 
     void Pool.IPooled.EnterPool()
     {
-        if (Marker == null)
-            return;
-
-        Marker.Kill();
-        Marker = null;
+        Kill();
     }
 
     void Pool.IPooled.LeavePool() { }
