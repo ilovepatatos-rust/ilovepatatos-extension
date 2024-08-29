@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using JetBrains.Annotations;
 using Network;
+using Oxide.Core.Libraries.Covalence;
 using Rust;
 using UnityEngine;
 
@@ -33,7 +34,8 @@ public static class BasePlayerEx
 
     public static void ReplyToPlayer(this BasePlayer player, string msg)
     {
-        player.IPlayer?.ReplyToPlayer(msg);
+        IPlayer iPlayer = player == null ? null : player.IPlayer;
+        iPlayer?.ReplyToPlayer(msg);
     }
 
     public static bool HasAnyPerms(this BasePlayer player, params string[] perms)
