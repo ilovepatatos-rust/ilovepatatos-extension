@@ -23,8 +23,7 @@ public static class IPlayerEx
         if (string.IsNullOrEmpty(msg))
             return;
 
-        BasePlayer player = iPlayer.ToBasePlayer();
-
+        var player = iPlayer?.ToBasePlayer();
         if (player == null)
         {
             Debug.Log(msg);
