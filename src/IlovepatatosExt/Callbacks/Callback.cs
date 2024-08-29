@@ -59,10 +59,10 @@ public class Callback : Pool.IPooled
 
     public virtual void Cancel()
     {
-        Duration = 0;
-        _currentTime = 0;
         IsCounting = false;
-        _callback?.DestroyToPool();
+        _currentTime = 0;
+        Duration = 0;
+        TimerUtility.DestroyToPool(ref _callback);
     }
 
     public void Add(int seconds)
@@ -91,20 +91,28 @@ public class Callback : Pool.IPooled
     protected virtual void OnComplete()
     {
         IsCounting = false;
-        _callback?.Destroy();
+        TimerUtility.DestroyToPool(ref _callback);
+        
         _onCompleteCallback?.Invoke();
     }
 
     void Pool.IPooled.EnterPool()
     {
-        Cancel();
-
         PluginOwner = null;
-        Interval = 0f;
+        _currentTime = 0;
+        _timeSinceLastUpdate = 0;
 
         _callback = null;
         _onUpdateCallback = null;
         _onCompleteCallback = null;
+        
+        StopOnCompletion = true;
+        IsCounting = false;
+        
+        Interval = 0f;
+        Duration = 0;
+        
+        TimerUtility.DestroyToPool(ref _callback);
     }
 
     void Pool.IPooled.LeavePool() { }
