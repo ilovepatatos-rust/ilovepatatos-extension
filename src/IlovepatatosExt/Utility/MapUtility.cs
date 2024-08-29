@@ -52,6 +52,17 @@ public static class MapUtility
         return layer.ContainsTopology(topology);
     }
 
+    public static IEnumerator KillNetworkablesOverTime<T>(Vector3 pos, float radius, float delay, Action<int, long> onComplete = null)
+        where T : BaseNetworkable
+    {
+        var all = PoolUtility.Get<List<T>>();
+        Vis.Entities(pos, radius, all);
+
+        yield return KillNetworkablesOverTime(all, delay, onComplete);
+
+        PoolUtility.Free(ref all);
+    }
+
     public static IEnumerator KillNetworkablesOverTimeWhitelist(Vector3 pos, float radius, float delay,
         ICollection<uint> whitelist, Action<int, long> onComplete = null)
     {
