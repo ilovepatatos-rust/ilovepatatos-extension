@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using Facepunch.Extend;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -15,9 +16,13 @@ public static class HarmonyEx
     public static void TrySmartPatch(this Harmony harmony, MethodInfo method)
     {
         string result = TrySmartPatchInternal(harmony, method);
+        if (string.IsNullOrEmpty(result)) return;
 
-        if (!string.IsNullOrEmpty(result))
-            OxideConsole.Log($"Harmony exception! {result}", OxideConsole.YELLOW);
+        StackTrace stackTrace = new();
+        Type type = stackTrace.GetFrame(1)?.GetType();
+        string caller = type?.Name ?? "Unknown";
+
+        OxideConsole.Log($"[{caller}] Harmony exception! {result}", OxideConsole.YELLOW);
     }
 
     /// <summary>
@@ -26,7 +31,10 @@ public static class HarmonyEx
     public static void TrySmartPatch(this Harmony harmony, Type type)
     {
         foreach (MethodInfo method in type.GetMethods((BindingFlags)~0))
-            TrySmartPatch(harmony, method);
+        {
+            if (IsHarmonyMethod(method))
+                TrySmartPatch(harmony, method);
+        }
     }
 
     private static string TrySmartPatchInternal(Harmony harmony, MethodInfo method)
@@ -56,6 +64,13 @@ public static class HarmonyEx
         {
             return $"Couldn't patch {method.Name}! {ex.Message}";
         }
+    }
+
+    private static bool IsHarmonyMethod(MethodInfo method)
+    {
+        return method.HasAttribute(typeof(HarmonyPrefix)) ||
+               method.HasAttribute(typeof(HarmonyPostfix)) ||
+               method.HasAttribute(typeof(HarmonyTranspiler));
     }
 
     private static MethodInfo GetOriginalMethod(HarmonyPatch patch)
