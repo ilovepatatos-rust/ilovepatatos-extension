@@ -96,6 +96,26 @@ public static class PoolUtility
             Pool.FreeUnmanaged(ref dict);
     }
 
+    public static void Free<TKey, TValue>(ref Dictionary<TKey, TValue> dict, bool freeElements) where TValue : class, Pool.IPooled, new()
+    {
+        if (dict == null)
+            return;
+
+        if (freeElements)
+        {
+            foreach (TValue value in dict.Values)
+            {
+                TValue temp = value;
+
+                if (temp != null)
+                    Free(ref temp);
+            }
+        }
+
+        dict.Clear();
+        Pool.FreeUnsafe(ref dict);
+    }
+
     public static void Free<T>(ref ConcurrentBag<T> list)
     {
         if (list == null)
