@@ -1,5 +1,6 @@
 ﻿using Facepunch;
 using JetBrains.Annotations;
+using Oxide.Core.Plugins;
 
 namespace Oxide.Ext.IlovepatatosExt;
 
@@ -9,6 +10,8 @@ public class ChatBroadcaster : Pool.IPooled
     public ulong Steam64;
 
     private IPlayerProvider _playerProvider;
+    private Plugin _plugin;
+
     private Core.Libraries.Timer.TimerInstance _callback;
 
 #region Getters/Setters
@@ -17,16 +20,18 @@ public class ChatBroadcaster : Pool.IPooled
 
 #endregion
 
-    public static ChatBroadcaster New(IPlayerProvider provider)
+    public static ChatBroadcaster New(IPlayerProvider provider, Plugin plugin = null)
     {
         var broadcaster = PoolUtility.Get<ChatBroadcaster>();
         broadcaster._playerProvider = provider;
+        broadcaster._plugin = plugin;
 
         return broadcaster;
     }
 
     public ChatBroadcaster() { }
 
+    [Obsolete("Use " + nameof(New) + "() instead to take advantage of the pool system.")]
     public ChatBroadcaster(IPlayerProvider playerProvider)
     {
         _playerProvider = playerProvider;
@@ -35,16 +40,16 @@ public class ChatBroadcaster : Pool.IPooled
     public void Kill()
     {
         IsActive = false;
-        _callback?.Destroy();
+        TimerUtility.DestroyToPool(ref _callback);
     }
 
     public void Start(List<ChatMsg> messages, Func<object[]> format = null, Action onComplete = null)
     {
         List<ChatMsg> copy = messages.ToPooledList(); // copy to avoid modifying the original list
-        InternalStart(copy, format, onComplete);
+        StartOrComplete(copy, format, onComplete);
     }
 
-    private void InternalStart(List<ChatMsg> messages, Func<object[]> format = null, Action onComplete = null)
+    private void StartOrComplete(List<ChatMsg> messages, Func<object[]> format = null, Action onComplete = null)
     {
         IsActive = messages.Count > 0;
 
@@ -52,8 +57,8 @@ public class ChatBroadcaster : Pool.IPooled
         {
             ChatMsg msg = messages.GetAtPlusRemove(0);
 
-            _callback?.Destroy();
-            _callback = TimerUtility.TimersPool.Once(msg.SecondsBefore, () => Continue(msg, messages, format, onComplete));
+            TimerUtility.DestroyToPool(ref _callback);
+            _callback = TimerUtility.TimersPool.Once(msg.SecondsBefore, () => BroadcastToPlayers(msg, messages, format, onComplete), _plugin);
         }
         else
         {
@@ -62,21 +67,23 @@ public class ChatBroadcaster : Pool.IPooled
         }
     }
 
-    private void Continue(ChatMsg msg, List<ChatMsg> messages, Func<object[]> format = null, Action onComplete = null)
+    private void BroadcastToPlayers(ChatMsg msg, List<ChatMsg> messages, Func<object[]> format = null, Action onComplete = null)
     {
         string text = format == null ? msg.Msg : msg.Msg.FormatNoThrow(format.Invoke());
 
         IEnumerable<BasePlayer> players = _playerProvider.GetPlayers();
         players.ChatMessage(text, Steam64);
 
-        _callback = TimerUtility.TimersPool.Once(msg.SecondsAfter, () => InternalStart(messages, format, onComplete));
+        _callback = TimerUtility.TimersPool.Once(msg.SecondsAfter, () => StartOrComplete(messages, format, onComplete), _plugin);
     }
 
     void Pool.IPooled.EnterPool()
     {
         IsActive = false;
         _playerProvider = null;
-        _callback?.Destroy();
+        _plugin = null;
+        
+        TimerUtility.DestroyToPool(ref _callback);
     }
 
     void Pool.IPooled.LeavePool() { }
