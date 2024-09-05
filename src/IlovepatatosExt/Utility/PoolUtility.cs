@@ -15,7 +15,8 @@ public static class PoolUtility
 
     public static void Free<T>(ref T obj) where T : class, new()
     {
-        Pool.FreeUnsafe(ref obj);
+        if (obj != null)
+            Pool.FreeUnsafe(ref obj);
     }
 
     public static void Free(ref StringBuilder sb)
@@ -35,7 +36,7 @@ public static class PoolUtility
         if (list != null)
             Pool.Free(ref list, freeElements);
     }
-    
+
     public static void Free<T>(ref Queue<T> queue)
     {
         if (queue != null)
@@ -103,7 +104,7 @@ public static class PoolUtility
         list.Clear();
         Pool.FreeUnsafe(ref list);
     }
-    
+
     public static void Free<T>(ref ConcurrentBag<T> list, bool freeElements) where T : class, Pool.IPooled, new()
     {
         if (list == null)
