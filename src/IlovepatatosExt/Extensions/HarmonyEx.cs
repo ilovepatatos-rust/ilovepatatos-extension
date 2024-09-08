@@ -18,8 +18,10 @@ public static class HarmonyEx
         string result = TrySmartPatchInternal(harmony, method);
         if (string.IsNullOrEmpty(result)) return;
 
-        StackTrace stackTrace = new();
-        Type type = stackTrace.GetFrame(1)?.GetType();
+        StackTrace stackTrace = new(1, false);
+        StackFrame frame = stackTrace.GetFrame(0);
+
+        Type type = frame?.GetMethod().DeclaringType;
         string caller = type?.Name ?? "Unknown";
 
         OxideConsole.Log($"[{caller}] Harmony exception! {result}", OxideConsole.YELLOW);
