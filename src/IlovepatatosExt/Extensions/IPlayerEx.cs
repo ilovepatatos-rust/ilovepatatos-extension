@@ -49,7 +49,7 @@ public static class IPlayerEx
     public static bool HasAnyPerms(this IPlayer iPlayer, bool warn, params string[] perms)
     {
         bool isPlayerNull = iPlayer == null;
-        bool hasPerms = !isPlayerNull && perms.Any(iPlayer.HasPermission);
+        bool hasPerms = isPlayerNull || perms.Any(iPlayer.HasPermission);
 
         if (warn && !hasPerms)
             iPlayer.ReplyToPlayer("You don't have permissions to access this command!");
