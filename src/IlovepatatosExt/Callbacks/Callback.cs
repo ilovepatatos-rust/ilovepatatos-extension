@@ -101,8 +101,7 @@ public class Callback : Pool.IPooled
         PluginOwner = null;
         _currentTime = 0;
         _timeSinceLastUpdate = 0;
-
-        _callback = null;
+        
         _onUpdateCallback = null;
         _onCompleteCallback = null;
         
