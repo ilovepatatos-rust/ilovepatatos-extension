@@ -144,4 +144,13 @@ public static class PoolUtility
         list.Clear();
         Pool.FreeUnsafe(ref list);
     }
+
+    /// <summary>
+    /// Certain types get lost when reloading plugins.
+    /// Use this before unloading a plugin to avoid memory leaks.
+    /// </summary>
+    public static void Drop<T>()
+    {
+        Pool.Directory.Remove(typeof(T), out Pool.IPoolCollection _);
+    }
 }
