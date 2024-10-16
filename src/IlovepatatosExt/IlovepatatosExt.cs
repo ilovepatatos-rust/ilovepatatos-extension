@@ -16,4 +16,10 @@ public class IlovepatatosExt : Extension
     public override bool SupportsReloading => true;
 
     public IlovepatatosExt(ExtensionManager manager) : base(manager) { }
+
+    public override void OnModLoad()
+    {
+        base.OnModLoad();
+        JsonConvertersHandler.Initialize();
+    }
 }
