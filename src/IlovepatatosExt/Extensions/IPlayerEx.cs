@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using Newtonsoft.Json;
 using Oxide.Core.Libraries.Covalence;
 using UnityEngine;
 
@@ -63,5 +64,14 @@ public static class IPlayerEx
             return true;
 
         return iPlayer.Object is BasePlayer { IsAdmin: true };
+    }
+    
+    public static void ReplyWithObject(this IPlayer iPlayer, object obj, Formatting formatting = Formatting.Indented)
+    {
+        if (obj == null)
+            throw new ArgumentNullException(nameof(obj));
+
+        string json = JsonConvert.SerializeObject(obj, formatting);
+        iPlayer?.Reply(json);
     }
 }
