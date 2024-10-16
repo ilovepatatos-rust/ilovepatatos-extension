@@ -57,7 +57,7 @@ public static class IPlayerEx
 
         return hasPerms;
     }
-    
+
     public static bool IsAdmin(this IPlayer iPlayer)
     {
         if (iPlayer.IsAdmin)
@@ -65,13 +65,17 @@ public static class IPlayerEx
 
         return iPlayer.Object is BasePlayer { IsAdmin: true };
     }
-    
+
     public static void ReplyWithObject(this IPlayer iPlayer, object obj, Formatting formatting = Formatting.Indented)
     {
-        if (obj == null)
-            throw new ArgumentNullException(nameof(obj));
-
-        string json = JsonConvert.SerializeObject(obj, formatting);
-        iPlayer?.Reply(json);
+        if (obj is string value)
+        {
+            iPlayer?.Reply(value);
+        }
+        else if (obj != null)
+        {
+            string json = JsonConvert.SerializeObject(obj, formatting);
+            iPlayer?.Reply(json);
+        }
     }
 }
