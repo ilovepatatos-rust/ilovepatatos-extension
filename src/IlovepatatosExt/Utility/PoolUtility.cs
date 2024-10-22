@@ -8,6 +8,7 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class PoolUtility
 {
+    [MustUseReturnValue]
     public static T Get<T>() where T : class, new()
     {
         return Pool.Get<T>();
