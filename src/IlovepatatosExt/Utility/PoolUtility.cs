@@ -25,6 +25,12 @@ public static class PoolUtility
         if (sb != null)
             Pool.FreeUnmanaged(ref sb);
     }
+    
+    public static void Free(ref MemoryStream stream)
+    {
+        if (stream != null)
+            Pool.FreeUnmanaged(ref stream);
+    }
 
     public static void Free<T>(ref List<T> list)
     {
