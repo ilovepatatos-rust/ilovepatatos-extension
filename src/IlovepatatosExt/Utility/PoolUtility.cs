@@ -228,11 +228,13 @@ public static class PoolUtility
 
         foreach ((Type type, Pool.IPoolCollection _) in Pool.Directory)
         {
-            foreach (Type genericType in type.GetGenericTypes())
+            foreach (Type subType in type.GetGenericTypes())
             {
-                Type[] args = genericType.GetGenericArguments();
-                if (args.Any(x => x == typeof(T)))
-                    toRemove.Add(type);
+                if (!subType.HasAnyArgumentsOfType<T>())
+                    continue;
+
+                toRemove.Add(type);
+                break;
             }
         }
 
