@@ -25,7 +25,7 @@ public static class PoolUtility
         if (sb != null)
             Pool.FreeUnmanaged(ref sb);
     }
-    
+
     public static void Free(ref MemoryStream stream)
     {
         if (stream != null)
@@ -75,9 +75,7 @@ public static class PoolUtility
             foreach (T value in stack)
             {
                 T temp = value;
-
-                if (temp != null)
-                    Free(ref temp);
+                Free(ref temp);
             }
         }
 
@@ -113,9 +111,7 @@ public static class PoolUtility
             foreach (TValue value in dict.Values)
             {
                 TValue temp = value;
-
-                if (temp != null)
-                    Free(ref temp);
+                Free(ref temp);
             }
         }
 
@@ -142,9 +138,7 @@ public static class PoolUtility
             foreach (T value in list)
             {
                 T temp = value;
-
-                if (temp != null)
-                    Free(ref temp);
+                Free(ref temp);
             }
         }
 
