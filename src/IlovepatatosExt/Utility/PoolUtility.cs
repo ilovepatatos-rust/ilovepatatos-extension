@@ -44,6 +44,20 @@ public static class PoolUtility
             Pool.Free(ref list, freeElements);
     }
 
+    public static void FreeValues<T>(List<T> list) where T : class, Pool.IPooled, new()
+    {
+        if (list == null)
+            return;
+
+        foreach (T value in list)
+        {
+            T temp = value;
+            Free(ref temp);
+        }
+
+        list.Clear();
+    }
+
     public static void Free<T>(ref Queue<T> queue)
     {
         if (queue != null)
@@ -54,6 +68,20 @@ public static class PoolUtility
     {
         if (queue != null)
             Pool.Free(ref queue, freeElements);
+    }
+
+    public static void FreeValues<T>(Queue<T> queue) where T : class, Pool.IPooled, new()
+    {
+        if (queue == null)
+            return;
+
+        foreach (T value in queue)
+        {
+            T temp = value;
+            Free(ref temp);
+        }
+
+        queue.Clear();
     }
 
     public static void Free<T>(ref Stack<T> stack)
@@ -71,16 +99,24 @@ public static class PoolUtility
             return;
 
         if (freeElements)
-        {
-            foreach (T value in stack)
-            {
-                T temp = value;
-                Free(ref temp);
-            }
-        }
+            FreeValues(stack);
 
         stack.Clear();
         Pool.FreeUnsafe(ref stack);
+    }
+
+    public static void FreeValues<T>(Stack<T> stack) where T : class, Pool.IPooled, new()
+    {
+        if (stack == null)
+            return;
+
+        foreach (T value in stack)
+        {
+            T temp = value;
+            Free(ref temp);
+        }
+
+        stack.Clear();
     }
 
     public static void Free<T>(ref HashSet<T> set)
@@ -95,6 +131,20 @@ public static class PoolUtility
             Pool.Free(ref set, freeElements);
     }
 
+    public static void FreeValues<T>(HashSet<T> set) where T : class, Pool.IPooled, new()
+    {
+        if (set == null)
+            return;
+
+        foreach (T value in set)
+        {
+            T temp = value;
+            Free(ref temp);
+        }
+
+        set.Clear();
+    }
+
     public static void Free<TKey, TValue>(ref Dictionary<TKey, TValue> dict)
     {
         if (dict != null)
@@ -107,16 +157,24 @@ public static class PoolUtility
             return;
 
         if (freeElements)
-        {
-            foreach (TValue value in dict.Values)
-            {
-                TValue temp = value;
-                Free(ref temp);
-            }
-        }
+            FreeValues(dict);
 
         dict.Clear();
         Pool.FreeUnsafe(ref dict);
+    }
+
+    public static void FreeValues<TKey, TValue>(Dictionary<TKey, TValue> dict) where TValue : class, Pool.IPooled, new()
+    {
+        if (dict == null)
+            return;
+
+        foreach (TValue value in dict.Values)
+        {
+            TValue temp = value;
+            Free(ref temp);
+        }
+
+        dict.Clear();
     }
 
     public static void Free<T>(ref ConcurrentBag<T> list)
@@ -134,16 +192,24 @@ public static class PoolUtility
             return;
 
         if (freeElements)
-        {
-            foreach (T value in list)
-            {
-                T temp = value;
-                Free(ref temp);
-            }
-        }
+            FreeValues(list);
 
         list.Clear();
         Pool.FreeUnsafe(ref list);
+    }
+
+    public static void FreeValues<T>(ConcurrentBag<T> list) where T : class, Pool.IPooled, new()
+    {
+        if (list == null)
+            return;
+
+        foreach (T value in list)
+        {
+            T temp = value;
+            Free(ref temp);
+        }
+
+        list.Clear();
     }
 
     /// <summary>
