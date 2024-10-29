@@ -219,5 +219,26 @@ public static class PoolUtility
     public static void Drop<T>()
     {
         Pool.Directory.Remove(typeof(T), out Pool.IPoolCollection _);
+        DropGenericTypeWith<T>();
+    }
+
+    private static void DropGenericTypeWith<T>()
+    {
+        var toRemove = Get<List<Type>>();
+
+        foreach ((Type type, Pool.IPoolCollection _) in Pool.Directory)
+        {
+            foreach (Type genericType in type.GetGenericTypes())
+            {
+                Type[] args = genericType.GetGenericArguments();
+                if (args.Any(x => x == typeof(T)))
+                    toRemove.Add(type);
+            }
+        }
+
+        foreach (Type type in toRemove)
+            Pool.Directory.Remove(type, out Pool.IPoolCollection _);
+
+        Free(ref toRemove);
     }
 }
