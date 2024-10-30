@@ -17,14 +17,14 @@ internal static class TypeEx
     }
 
     // recursive
-    internal static bool HasAnyArgumentsOfType<T>(this Type type)
+    internal static bool HasAnyArgumentsOfType(this Type type, Type targetType)
     {
         foreach (Type argument in type.GetGenericArguments())
         {
-            if (argument == typeof(T))
+            if (argument == targetType)
                 return true;
 
-            if (argument.GetGenericTypes().Any(subType => subType.HasAnyArgumentsOfType<T>()))
+            if (argument.GetGenericTypes().Any(subType => subType.HasAnyArgumentsOfType(targetType)))
                 return true;
         }
 

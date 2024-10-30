@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Reflection;
 using System.Text;
 using Facepunch;
 using JetBrains.Annotations;
@@ -216,13 +217,22 @@ public static class PoolUtility
     /// Certain types get lost when reloading plugins.
     /// Use this before unloading a plugin to avoid memory leaks.
     /// </summary>
-    public static void Drop<T>()
+    public static void Drop(Type type)
     {
-        Pool.Directory.Remove(typeof(T), out Pool.IPoolCollection _);
-        DropGenericTypeWith<T>();
+        Pool.Directory.Remove(type, out Pool.IPoolCollection _);
+        DropGenericTypeWith(type);
     }
 
-    private static void DropGenericTypeWith<T>()
+    public static void Drop(Assembly assembly)
+    {
+        foreach (Type type in assembly.GetTypes())
+        {
+            if (typeof(Pool.IPooled).IsAssignableFrom(type))
+                Drop(type);
+        }
+    }
+
+    private static void DropGenericTypeWith(Type targetType)
     {
         var toRemove = Get<List<Type>>();
 
@@ -230,7 +240,7 @@ public static class PoolUtility
         {
             foreach (Type subType in type.GetGenericTypes())
             {
-                if (!subType.HasAnyArgumentsOfType<T>())
+                if (!subType.HasAnyArgumentsOfType(targetType))
                     continue;
 
                 toRemove.Add(type);
