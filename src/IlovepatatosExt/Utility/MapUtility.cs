@@ -22,11 +22,14 @@ public static class MapUtility
 
     public static string ToGrid(Vector3 pos)
     {
-        var half = new Vector2(pos.x + World.Size / 2f, pos.z + World.Size / 2f);
-        int maxGridSize = Mathf.FloorToInt(World.Size / 146.3f) - 1;
+        int amountGrids = Mathf.FloorToInt(World.Size * 7f / 1024f);
+        long gridSize = World.Size / amountGrids;
 
-        int x = Mathf.FloorToInt(half.x / 146.3f);
-        int y = Mathf.FloorToInt(half.y / 146.3f);
+        var half = new Vector2(pos.x + World.Size / 2f, pos.z + World.Size / 2f);
+        int maxGridSize = amountGrids - 1;
+
+        int x = Mathf.FloorToInt(half.x / gridSize);
+        int y = Mathf.FloorToInt(half.y / gridSize);
 
         int num1 = Mathf.Clamp(x, 0, maxGridSize);
         int num2 = Mathf.Clamp(maxGridSize - y, 0, maxGridSize);
