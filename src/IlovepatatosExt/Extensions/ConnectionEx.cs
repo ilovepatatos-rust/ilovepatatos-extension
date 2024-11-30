@@ -16,7 +16,7 @@ public static class ConnectionEx
         if (connections.Count > 0 && !string.IsNullOrEmpty(msg))
             ConsoleNetwork.SendClientCommand(connections, "chat.add", ConVar.Chat.ChatChannel.Global, steam64, msg);
     }
-    
+
     public static void ChatMessageAsCopyable(this Connection connection, string msg, ulong steam64 = 0)
     {
         if (!string.IsNullOrEmpty(msg))
@@ -29,10 +29,12 @@ public static class ConnectionEx
             ConsoleNetwork.SendClientCommand(connections, "chat.add2", ConVar.Chat.ChatChannel.Global, steam64, msg);
     }
 
-    public static void ShowToast(this List<Connection> connections, GameTip.Styles style, Translate.Phrase phrase, params string[] arguments)
+    public static void ShowToast(this List<Connection> connections,
+        GameTip.Styles style, Translate.Phrase phrase, bool overlay = false, params string[] arguments)
     {
         if (connections.Count > 0 && !string.IsNullOrEmpty(phrase.english))
-            ConsoleNetwork.SendClientCommand(connections, "gametip.showtoast_translated", (int)style, phrase.token, phrase.english, arguments);
+            ConsoleNetwork.SendClientCommand(connections, "gametip.showtoast_translated", (int)style, phrase.token, phrase.english, overlay,
+                arguments);
     }
 
     public static void AddUi(this Connection connection, string json)
@@ -57,7 +59,7 @@ public static class ConnectionEx
     {
         if (string.IsNullOrEmpty(name))
             return;
-        
+
         RpcTarget target = RpcTarget.Player("DestroyUI", connection);
         CommunityEntity.ServerInstance.ClientRPC(target, name);
     }
@@ -66,7 +68,7 @@ public static class ConnectionEx
     {
         if (connections.Count == 0 || string.IsNullOrEmpty(name))
             return;
-        
+
         RpcTarget target = RpcTarget.Players("DestroyUI", connections);
         CommunityEntity.ServerInstance.ClientRPC(target, name);
     }

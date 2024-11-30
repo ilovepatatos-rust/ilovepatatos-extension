@@ -83,13 +83,14 @@ public static class BasePlayerEx
         PoolUtility.Free(ref connections);
     }
 
-    public static void ShowToast(this IEnumerable<BasePlayer> players, GameTip.Styles style, Translate.Phrase phrase, params string[] arguments)
+    public static void ShowToast(this IEnumerable<BasePlayer> players,
+        GameTip.Styles style, Translate.Phrase phrase, bool overlay = false, params string[] arguments)
     {
         if (string.IsNullOrEmpty(phrase.english))
             return;
 
         List<Connection> connections = players.GetOnlineConnectionsPooled();
-        connections.ShowToast(style, phrase, arguments);
+        connections.ShowToast(style, phrase, overlay, arguments);
         PoolUtility.Free(ref connections);
     }
 
