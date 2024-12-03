@@ -5,12 +5,12 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class ObjectEx
 {
-    public static T To<T>(this object obj)
+    public static T Cast<T>(this object obj, T fallback = default)
     {
         if (obj is T value)
             return value;
 
-        return default;
+        return fallback;
     }
 
     public static bool ToBool(this object obj)
