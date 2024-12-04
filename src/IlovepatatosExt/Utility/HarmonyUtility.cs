@@ -54,7 +54,7 @@ internal static class HarmonyUtility
         }
         catch (Exception ex)
         {
-            return $"Couldn't patch {method.Name}! {ex.Message}";
+            return $"Couldn't patch {method.Name}! {ex}";
         }
     }
 
