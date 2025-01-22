@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using Network;
 using Oxide.Core.Libraries.Covalence;
 using Rust;
@@ -18,9 +17,6 @@ public static class BasePlayerEx
                                    1 << (int)Layer.Construction |
                                    1 << (int)Layer.Terrain |
                                    1 << (int)Layer.Tree;
-
-    private static readonly FieldInfo s_playerNonSuicideInfoField =
-        typeof(BasePlayer).GetField("cachedNonSuicideHitInfo", BindingFlags.Instance | BindingFlags.NonPublic);
 
     public static bool IsSelf(this BasePlayer player, BasePlayer other)
     {
@@ -121,19 +117,6 @@ public static class BasePlayerEx
     {
         foreach (BasePlayer player in players)
             player.PlaySfx(sfx);
-    }
-
-    /// <summary>
-    /// Returns the last <see cref="HitInfo"/> that caused the player to die or wound.
-    /// Use this to get the actual killer when the player is wounded and f1 kills.
-    /// </summary>
-    public static HitInfo GetActualDyingInfo(this BasePlayer player, HitInfo info)
-    {
-        if (!player.IsWounded() || player.lastDamage == DamageType.Suicide)
-            return info;
-
-        var other = s_playerNonSuicideInfoField?.GetValue(player) as HitInfo;
-        return other ?? info;
     }
 
     public static bool Cast(this BasePlayer player, out Vector3 pos, float distance = float.PositiveInfinity, int layerMask = CAST_LAYER)
