@@ -23,16 +23,27 @@ public static class DataFileSystemEx
     /// <remarks>
     /// This method handles cases where the file exists but is empty.
     /// </remarks>
-    public static T ReadObjectOrFallback<T>(this DataFileSystem self, string name) where T : class
+    public static T ReadOrCreateObject<T>(this DataFileSystem self, string filename) where T : class
     {
         T value = null;
 
-        if (self.ExistsDatafile(name))
-            value = self.GetFile(name).ReadObject<T>();
+        if (self.ExistsDatafile(filename))
+            value = self.GetFile(filename).ReadObject<T>();
 
-        if (value == null)
-            value = Activator.CreateInstance<T>();
+        return value ?? Activator.CreateInstance<T>();
+    }
 
-        return value;
+    [Obsolete("Use " + nameof(ReadOrCreateObject) + " instead.")]
+    public static T ReadObjectOrFallback<T>(this DataFileSystem self, string filename) where T : class
+    {
+        return ReadOrCreateObject<T>(self, filename);
+    }
+
+    /// <summary>
+    /// Tries to read an object from a file. Returns null if the file does not exist.
+    /// </summary>
+    public static T TryReadObject<T>(this DataFileSystem self, string filename) where T : class
+    {
+        return self.ExistsDatafile(filename) ? self.GetFile(filename).ReadObject<T>() : null;
     }
 }
