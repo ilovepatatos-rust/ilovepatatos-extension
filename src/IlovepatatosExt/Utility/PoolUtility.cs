@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using Facepunch;
@@ -25,6 +26,15 @@ public static class PoolUtility
     {
         if (sb != null)
             Pool.FreeUnmanaged(ref sb);
+    }
+
+    public static void Free(ref Stopwatch sw)
+    {
+        if (sw == null)
+            return;
+
+        sw.Reset();
+        Pool.FreeUnsafe(ref sw);
     }
 
     public static void Free(ref MemoryStream stream)
