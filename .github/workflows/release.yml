@@ -17,7 +17,7 @@ jobs:
         fetch-depth: 0 # Necessary to fetch all tags for version calculation
 
     - name: Setup MSBuild Path
-      uses: microsoft/setup-msbuild@v1.1
+      uses: microsoft/setup-msbuild@v2
 
     - name: Download References
       run: |
