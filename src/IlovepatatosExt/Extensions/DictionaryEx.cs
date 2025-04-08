@@ -112,6 +112,26 @@ public static class DictionaryEx
     }
 
     /// <summary>
+    /// Returns the key with the highest value.
+    /// </summary>
+    public static TKey GetMostPreventKey<TKey>(this Dictionary<TKey, int> self)
+    {
+        int highestAmount = 0;
+        TKey highest = default;
+
+        foreach ((TKey key, int amount) in self)
+        {
+            if (highest != null && amount <= highestAmount)
+                continue;
+
+            highestAmount = amount;
+            highest = key;
+        }
+
+        return highest;
+    }
+
+    /// <summary>
     /// Returns the value that is present the most in the dictionary.
     /// </summary>
     public static TValue GetMostPresentValue<TKey, TValue>(this Dictionary<TKey, TValue> self)
