@@ -36,8 +36,15 @@ public static class StringArrayEx
     [MustUseReturnValue]
     public static bool GetBool(this string[] args, int index, bool fallback = false)
     {
-        string s = args.GetString(index);
-        return bool.TryParse(s, out bool result) ? result : fallback;
+        string value = args.GetString(index);
+
+        if (string.Equals(value, "1") || string.Equals(value, "true", StringComparison.InvariantCultureIgnoreCase))
+            return true;
+
+        if (string.Equals(value, "0") || string.Equals(value, "false", StringComparison.InvariantCultureIgnoreCase))
+            return false;
+
+        return fallback;
     }
 
     [MustUseReturnValue]
