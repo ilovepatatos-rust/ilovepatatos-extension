@@ -18,6 +18,7 @@ public static class DictionaryEx
     /// <summary>
     /// Return whether the key was overwritten.
     /// </summary>
+    [Obsolete("Simply use dict[key] = value; now")]
     public static bool ForceAdd<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue value)
     {
         if (dict.TryAdd(key, value))
