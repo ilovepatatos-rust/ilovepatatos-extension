@@ -1,6 +1,5 @@
 ﻿using JetBrains.Annotations;
 using Network;
-using Oxide.Core.Libraries.Covalence;
 using Rust;
 using UnityEngine;
 
@@ -141,7 +140,7 @@ public static class BasePlayerEx
     }
 
     [MustUseReturnValue]
-    public static T Cast<T>(this BasePlayer player, float distance = float.PositiveInfinity, int layer = CAST_LAYER) where T : Component
+    public static T CastForward<T>(this BasePlayer player, float distance = float.PositiveInfinity, int layer = CAST_LAYER) where T : Component
     {
         Ray origin = player.eyes.HeadRay();
         int size = Physics.RaycastNonAlloc(origin, s_results, distance, layer);
