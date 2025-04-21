@@ -20,37 +20,48 @@ public static class BasePlayerEx
 
     private static readonly RaycastHit[] s_results = new RaycastHit[128];
 
+    [MustUseReturnValue]
     public static bool IsSelf(this BasePlayer player, BasePlayer other)
     {
         return other != null && player.userID == other.userID;
     }
 
+    [MustUseReturnValue]
     public static bool IsModerator(this BasePlayer player)
     {
         return player.Connection != null && player.Connection.IsModerator();
     }
 
-    public static void ReplyToPlayer(this BasePlayer player, string msg)
+    public static void Reply(this BasePlayer player, string msg)
     {
-        IPlayer iPlayer = player == null ? null : player.IPlayer;
-        iPlayer?.ReplyToPlayer(msg);
+        player.IPlayer?.Reply(msg);
     }
 
+    [Obsolete("Use " + nameof(Reply) + "() instead")]
+    public static void ReplyToPlayer(this BasePlayer player, string msg)
+    {
+        Reply(player, msg);
+    }
+
+    [MustUseReturnValue]
     public static bool HasAnyPerms(this BasePlayer player, params string[] perms)
     {
         return player != null && player.IPlayer.HasAnyPerms(perms);
     }
 
+    [MustUseReturnValue]
     public static bool HasAnyPerms(this BasePlayer player, bool warn, params string[] perms)
     {
         return player != null && player.IPlayer.HasAnyPerms(warn, perms);
     }
 
+    [MustUseReturnValue]
     public static IEnumerable<Connection> GetOnlineConnections(this IEnumerable<BasePlayer> players)
     {
         return from player in players where player != null select player.Connection into con where con != null select con;
     }
 
+    [MustUseReturnValue]
     public static List<Connection> GetOnlineConnectionsPooled(this IEnumerable<BasePlayer> players)
     {
         return players.GetOnlineConnections().ToPooledList();
@@ -92,6 +103,7 @@ public static class BasePlayerEx
         PoolUtility.Free(ref connections);
     }
 
+    [MustUseReturnValue]
     public static bool HasInventorySpaceFor(this BasePlayer player, string shortname, int amount)
     {
         return player.inventory != null && player.inventory.HasInventorySpaceFor(shortname, amount);
@@ -152,6 +164,7 @@ public static class BasePlayerEx
         return null;
     }
 
+    [MustUseReturnValue]
     public static BaseEntity CastEntity(this BasePlayer player, float distance = float.PositiveInfinity, int layer = CAST_LAYER)
     {
         Physics.Raycast(player.eyes.HeadRay(), out RaycastHit hit, distance, layer);
