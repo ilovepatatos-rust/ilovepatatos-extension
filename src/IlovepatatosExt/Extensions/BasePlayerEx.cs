@@ -18,6 +18,8 @@ public static class BasePlayerEx
                                    1 << (int)Layer.Terrain |
                                    1 << (int)Layer.Tree;
 
+    private static readonly RaycastHit[] s_results = new RaycastHit[128];
+
     public static bool IsSelf(this BasePlayer player, BasePlayer other)
     {
         return other != null && player.userID == other.userID;
@@ -124,6 +126,30 @@ public static class BasePlayerEx
         bool result = Physics.Raycast(player.eyes.HeadRay(), out RaycastHit hit, distance, layerMask);
         pos = hit.point;
         return result;
+    }
+
+    [MustUseReturnValue]
+    public static T Cast<T>(this BasePlayer player, float distance = float.PositiveInfinity, int layer = CAST_LAYER) where T : Component
+    {
+        Ray origin = player.eyes.HeadRay();
+        int size = Physics.RaycastNonAlloc(origin, s_results, distance, layer);
+
+        for (int i = 0; i < size; i++)
+        {
+            Collider collider = s_results[i].collider;
+            if (collider == null)
+                continue;
+
+            GameObject go = collider.gameObject;
+            if (go == null)
+                continue;
+
+            var component = go.GetComponent<T>();
+            if (component != null)
+                return component;
+        }
+
+        return null;
     }
 
     public static BaseEntity CastEntity(this BasePlayer player, float distance = float.PositiveInfinity, int layer = CAST_LAYER)
