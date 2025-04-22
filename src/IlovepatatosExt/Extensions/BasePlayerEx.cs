@@ -140,7 +140,7 @@ public static class BasePlayerEx
     }
 
     [MustUseReturnValue]
-    public static T CastForward<T>(this BasePlayer player, float distance = float.PositiveInfinity, int layer = CAST_LAYER) where T : Component
+    public static T CastFirstByType<T>(this BasePlayer player, float distance = float.PositiveInfinity, int layer = CAST_LAYER) where T : BaseEntity
     {
         Ray origin = player.eyes.HeadRay();
         int size = Physics.RaycastNonAlloc(origin, s_results, distance, layer);
@@ -151,13 +151,9 @@ public static class BasePlayerEx
             if (collider == null)
                 continue;
 
-            GameObject go = collider.gameObject;
-            if (go == null)
-                continue;
-
-            var component = go.GetComponent<T>();
-            if (component != null)
-                return component;
+            var entity = collider.ToBaseEntity();
+            if (entity is T value)
+                return value;
         }
 
         return null;
