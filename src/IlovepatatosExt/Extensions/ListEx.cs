@@ -10,9 +10,9 @@ public static class ListEx
         return index >= 0 && list != null && index < list.Count;
     }
 
-    public static T GetOrFallback<T>(this IList<T> list, int index)
+    public static T GetOrFallback<T>(this IList<T> list, int index, T fallback = default)
     {
-        return list.ContainsIndex(index) ? list[index] : default;
+        return list.ContainsIndex(index) ? list[index] : fallback;
     }
 
     public static T GetAtPlusRemove<T>(this IList<T> list, int index)
