@@ -16,6 +16,17 @@ public static class PoolUtility
         return Pool.Get<T>();
     }
 
+    [MustUseReturnValue]
+    public static Stopwatch GetNewStopWatch(bool start = true)
+    {
+        var sw = Get<Stopwatch>();
+
+        if (start)
+            sw.Restart();
+
+        return sw;
+    }
+
     public static void FreeNoT(ref object obj)
     {
         if (obj == null)
