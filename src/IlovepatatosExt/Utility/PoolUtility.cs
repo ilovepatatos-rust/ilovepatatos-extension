@@ -16,6 +16,25 @@ public static class PoolUtility
         return Pool.Get<T>();
     }
 
+    public static void FreeNoT(ref object obj)
+    {
+        if (obj == null)
+            return;
+
+        Type type = obj.GetType();
+        if (type.IsAbstract || type.IsInterface)
+            return;
+
+        if (type.GetConstructor(Type.EmptyTypes) == null)
+            return;
+
+        if (!Pool.Directory.TryGetValue(type, out Pool.IPoolCollection collection))
+            return;
+
+        collection.Add(obj);
+        obj = null;
+    }
+
     public static void Free<T>(ref T obj) where T : class, new()
     {
         if (obj != null)
@@ -53,6 +72,23 @@ public static class PoolUtility
     {
         if (list != null)
             Pool.Free(ref list, freeElements);
+    }
+
+    public static void FreeNoT<T>(ref List<T> list, bool freeElements)
+    {
+        if (list == null)
+            return;
+
+        if (freeElements)
+        {
+            foreach (T value in list)
+            {
+                object toFree = value;
+                FreeNoT(ref toFree);
+            }
+        }
+
+        Pool.FreeUnmanaged(ref list);
     }
 
     public static void FreeValues<T>(List<T> list) where T : class, Pool.IPooled, new()
