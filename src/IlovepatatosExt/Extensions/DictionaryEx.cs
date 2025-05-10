@@ -30,24 +30,24 @@ public static class DictionaryEx
 
     public static float Increase<TKey>(this Dictionary<TKey, float> dict, TKey key, float value)
     {
-        dict.TryAdd(key, default);
-        dict[key] += value;
+        if (!dict.TryAdd(key, value))
+            dict[key] += value;
 
         return dict[key];
     }
 
     public static int Increase<TKey>(this Dictionary<TKey, int> dict, TKey key, int value)
     {
-        dict.TryAdd(key, default);
-        dict[key] += value;
+        if (!dict.TryAdd(key, value))
+            dict[key] += value;
 
         return dict[key];
     }
 
     public static long Increase<TKey>(this Dictionary<TKey, long> dict, TKey key, long value)
     {
-        dict.TryAdd(key, default);
-        dict[key] += value;
+        if (!dict.TryAdd(key, value))
+            dict[key] += value;
 
         return dict[key];
     }
@@ -115,12 +115,12 @@ public static class DictionaryEx
     /// <summary>
     /// Returns the key with the highest value.
     /// </summary>
-    public static TKey GetMostPreventKey<TKey>(this Dictionary<TKey, int> self)
+    public static TKey GetMostPreventKey<TKey>(this Dictionary<TKey, int> dict)
     {
         int highestAmount = 0;
         TKey highest = default;
 
-        foreach ((TKey key, int amount) in self)
+        foreach ((TKey key, int amount) in dict)
         {
             if (highest != null && amount <= highestAmount)
                 continue;
@@ -135,20 +135,20 @@ public static class DictionaryEx
     /// <summary>
     /// Returns the value that is present the most in the dictionary.
     /// </summary>
-    public static TValue GetMostPresentValue<TKey, TValue>(this Dictionary<TKey, TValue> self)
+    public static TValue GetMostPresentValue<TKey, TValue>(this Dictionary<TKey, TValue> dict)
     {
-        var dict = PoolUtility.Get<Dictionary<TValue, int>>();
+        var valueToCount = PoolUtility.Get<Dictionary<TValue, int>>();
 
-        foreach (TValue value in self.Values)
+        foreach (TValue value in dict.Values)
         {
-            if (!dict.TryAdd(value, 1))
-                dict[value]++;
+            if (!valueToCount.TryAdd(value, 1))
+                valueToCount[value]++;
         }
 
         int highestAmount = 0;
         TValue highest = default;
 
-        foreach ((TValue key, int amount) in dict)
+        foreach ((TValue key, int amount) in valueToCount)
         {
             if (amount <= highestAmount)
                 continue;
@@ -157,7 +157,7 @@ public static class DictionaryEx
             highest = key;
         }
 
-        PoolUtility.Free(ref dict);
+        PoolUtility.Free(ref valueToCount);
         return highest;
     }
 }
