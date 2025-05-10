@@ -111,6 +111,21 @@ public static class DictionaryEx
         PoolUtility.Free(ref toRemove);
         return count;
     }
+    
+    public static bool TryGetKey<TKey, TValue>(this Dictionary<TKey, TValue> dict, TValue value, out TKey key)
+    {
+        foreach ((TKey x, TValue y) in dict)
+        {
+            if (!EqualityComparer<TValue>.Default.Equals(y, value))
+                continue;
+
+            key = x;
+            return true;
+        }
+
+        key = default;
+        return false;
+    }
 
     /// <summary>
     /// Returns the key with the highest value.
