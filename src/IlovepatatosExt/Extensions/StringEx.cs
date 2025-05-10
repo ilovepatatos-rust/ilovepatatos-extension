@@ -5,6 +5,7 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class StringEx
 {
+    [MustUseReturnValue]
     public static string FormatNoThrow(this string format, params object[] args)
     {
         if (format == null)

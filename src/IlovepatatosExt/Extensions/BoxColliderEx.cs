@@ -7,6 +7,7 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class BoxColliderEx
 {
+    [MustUseReturnValue]
     public static bool Contains(this BoxCollider collider, Vector3 point)
     {
         Vector3 size = collider.size;
@@ -15,6 +16,7 @@ public static class BoxColliderEx
         return Mathf.Abs(localPos.x) < size.x / 2 && Mathf.Abs(localPos.y) < size.y / 2 && Mathf.Abs(localPos.z) < size.z / 2;
     }
 
+    [MustUseReturnValue]
     public static Vector3 GetRandomPointWithinBounds(this BoxCollider col, Vector3 offset = default)
     {
         Vector3 center = col.center;

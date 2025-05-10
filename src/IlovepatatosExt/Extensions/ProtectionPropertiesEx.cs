@@ -9,6 +9,7 @@ public static class ProtectionPropertiesEx
     /// <summary>
     /// Returns a new instance of <see cref="ProtectionProperties"/> with the same values as the given property.
     /// </summary>
+    [MustUseReturnValue]
     public static ProtectionProperties Clone(this ProtectionProperties property)
     {
         var instance = ScriptableObject.CreateInstance<ProtectionProperties>();

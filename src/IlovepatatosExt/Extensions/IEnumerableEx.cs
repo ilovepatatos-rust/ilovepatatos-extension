@@ -6,6 +6,7 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class IEnumerableEx
 {
+    [MustUseReturnValue]
     public static List<T> ToPooledList<T>(this IEnumerable<T> enumerable)
     {
         var list = PoolUtility.Get<List<T>>();
@@ -13,6 +14,7 @@ public static class IEnumerableEx
         return list;
     }
 
+    [MustUseReturnValue]
     public static T PickRandom<T>(this IEnumerable<T> enumerable)
     {
         if (enumerable is List<T> value)

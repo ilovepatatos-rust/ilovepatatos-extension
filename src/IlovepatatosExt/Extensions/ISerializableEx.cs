@@ -7,6 +7,7 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class ISerializableEx
 {
+    [MustUseReturnValue]
     public static T Clone<T>(this T obj) where T : ISerializable
     {
         string json = JsonConvert.SerializeObject(obj);

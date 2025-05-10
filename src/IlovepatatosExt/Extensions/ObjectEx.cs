@@ -5,6 +5,7 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class ObjectEx
 {
+    [MustUseReturnValue]
     public static T Cast<T>(this object obj, T fallback = default)
     {
         if (obj is T value)
@@ -13,6 +14,7 @@ public static class ObjectEx
         return fallback;
     }
 
+    [MustUseReturnValue]
     public static bool ToBool(this object obj)
     {
         if (obj is bool value)

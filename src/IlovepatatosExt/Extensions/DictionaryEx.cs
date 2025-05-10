@@ -5,11 +5,13 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class DictionaryEx
 {
+    [MustUseReturnValue]
     public static TValue GetOrFallback<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback = default)
     {
         return key == null ? fallback : dict.GetValueOrDefault(key, fallback);
     }
 
+    [MustUseReturnValue]
     public static TValue GetOrFallbackPlusRemove<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback = default)
     {
         return key == null ? fallback : dict.Remove(key, out TValue value) ? value : fallback;
@@ -111,7 +113,7 @@ public static class DictionaryEx
         PoolUtility.Free(ref toRemove);
         return count;
     }
-    
+
     public static bool TryGetKey<TKey, TValue>(this Dictionary<TKey, TValue> dict, TValue value, out TKey key)
     {
         foreach ((TKey x, TValue y) in dict)
@@ -130,6 +132,7 @@ public static class DictionaryEx
     /// <summary>
     /// Returns the key with the highest value.
     /// </summary>
+    [MustUseReturnValue]
     public static TKey GetMostPreventKey<TKey>(this Dictionary<TKey, int> dict)
     {
         int highestAmount = 0;
@@ -150,6 +153,7 @@ public static class DictionaryEx
     /// <summary>
     /// Returns the value that is present the most in the dictionary.
     /// </summary>
+    [MustUseReturnValue]
     public static TValue GetMostPresentValue<TKey, TValue>(this Dictionary<TKey, TValue> dict)
     {
         var valueToCount = PoolUtility.Get<Dictionary<TValue, int>>();

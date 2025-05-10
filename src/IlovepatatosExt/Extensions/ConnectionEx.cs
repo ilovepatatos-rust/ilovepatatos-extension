@@ -6,6 +6,7 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class ConnectionEx
 {
+    [MustUseReturnValue]
     public static bool IsModerator(this Connection connection)
     {
         return connection.authLevel > 0;

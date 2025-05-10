@@ -12,6 +12,7 @@ public static class ChinookCrateEx
     /// <summary>
     /// <para>Returns the remaining time in seconds until the crate unlocks.</para>
     /// </summary>
+    [MustUseReturnValue]
     public static int Remaining(this HackableLockedCrate crate)
     {
         int objective = GetObjectiveTimer(crate);
@@ -21,8 +22,8 @@ public static class ChinookCrateEx
 
     public static void StartHacking(this HackableLockedCrate crate, int seconds)
     {
-        s_chinookCrateInstanceIdToDelay.ForceAdd(crate.net.ID, seconds);
-        Interface.CallHook("OnCrateHack", crate);
+        s_chinookCrateInstanceIdToDelay[crate.net.ID] = seconds;
+        Interface.CallHook("_OnCrateHack", crate);
 
         crate.BroadcastEntityMessage("HackingStarted", layerMask: 256);
         crate.SetFlag(BaseEntity.Flags.Reserved1, true);
@@ -31,7 +32,9 @@ public static class ChinookCrateEx
         crate.CancelInvoke(crate.UpdateChinookCrateCountdown);
         crate.InvokeRepeating(crate.UpdateChinookCrateCountdown, 1f, 1f);
 
-        crate.ClientRPC(null, "UpdateHackProgress", 0, seconds);
+        RpcTarget target = RpcTarget.NetworkGroup("UpdateHackProgress", crate);
+        crate.ClientRPC(target, 0, seconds);
+
         crate.RefreshDecay();
     }
 
@@ -52,7 +55,7 @@ public static class ChinookCrateEx
 
         if (crate.hackSeconds > objective)
         {
-            Interface.CallHook("OnCrateHackEnd", crate);
+            Interface.CallHook("_OnCrateHackEnd", crate);
 
             crate.RefreshDecay();
             crate.SetFlag(BaseEntity.Flags.Reserved2, true);
@@ -63,6 +66,7 @@ public static class ChinookCrateEx
             s_chinookCrateInstanceIdToDelay.Remove(crate.net.ID);
         }
 
-        crate.ClientRPC(null, "UpdateHackProgress", (int)crate.hackSeconds, objective);
+        RpcTarget target = RpcTarget.NetworkGroup("UpdateHackProgress", crate);
+        crate.ClientRPC(target, (int)crate.hackSeconds, objective);
     }
 }

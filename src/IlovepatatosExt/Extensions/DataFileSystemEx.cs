@@ -7,6 +7,7 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class DataFileSystemEx
 {
+    [MustUseReturnValue]
     public static IEnumerable<T> ParseAllFilesAs<T>(this DataFileSystem self)
     {
         return self.GetFiles().Select(Path.GetFileNameWithoutExtension).Select(self.ReadObject<T>);
@@ -23,6 +24,7 @@ public static class DataFileSystemEx
     /// <remarks>
     /// This method handles cases where the file exists but is empty.
     /// </remarks>
+    [MustUseReturnValue]
     public static T ReadOrCreateObject<T>(this DataFileSystem self, string filename) where T : class
     {
         T value = null;
@@ -42,6 +44,7 @@ public static class DataFileSystemEx
     /// <summary>
     /// Tries to read an object from a file. Returns null if the file does not exist.
     /// </summary>
+    [MustUseReturnValue]
     public static T TryReadObject<T>(this DataFileSystem self, string filename) where T : class
     {
         return self.ExistsDatafile(filename) ? self.GetFile(filename).ReadObject<T>() : null;

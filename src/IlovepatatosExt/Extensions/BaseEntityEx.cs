@@ -6,6 +6,7 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class BaseEntityEx
 {
+    [MustUseReturnValue]
     public static IEnumerable<T> FilterByTopology<T>(this IEnumerable<T> values,
         TerrainTopology.Enum targetTopology) where T : BaseEntity
     {
@@ -21,6 +22,7 @@ public static class BaseEntityEx
         }
     }
 
+    [MustUseReturnValue]
     public static IEnumerable<T> FilterByTopologyBiome<T>(this IEnumerable<T> values,
         TerrainTopology.Enum targetTopology, TerrainBiome.Enum targetBiome) where T : BaseEntity
     {
@@ -36,6 +38,7 @@ public static class BaseEntityEx
         }
     }
 
+    [MustUseReturnValue]
     public static T GetClosestOf<T>(this BaseEntity entity, float radius) where T : BaseNetworkable
     {
         Vector3 pos = entity.transform.position;
