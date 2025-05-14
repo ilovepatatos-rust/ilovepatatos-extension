@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using JetBrains.Annotations;
+using UnityEngine;
 
 namespace Oxide.Ext.IlovepatatosExt;
 
@@ -80,5 +81,26 @@ public static class StringArrayEx
     {
         string s = args.GetString(index);
         return ulong.TryParse(s, out ulong result) ? result : fallback;
+    }
+
+    [MustUseReturnValue]
+    public static Color GetColor(this string[] args, int index, Color fallback = default)
+    {
+        string str = GetString(args, index);
+        return string.IsNullOrEmpty(str) ? fallback : str.ToColor();
+    }
+
+    [MustUseReturnValue]
+    public static Vector3 GetVector3(this string[] args, int index, Vector3 fallback = default)
+    {
+        string str = GetString(args, index);
+        return string.IsNullOrEmpty(str) ? fallback : str.ToVector3();
+    }
+
+    [MustUseReturnValue]
+    public static Quaternion GetQuaternion(this string[] args, int index, Vector3 fallback = default)
+    {
+        Vector3 euler = GetVector3(args, index, fallback);
+        return Quaternion.Euler(euler);
     }
 }
