@@ -45,13 +45,16 @@ public static class IPlayerEx
         return hasPerms;
     }
 
-    [MustUseReturnValue]
+    [Obsolete("Use " + nameof(IsAdminOrModerator) + "() instead")]
     public static bool IsAdmin(this IPlayer iPlayer)
     {
-        if (iPlayer.IsAdmin)
-            return true;
+        return IsAdminOrModerator(iPlayer);
+    }
 
-        return iPlayer.Object is BasePlayer { IsAdmin: true };
+    [MustUseReturnValue]
+    public static bool IsAdminOrModerator(this IPlayer iPlayer)
+    {
+        return iPlayer.Object is BasePlayer { IsAdmin: true } || iPlayer.IsAdmin;
     }
 
     public static void ReplyWithObject(this IPlayer iPlayer, object obj, Formatting formatting = Formatting.Indented)
