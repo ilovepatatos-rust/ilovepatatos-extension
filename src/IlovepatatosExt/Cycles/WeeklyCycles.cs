@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using Oxide.Ext.ConsoleExt;
 using Oxide.Plugins;
+using UnityEngine;
 using Timer = Oxide.Plugins.Timer;
 
 namespace Oxide.Ext.IlovepatatosExt;
@@ -141,7 +142,7 @@ public class WeeklyCycles
             var time = now.ToTimeSpan();
             TimeSpan timeUntil = time.TimeUntil(objective);
 
-            float seconds = (float)timeUntil.TotalSeconds;
+            float seconds = Mathf.RoundToInt((float)timeUntil.TotalSeconds) + 1;
             _console?.WriteLine($"Scheduling enabling of {Name} in {timeUntil} at {now + timeUntil} (Now: {now})");
 
             _callback?.Destroy();
