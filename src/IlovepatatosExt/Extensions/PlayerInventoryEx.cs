@@ -7,6 +7,21 @@ namespace Oxide.Ext.IlovepatatosExt;
 public static class PlayerInventoryEx
 {
     [MustUseReturnValue]
+    public static bool IsEmpty(this PlayerInventory inventory)
+    {
+        if (!inventory.containerWear.IsEmpty())
+            return false;
+
+        if (!inventory.containerMain.IsEmpty())
+            return false;
+
+        if (!inventory.containerBelt.IsEmpty())
+            return false;
+
+        return true;
+    }
+
+    [MustUseReturnValue]
     public static bool IsFull(this PlayerInventory inventory)
     {
         return inventory.containerMain.IsFull() && inventory.containerBelt.IsFull();
