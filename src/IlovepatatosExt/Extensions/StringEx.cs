@@ -14,6 +14,9 @@ public static class StringEx
         if (format == null)
             throw new ArgumentNullException(nameof(format));
 
+        if (args.IsNullOrEmpty())
+            return format;
+
         try
         {
             return string.Format(format, args);
