@@ -11,6 +11,11 @@ public static class ItemEx
             return;
 
         item.skin = skinID;
+
+        BaseEntity held = item.GetHeldEntity();
+        if (held != null)
+            held.skinID = skinID;
+
         item.MarkDirty();
     }
 }
