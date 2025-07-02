@@ -25,6 +25,7 @@ public static class DataFileSystemEx
     /// This method handles cases where the file exists but is empty.
     /// </remarks>
     [MustUseReturnValue]
+    [Obsolete("Use " + nameof(DataFileSystem.ReadObject) + " instead. Reading empty file has been fixed on July 2025 update.")]
     public static T ReadOrCreateObject<T>(this DataFileSystem self, string filename) where T : class
     {
         T value = null;
@@ -35,7 +36,7 @@ public static class DataFileSystemEx
         return value ?? Activator.CreateInstance<T>();
     }
 
-    [Obsolete("Use " + nameof(ReadOrCreateObject) + " instead.")]
+    [Obsolete("Use " + nameof(DataFileSystem.ReadObject) + " instead. Reading empty file has been fixed on July 2025 update.")]
     public static T ReadObjectOrFallback<T>(this DataFileSystem self, string filename) where T : class
     {
         return ReadOrCreateObject<T>(self, filename);
