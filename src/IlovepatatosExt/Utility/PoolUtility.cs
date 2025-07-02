@@ -295,9 +295,9 @@ public static class PoolUtility
 
         foreach ((Type type, Pool.IPoolCollection _) in Pool.Directory)
         {
-            foreach (Type subType in type.GetGenericTypes())
+            foreach (Type genericType in type.GetGenericTypes())
             {
-                if (!subType.HasAnyArgumentsOfType(targetType))
+                if (!genericType.HasAnyArgumentsOfType(targetType))
                     continue;
 
                 toRemove.Add(type);
