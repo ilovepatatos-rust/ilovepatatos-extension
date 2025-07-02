@@ -24,8 +24,11 @@ internal static class TypeEx
             if (argument == targetType)
                 return true;
 
-            if (argument.GetGenericTypes().Any(subType => subType.HasAnyArgumentsOfType(targetType)))
-                return true;
+            foreach (Type genericType in argument.GetGenericTypes())
+            {
+                if (genericType != type && genericType.HasAnyArgumentsOfType(targetType))
+                    return true;
+            }
         }
 
         return false;
