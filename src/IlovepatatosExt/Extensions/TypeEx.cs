@@ -16,9 +16,21 @@ internal static class TypeEx
         }
     }
 
-    // recursive
     internal static bool HasAnyArgumentsOfType(this Type type, Type targetType)
     {
+        var visited = PoolUtility.Get<HashSet<Type>>();
+        bool result = HasAnyArgumentsOfType(type, targetType, visited);
+
+        PoolUtility.Free(ref visited);
+        return result;
+    }
+
+    // recursive
+    private static bool HasAnyArgumentsOfType(Type type, Type targetType, HashSet<Type> visited)
+    {
+        if (!visited.Add(type))
+            return false;
+
         foreach (Type argument in type.GetGenericArguments())
         {
             if (argument == targetType)
@@ -26,7 +38,7 @@ internal static class TypeEx
 
             foreach (Type genericType in argument.GetGenericTypes())
             {
-                if (genericType != type && genericType.HasAnyArgumentsOfType(targetType))
+                if (HasAnyArgumentsOfType(genericType, targetType, visited))
                     return true;
             }
         }
