@@ -1,15 +1,23 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using Facepunch;
 using JetBrains.Annotations;
+using Oxide.Core;
+using Oxide.Ext.ConsoleExt;
 
 namespace Oxide.Ext.IlovepatatosExt;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class PoolUtility
 {
+    public static bool TrackCapacity;
+    public static int CapacityThreshold = 1024;
+
+    private static readonly string s_capacityFilename = $"capacity_{DateTime.Now:yyyy-MM-dd_HH-mm}.txt";
+
     [MustUseReturnValue]
     public static T Get<T>() where T : class, new()
     {
@@ -54,8 +62,22 @@ public static class PoolUtility
 
     public static void Free(ref StringBuilder sb)
     {
-        if (sb != null)
-            Pool.FreeUnmanaged(ref sb);
+        if (sb == null)
+            return;
+
+        sb.Clear();
+
+        if (TrackCapacity)
+        {
+            int capacity = sb.Capacity;
+            if (IsOverThreshold(capacity))
+            {
+                MarkCapacityOverThreshold<char>(typeof(StringBuilder), capacity);
+                sb.Capacity = 16; // reset to default capacity
+            }
+        }
+
+        Pool.FreeUnsafe(ref sb);
     }
 
     public static void Free(ref Stopwatch sw)
@@ -69,20 +91,53 @@ public static class PoolUtility
 
     public static void Free(ref MemoryStream stream)
     {
-        if (stream != null)
-            Pool.FreeUnmanaged(ref stream);
+        if (stream == null)
+            return;
+
+        stream.SetLength(0);
+
+        if (TrackCapacity)
+        {
+            int capacity = stream.Capacity;
+            if (IsOverThreshold(capacity))
+            {
+                MarkCapacityOverThreshold<byte>(typeof(MemoryStream), capacity);
+                stream.Capacity = 0; // reset to default capacity
+            }
+        }
+
+        Pool.FreeUnsafe(ref stream);
     }
 
     public static void Free<T>(ref List<T> list)
     {
-        if (list != null)
-            Pool.FreeUnmanaged(ref list);
+        if (list == null)
+            return;
+
+        list.Clear();
+
+        if (TrackCapacity)
+        {
+            int capacity = list.Capacity;
+            if (IsOverThreshold(capacity))
+            {
+                MarkCapacityOverThreshold<T>(list.GetType(), capacity);
+                list.TrimExcess(); // reset to default capacity
+            }
+        }
+
+        Pool.FreeUnsafe(ref list);
     }
 
     public static void Free<T>(ref List<T> list, bool freeElements) where T : class, Pool.IPooled, new()
     {
-        if (list != null)
-            Pool.Free(ref list, freeElements);
+        if (list == null)
+            return;
+
+        if (freeElements)
+            FreeValues(list);
+
+        Free(ref list);
     }
 
     public static void FreeNoT<T>(ref List<T> list, bool freeElements)
@@ -118,14 +173,33 @@ public static class PoolUtility
 
     public static void Free<T>(ref Queue<T> queue)
     {
-        if (queue != null)
-            Pool.FreeUnmanaged(ref queue);
+        if (queue == null)
+            return;
+
+        queue.Clear();
+
+        if (TrackCapacity)
+        {
+            int capacity = queue.Capacity();
+            if (IsOverThreshold(capacity))
+            {
+                MarkCapacityOverThreshold<T>(queue.GetType(), capacity);
+                queue.TrimExcess(); // reset to default capacity
+            }
+        }
+
+        Pool.FreeUnsafe(ref queue);
     }
 
     public static void Free<T>(ref Queue<T> queue, bool freeElements) where T : class, Pool.IPooled, new()
     {
-        if (queue != null)
-            Pool.Free(ref queue, freeElements);
+        if (queue == null)
+            return;
+
+        if (freeElements)
+            FreeValues(queue);
+
+        Free(ref queue);
     }
 
     public static void FreeValues<T>(Queue<T> queue) where T : class, Pool.IPooled, new()
@@ -148,6 +222,17 @@ public static class PoolUtility
             return;
 
         stack.Clear();
+
+        if (TrackCapacity)
+        {
+            int capacity = stack.Capacity();
+            if (IsOverThreshold(capacity))
+            {
+                MarkCapacityOverThreshold<T>(stack.GetType(), capacity);
+                stack.TrimExcess(); // reset to default capacity
+            }
+        }
+
         Pool.FreeUnsafe(ref stack);
     }
 
@@ -159,8 +244,7 @@ public static class PoolUtility
         if (freeElements)
             FreeValues(stack);
 
-        stack.Clear();
-        Pool.FreeUnsafe(ref stack);
+        Free(ref stack);
     }
 
     public static void FreeValues<T>(Stack<T> stack) where T : class, Pool.IPooled, new()
@@ -179,14 +263,33 @@ public static class PoolUtility
 
     public static void Free<T>(ref HashSet<T> set)
     {
-        if (set != null)
-            Pool.FreeUnmanaged(ref set);
+        if (set == null)
+            return;
+
+        set.Clear();
+
+        if (TrackCapacity)
+        {
+            int capacity = set.Count;
+            if (IsOverThreshold(capacity))
+            {
+                MarkCapacityOverThreshold<T>(set.GetType(), capacity);
+                set.TrimExcess(); // reset to default capacity
+            }
+        }
+
+        Pool.FreeUnsafe(ref set);
     }
 
     public static void Free<T>(ref HashSet<T> set, bool freeElements) where T : class, Pool.IPooled, new()
     {
-        if (set != null)
-            Pool.Free(ref set, freeElements);
+        if (set == null)
+            return;
+
+        if (freeElements)
+            FreeValues(set);
+
+        Free(ref set);
     }
 
     public static void FreeValues<T>(HashSet<T> set) where T : class, Pool.IPooled, new()
@@ -205,8 +308,22 @@ public static class PoolUtility
 
     public static void Free<TKey, TValue>(ref Dictionary<TKey, TValue> dict)
     {
-        if (dict != null)
-            Pool.FreeUnmanaged(ref dict);
+        if (dict == null)
+            return;
+
+        dict.Clear();
+
+        if (TrackCapacity)
+        {
+            int capacity = dict.Capacity();
+            if (IsOverThreshold(capacity))
+            {
+                MarkCapacityOverThreshold<TValue>(dict.GetType(), capacity);
+                dict.TrimExcess(); // reset to default capacity
+            }
+        }
+
+        Pool.FreeUnsafe(ref dict);
     }
 
     public static void Free<TKey, TValue>(ref Dictionary<TKey, TValue> dict, bool freeElements) where TValue : class, Pool.IPooled, new()
@@ -217,8 +334,7 @@ public static class PoolUtility
         if (freeElements)
             FreeValues(dict);
 
-        dict.Clear();
-        Pool.FreeUnsafe(ref dict);
+        Free(ref dict);
     }
 
     public static void FreeValues<TKey, TValue>(Dictionary<TKey, TValue> dict) where TValue : class, Pool.IPooled, new()
@@ -309,5 +425,37 @@ public static class PoolUtility
             Pool.Directory.Remove(type, out Pool.IPoolCollection _);
 
         Free(ref toRemove);
+    }
+
+    private static bool IsOverThreshold(int capacity)
+    {
+        return capacity > CapacityThreshold;
+    }
+
+
+    private static void MarkCapacityOverThreshold<T>(Type type, int capacity)
+    {
+        int size = typeof(T).IsValueType ? Marshal.SizeOf<T>() : IntPtr.Size;
+        OxideConsole.LogFormat("[Pool] {0} * {1} = {2} -> {3}", OxideConsole.YELLOW, capacity, size, capacity * size, type);
+
+        string dir = Path.Combine(Interface.Oxide.LogDirectory, "Pool");
+        if (!Directory.Exists(dir))
+            Directory.CreateDirectory(dir);
+
+        var sb = Get<StringBuilder>();
+        sb.AppendFormat("[Pool] {0} * {1} = {2} -> {3}", capacity, size, capacity * size, type);
+        sb.AppendLine();
+
+        sb.AppendLine(new StackTrace().ToString());
+        sb.AppendLine();
+
+        string path = Path.Combine(dir, s_capacityFilename);
+        using (var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.Read))
+        {
+            using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                writer.WriteLine(sb.ToString());
+        }
+
+        Free(ref sb);
     }
 }

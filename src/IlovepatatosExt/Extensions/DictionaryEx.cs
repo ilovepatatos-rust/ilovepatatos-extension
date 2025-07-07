@@ -1,10 +1,21 @@
-﻿using JetBrains.Annotations;
+﻿using System.Reflection;
+using HarmonyLib;
+using JetBrains.Annotations;
 
 namespace Oxide.Ext.IlovepatatosExt;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class DictionaryEx
 {
+    [MustUseReturnValue]
+    public static int Capacity<TKey, TValue>(this Dictionary<TKey, TValue> dict)
+    {
+        FieldInfo field = AccessTools.Field(dict.GetType(), "_buckets");
+        int[] array = (int[])field.GetValue(dict);
+
+        return array?.Length ?? 0;
+    }
+
     [MustUseReturnValue]
     public static TValue GetOrFallback<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback = default)
     {
