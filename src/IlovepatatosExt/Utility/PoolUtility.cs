@@ -77,22 +77,8 @@ public static class PoolUtility
 
     public static void Free(ref MemoryStream stream)
     {
-        if (stream == null)
-            return;
-
-        stream.SetLength(0);
-
-        if (TrackCapacity)
-        {
-            int capacity = stream.Capacity;
-            if (IsOverThreshold(capacity))
-            {
-                MarkCapacityOverThreshold<byte>(typeof(MemoryStream), capacity);
-                stream.Capacity = 0; // reset to default capacity
-            }
-        }
-
-        Pool.FreeUnsafe(ref stream);
+        if (stream != null)
+            Pool.FreeUnmanaged(ref stream);
     }
 
     public static void Free<T>(ref List<T> list)
