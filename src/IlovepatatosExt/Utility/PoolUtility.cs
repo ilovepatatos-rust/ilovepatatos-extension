@@ -62,22 +62,8 @@ public static class PoolUtility
 
     public static void Free(ref StringBuilder sb)
     {
-        if (sb == null)
-            return;
-
-        sb.Clear();
-
-        if (TrackCapacity)
-        {
-            int capacity = sb.Capacity;
-            if (IsOverThreshold(capacity))
-            {
-                MarkCapacityOverThreshold<char>(typeof(StringBuilder), capacity);
-                sb.Capacity = 16; // reset to default capacity
-            }
-        }
-
-        Pool.FreeUnsafe(ref sb);
+        if (sb != null)
+            Pool.FreeUnmanaged(ref sb);
     }
 
     public static void Free(ref Stopwatch sw)
