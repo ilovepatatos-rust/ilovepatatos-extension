@@ -58,7 +58,7 @@ public class ChatBroadcaster : Pool.IPooled
             ChatMsg msg = messages.GetAtPlusRemove(0);
 
             TimerUtility.DestroyToPool(ref _callback);
-            _callback = TimerUtility.TimersPool.Once(msg.SecondsBefore, () => BroadcastToPlayers(msg, messages, format, onComplete), _plugin);
+            _callback = TimerUtility.ScheduleOnce(msg.SecondsBefore, () => BroadcastToPlayers(msg, messages, format, onComplete), _plugin);
         }
         else
         {
@@ -74,7 +74,7 @@ public class ChatBroadcaster : Pool.IPooled
         IEnumerable<BasePlayer> players = _playerProvider.GetPlayers();
         players.ChatMessage(text, Steam64);
 
-        _callback = TimerUtility.TimersPool.Once(msg.SecondsAfter, () => StartOrComplete(messages, format, onComplete), _plugin);
+        _callback = TimerUtility.ScheduleOnce(msg.SecondsAfter, () => StartOrComplete(messages, format, onComplete), _plugin);
     }
 
     void Pool.IPooled.EnterPool()

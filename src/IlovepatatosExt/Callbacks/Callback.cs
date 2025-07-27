@@ -49,10 +49,10 @@ public class Callback : Pool.IPooled
         _onUpdateCallback = onUpdate;
         _onCompleteCallback = onComplete;
 
-        _callback?.DestroyToPool();
+        TimerUtility.DestroyToPool(ref _callback);
 
         if (!StopOnCompletion || Duration > 0)
-            _callback = TimerUtility.TimersPool.Repeat(interval, -1, InternalUpdate, PluginOwner);
+            _callback = TimerUtility.ScheduleEvery(interval, -1, InternalUpdate, PluginOwner);
 
         InternalUpdate();
     }

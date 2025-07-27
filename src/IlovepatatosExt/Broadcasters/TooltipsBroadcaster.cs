@@ -56,7 +56,7 @@ public class TooltipsBroadcaster : Pool.IPooled
             TooltipMsg msg = messages.GetAtPlusRemove(0);
 
             TimerUtility.DestroyToPool(ref _callback);
-            _callback = TimerUtility.TimersPool.Once(msg.SecondsBefore, () => BroadcastToPlayers(msg, messages, format, onComplete), _plugin);
+            _callback = TimerUtility.ScheduleOnce(msg.SecondsBefore, () => BroadcastToPlayers(msg, messages, format, onComplete), _plugin);
         }
         else
         {
@@ -73,7 +73,7 @@ public class TooltipsBroadcaster : Pool.IPooled
         IEnumerable<BasePlayer> players = _playerProvider.GetPlayers();
         players.ShowToast(style, text);
 
-        _callback = TimerUtility.TimersPool.Once(msg.SecondsAfter, () => StartOrComplete(messages, format, onComplete), _plugin);
+        _callback = TimerUtility.ScheduleOnce(msg.SecondsAfter, () => StartOrComplete(messages, format, onComplete), _plugin);
     }
     
     void Pool.IPooled.EnterPool()
