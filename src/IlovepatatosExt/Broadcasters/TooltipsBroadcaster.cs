@@ -9,7 +9,7 @@ public class TooltipsBroadcaster : Pool.IPooled
 {
     private IPlayerProvider _playerProvider;
     private Plugin _plugin;
-    
+
     private Core.Libraries.Timer.TimerInstance _callback;
 
 #region Getters/Setters
@@ -17,7 +17,7 @@ public class TooltipsBroadcaster : Pool.IPooled
     public bool IsActive { get; private set; }
 
 #endregion
-    
+
     public static TooltipsBroadcaster New(IPlayerProvider provider, Plugin plugin = null)
     {
         var broadcaster = PoolUtility.Get<TooltipsBroadcaster>();
@@ -27,6 +27,7 @@ public class TooltipsBroadcaster : Pool.IPooled
         return broadcaster;
     }
 
+    [Obsolete("Use " + nameof(New) + "() instead to take advantage of the pool system.")]
     public TooltipsBroadcaster() { }
 
     [Obsolete("Use " + nameof(New) + "() instead to take advantage of the pool system.")]
@@ -75,13 +76,13 @@ public class TooltipsBroadcaster : Pool.IPooled
 
         _callback = TimerUtility.ScheduleOnce(msg.SecondsAfter, () => StartOrComplete(messages, format, onComplete), _plugin);
     }
-    
+
     void Pool.IPooled.EnterPool()
     {
         IsActive = false;
         _playerProvider = null;
         _plugin = null;
-        
+
         TimerUtility.DestroyToPool(ref _callback);
     }
 

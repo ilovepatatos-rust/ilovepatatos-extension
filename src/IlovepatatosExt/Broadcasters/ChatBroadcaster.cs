@@ -29,6 +29,7 @@ public class ChatBroadcaster : Pool.IPooled
         return broadcaster;
     }
 
+    [Obsolete("Use " + nameof(New) + "() instead to take advantage of the pool system.")]
     public ChatBroadcaster() { }
 
     [Obsolete("Use " + nameof(New) + "() instead to take advantage of the pool system.")]
