@@ -12,15 +12,33 @@ public static class TimeUntilEx
     }
 
     [MustUseReturnValue]
+    public static int TotalSeconds(this TimeUntil value)
+    {
+        return ((float)value).TotalSeconds();
+    }
+
+    [MustUseReturnValue]
     public static int Minutes(this TimeUntil value)
     {
         return ((float)value).Minutes();
     }
 
     [MustUseReturnValue]
+    public static int TotalMinutes(this TimeUntil value)
+    {
+        return ((float)value).TotalMinutes();
+    }
+
+    [MustUseReturnValue]
     public static int Hours(this TimeUntil value)
     {
         return ((float)value).Hours();
+    }
+
+    [MustUseReturnValue]
+    public static int TotalHours(this TimeUntil value)
+    {
+        return ((float)value).TotalHours();
     }
 
     [MustUseReturnValue]

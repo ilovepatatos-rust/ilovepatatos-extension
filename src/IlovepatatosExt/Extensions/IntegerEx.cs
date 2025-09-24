@@ -17,20 +17,56 @@ public static class IntegerEx
         return (int)floor;
     }
 
+    /// <summary>
+    /// Returns only the seconds, excluding minutes and hours.
+    /// </summary>
     [MustUseReturnValue]
     public static int Seconds(this int value)
     {
         return value % HOUR % MINUTE;
     }
 
+    /// <summary>
+    /// Returns the total amount of seconds.
+    /// </summary>
+    [MustUseReturnValue]
+    public static int TotalSeconds(this int value)
+    {
+        return value;
+    }
+
+    /// <summary>
+    /// Returns only the minutes, excluding hours.
+    /// </summary>
     [MustUseReturnValue]
     public static int Minutes(this int value)
     {
         return value % HOUR / MINUTE;
     }
 
+    /// <summary>
+    /// Returns the total amount of minutes.
+    /// </summary>
+    [MustUseReturnValue]
+    public static int TotalMinutes(this int value)
+    {
+        return value / MINUTE;
+    }
+
+    /// <summary>
+    /// Returns only the hours.
+    /// </summary>
     [MustUseReturnValue]
     public static int Hours(this int value)
+    {
+        return value / HOUR;
+    }
+
+    /// <summary>
+    /// Returns the total amount of hours.
+    /// </summary>
+    [MustUseReturnValue]
+    public static int TotalHours(this int value)
     {
         return value / HOUR;
     }

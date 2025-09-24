@@ -12,15 +12,33 @@ public static class TimeSinceEx
     }
 
     [MustUseReturnValue]
+    public static int TotalSeconds(this TimeSince value)
+    {
+        return ((float)value).TotalSeconds();
+    }
+
+    [MustUseReturnValue]
     public static int Minutes(this TimeSince value)
     {
         return ((float)value).Minutes();
     }
 
     [MustUseReturnValue]
+    public static int TotalMinutes(this TimeSince value)
+    {
+        return ((float)value).TotalMinutes();
+    }
+
+    [MustUseReturnValue]
     public static int Hours(this TimeSince value)
     {
         return ((float)value).Hours();
+    }
+
+    [MustUseReturnValue]
+    public static int TotalHours(this TimeSince value)
+    {
+        return ((float)value).TotalHours();
     }
 
     [MustUseReturnValue]

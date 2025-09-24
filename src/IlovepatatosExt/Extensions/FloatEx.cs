@@ -15,31 +15,57 @@ public static class FloatEx
     [MustUseReturnValue]
     public static int FloorToInt(this float value)
     {
-        return Mathf.Floor(value).ToInt();
+        return Mathf.Floor(value)
+            .ToInt();
     }
 
     [MustUseReturnValue]
     public static int CeilToInt(this float value)
     {
-        return Mathf.Ceil(value).ToInt();
+        return Mathf.Ceil(value)
+            .ToInt();
     }
 
     [MustUseReturnValue]
     public static int Seconds(this float value)
     {
-        return Mathf.RoundToInt(value).Seconds();
+        return Mathf.RoundToInt(value)
+            .Seconds();
+    }
+
+    [MustUseReturnValue]
+    public static int TotalSeconds(this float value)
+    {
+        return Mathf.RoundToInt(value)
+            .TotalSeconds();
     }
 
     [MustUseReturnValue]
     public static int Minutes(this float value)
     {
-        return Mathf.RoundToInt(value).Minutes();
+        return Mathf.RoundToInt(value)
+            .Minutes();
+    }
+
+    [MustUseReturnValue]
+    public static int TotalMinutes(this float value)
+    {
+        return Mathf.RoundToInt(value)
+            .TotalMinutes();
     }
 
     [MustUseReturnValue]
     public static int Hours(this float value)
     {
-        return Mathf.RoundToInt(value).Hours();
+        return Mathf.RoundToInt(value)
+            .Hours();
+    }
+
+    [MustUseReturnValue]
+    public static int TotalHours(this float value)
+    {
+        return Mathf.RoundToInt(value)
+            .TotalHours();
     }
 
     [MustUseReturnValue]
