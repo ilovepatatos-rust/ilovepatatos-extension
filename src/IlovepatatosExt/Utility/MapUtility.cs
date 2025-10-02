@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using JetBrains.Annotations;
 using UnityEngine;
-using Parallel = UnityEngine.Parallel;
 
 namespace Oxide.Ext.IlovepatatosExt;
 
