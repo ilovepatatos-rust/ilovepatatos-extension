@@ -102,6 +102,6 @@ public static class IntegerEx
     [MustUseReturnValue]
     public static bool ContainsTopology(this int value, TerrainTopology.Enum topology)
     {
-        return (value & (int)topology) == (int)topology;
+        return topology == (TerrainTopology.Enum)~0 || (value & (int)topology) == (int)topology;
     }
 }
