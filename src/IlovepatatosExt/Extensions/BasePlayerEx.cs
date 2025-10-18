@@ -12,6 +12,7 @@ public static class BasePlayerEx
                                    1 << (int)Layer.Deployed |
                                    1 << (int)Layer.Ragdoll |
                                    1 << (int)Layer.AI |
+                                   1 << (int)Layer.World |
                                    1 << (int)Layer.Player_Server |
                                    1 << (int)Layer.Construction |
                                    1 << (int)Layer.Terrain |
