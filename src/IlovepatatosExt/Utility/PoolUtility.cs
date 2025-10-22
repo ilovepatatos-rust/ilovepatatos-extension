@@ -358,6 +358,40 @@ public static class PoolUtility
         list.Clear();
     }
 
+    public static void Free<T>(ref ListHashSet<T> list)
+    {
+        if (list == null)
+            return;
+
+        list.Clear();
+        Pool.FreeUnsafe(ref list);
+    }
+
+    public static void Free<T>(ref ListHashSet<T> list, bool freeElements) where T : class, Pool.IPooled, new()
+    {
+        if (list == null)
+            return;
+
+        if (freeElements)
+            FreeValues(list);
+
+        Free(ref list);
+    }
+
+    public static void FreeValues<T>(ListHashSet<T> list) where T : class, Pool.IPooled, new()
+    {
+        if (list == null)
+            return;
+
+        foreach (T value in list)
+        {
+            T temp = value;
+            Free(ref temp);
+        }
+
+        list.Clear();
+    }
+
     /// <summary>
     /// Certain types get lost when reloading plugins.
     /// Use this before unloading a plugin to avoid memory leaks.
