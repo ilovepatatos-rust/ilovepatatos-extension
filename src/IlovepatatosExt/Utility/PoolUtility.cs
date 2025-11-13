@@ -101,7 +101,7 @@ public static class PoolUtility
         Pool.FreeUnsafe(ref list);
     }
 
-    public static void Free<T>(ref List<T> list, bool freeElements) where T : class, Pool.IPooled, new()
+    public static void Free<T>(ref List<T> list, bool freeElements) where T : class, new()
     {
         if (list == null)
             return;
@@ -129,7 +129,7 @@ public static class PoolUtility
         Pool.FreeUnmanaged(ref list);
     }
 
-    public static void FreeValues<T>(List<T> list) where T : class, Pool.IPooled, new()
+    public static void FreeValues<T>(List<T> list) where T : class, new()
     {
         if (list == null)
             return;
@@ -163,7 +163,7 @@ public static class PoolUtility
         Pool.FreeUnsafe(ref queue);
     }
 
-    public static void Free<T>(ref Queue<T> queue, bool freeElements) where T : class, Pool.IPooled, new()
+    public static void Free<T>(ref Queue<T> queue, bool freeElements) where T : class, new()
     {
         if (queue == null)
             return;
@@ -174,7 +174,7 @@ public static class PoolUtility
         Free(ref queue);
     }
 
-    public static void FreeValues<T>(Queue<T> queue) where T : class, Pool.IPooled, new()
+    public static void FreeValues<T>(Queue<T> queue) where T : class, new()
     {
         if (queue == null)
             return;
@@ -208,7 +208,7 @@ public static class PoolUtility
         Pool.FreeUnsafe(ref stack);
     }
 
-    public static void Free<T>(ref Stack<T> stack, bool freeElements) where T : class, Pool.IPooled, new()
+    public static void Free<T>(ref Stack<T> stack, bool freeElements) where T : class, new()
     {
         if (stack == null)
             return;
@@ -219,7 +219,7 @@ public static class PoolUtility
         Free(ref stack);
     }
 
-    public static void FreeValues<T>(Stack<T> stack) where T : class, Pool.IPooled, new()
+    public static void FreeValues<T>(Stack<T> stack) where T : class, new()
     {
         if (stack == null)
             return;
@@ -253,7 +253,7 @@ public static class PoolUtility
         Pool.FreeUnsafe(ref set);
     }
 
-    public static void Free<T>(ref HashSet<T> set, bool freeElements) where T : class, Pool.IPooled, new()
+    public static void Free<T>(ref HashSet<T> set, bool freeElements) where T : class, new()
     {
         if (set == null)
             return;
@@ -264,7 +264,7 @@ public static class PoolUtility
         Free(ref set);
     }
 
-    public static void FreeValues<T>(HashSet<T> set) where T : class, Pool.IPooled, new()
+    public static void FreeValues<T>(HashSet<T> set) where T : class, new()
     {
         if (set == null)
             return;
@@ -298,7 +298,7 @@ public static class PoolUtility
         Pool.FreeUnsafe(ref dict);
     }
 
-    public static void Free<TKey, TValue>(ref Dictionary<TKey, TValue> dict, bool freeElements) where TValue : class, Pool.IPooled, new()
+    public static void Free<TKey, TValue>(ref Dictionary<TKey, TValue> dict, bool freeElements) where TValue : class, new()
     {
         if (dict == null)
             return;
@@ -309,7 +309,7 @@ public static class PoolUtility
         Free(ref dict);
     }
 
-    public static void FreeValues<TKey, TValue>(Dictionary<TKey, TValue> dict) where TValue : class, Pool.IPooled, new()
+    public static void FreeValues<TKey, TValue>(Dictionary<TKey, TValue> dict) where TValue : class, new()
     {
         if (dict == null)
             return;
@@ -332,7 +332,7 @@ public static class PoolUtility
         Pool.FreeUnsafe(ref list);
     }
 
-    public static void Free<T>(ref ConcurrentBag<T> list, bool freeElements) where T : class, Pool.IPooled, new()
+    public static void Free<T>(ref ConcurrentBag<T> list, bool freeElements) where T : class, new()
     {
         if (list == null)
             return;
@@ -344,7 +344,7 @@ public static class PoolUtility
         Pool.FreeUnsafe(ref list);
     }
 
-    public static void FreeValues<T>(ConcurrentBag<T> list) where T : class, Pool.IPooled, new()
+    public static void FreeValues<T>(ConcurrentBag<T> list) where T : class, new()
     {
         if (list == null)
             return;
@@ -367,7 +367,7 @@ public static class PoolUtility
         Pool.FreeUnsafe(ref list);
     }
 
-    public static void Free<T>(ref ListHashSet<T> list, bool freeElements) where T : class, Pool.IPooled, new()
+    public static void Free<T>(ref ListHashSet<T> list, bool freeElements) where T : class, new()
     {
         if (list == null)
             return;
@@ -378,7 +378,7 @@ public static class PoolUtility
         Free(ref list);
     }
 
-    public static void FreeValues<T>(ListHashSet<T> list) where T : class, Pool.IPooled, new()
+    public static void FreeValues<T>(ListHashSet<T> list) where T : class, new()
     {
         if (list == null)
             return;
