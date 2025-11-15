@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System.Collections;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -56,8 +57,11 @@ public static class PoolUtility
 
     public static void Free<T>(ref T obj) where T : class, new()
     {
-        if (obj != null)
-            Pool.FreeUnsafe(ref obj);
+        if (obj == null)
+            return;
+
+        EnsureCollectionIsEmpty(obj);
+        Pool.FreeUnsafe(ref obj);
     }
 
     public static void Free(ref StringBuilder sb)
@@ -463,5 +467,11 @@ public static class PoolUtility
         }
 
         Free(ref sb);
+    }
+
+    private static void EnsureCollectionIsEmpty<T>(T value)
+    {
+        if (value is ICollection collection && collection.Count > 0)
+            throw new InvalidOperationException("Collection is not empty");
     }
 }
