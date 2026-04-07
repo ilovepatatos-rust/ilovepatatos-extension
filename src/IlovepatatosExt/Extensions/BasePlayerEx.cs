@@ -20,6 +20,8 @@ public static class BasePlayerEx
 
     private static readonly RaycastHit[] s_results = new RaycastHit[128];
 
+    private static readonly Effect s_reusableEffect = new();
+
     [MustUseReturnValue]
     public static bool IsSelf(this BasePlayer player, BasePlayer other)
     {
@@ -125,9 +127,18 @@ public static class BasePlayerEx
     /// <remarks>
     /// Use <see cref="Effects"/> for a list of sound effects.
     /// </remarks>
-    public static void PlaySfx(this BasePlayer player, string sfx)
+    public static void PlaySfx([NotNull] this BasePlayer player, [NotNull] string sfx)
     {
-        var effect = new Effect(sfx, player, 0, Vector3.zero, Vector3.forward);
+        if (player == null)
+            throw new ArgumentNullException(nameof(player));
+
+        if (string.IsNullOrEmpty(sfx))
+            throw new ArgumentNullException(nameof(sfx));
+
+        Effect effect = s_reusableEffect;
+        effect.Init(Effect.Type.Generic, player, 0, Vector3.zero, Vector3.forward);
+        effect.pooledString = sfx;
+
         EffectNetwork.Send(effect, player.Connection);
     }
 
