@@ -27,8 +27,8 @@ public abstract class Book
         var content = Pages[page];
 
         ulong userID = player.userID;
-        ActiveReaders.ForceAdd(userID, player);
-        ReaderToPage.ForceAdd(userID, content);
+        ActiveReaders[userID] = player;
+        ReaderToPage[userID] = content;
 
         content.UserInterface.AddUi(player);
 
@@ -54,8 +54,8 @@ public abstract class Book
                 continue;
 
             ulong userID = player.userID;
-            ActiveReaders.ForceAdd(userID, player);
-            ReaderToPage.ForceAdd(userID, content);
+            ActiveReaders[userID] = player;
+            ReaderToPage[userID] = content;
         }
 
         content.UserInterface.AddUi(players);
