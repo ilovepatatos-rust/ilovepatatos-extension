@@ -22,8 +22,38 @@
         <Reference Include="Assembly-CSharp-firstpass">
             <HintPath>..\dependencies\Assembly-CSharp-firstpass.dll</HintPath>
         </Reference>
-        <Reference Include="Coffee.SoftMaskForUGUI">
-            <HintPath>..\dependencies\Coffee.SoftMaskForUGUI.dll</HintPath>
+        <Reference Include="Autodesk.Fbx">
+          <HintPath>..\dependencies\Autodesk.Fbx.dll</HintPath>
+        </Reference>
+        <Reference Include="Autodesk.Fbx.BuildTestAssets">
+          <HintPath>..\dependencies\Autodesk.Fbx.BuildTestAssets.dll</HintPath>
+        </Reference>
+        <Reference Include="Azure.Core">
+          <HintPath>..\dependencies\Azure.Core.dll</HintPath>
+        </Reference>
+        <Reference Include="Azure.Identity">
+          <HintPath>..\dependencies\Azure.Identity.dll</HintPath>
+        </Reference>
+        <Reference Include="Azure.Storage.Blobs">
+          <HintPath>..\dependencies\Azure.Storage.Blobs.dll</HintPath>
+        </Reference>
+        <Reference Include="Azure.Storage.Common">
+          <HintPath>..\dependencies\Azure.Storage.Common.dll</HintPath>
+        </Reference>
+        <Reference Include="BoomlagoonJSON">
+          <HintPath>..\dependencies\BoomlagoonJSON.dll</HintPath>
+        </Reference>
+        <Reference Include="Cinemachine">
+          <HintPath>..\dependencies\Cinemachine.dll</HintPath>
+        </Reference>
+        <Reference Include="Coffee.UIParticle">
+          <HintPath>..\dependencies\Coffee.UIParticle.dll</HintPath>
+        </Reference>
+        <Reference Include="Coffee.UIParticle.R">
+          <HintPath>..\dependencies\Coffee.UIParticle.R.dll</HintPath>
+        </Reference>
+        <Reference Include="com.olegknyazev.softmask">
+          <HintPath>..\dependencies\com.olegknyazev.softmask.dll</HintPath>
         </Reference>
         <Reference Include="Cronos">
             <HintPath>..\dependencies\Cronos.dll</HintPath>
@@ -33,6 +63,12 @@
         </Reference>
         <Reference Include="DelaunayER">
             <HintPath>..\dependencies\DelaunayER.dll</HintPath>
+        </Reference>
+        <Reference Include="Discord.Sdk">
+          <HintPath>..\dependencies\Discord.Sdk.dll</HintPath>
+        </Reference>
+        <Reference Include="DnsClient">
+          <HintPath>..\dependencies\DnsClient.dll</HintPath>
         </Reference>
         <Reference Include="EasyRoads3Dv3">
             <HintPath>..\dependencies\EasyRoads3Dv3.dll</HintPath>
@@ -60,6 +96,9 @@
         </Reference>
         <Reference Include="Facepunch.Nexus">
             <HintPath>..\dependencies\Facepunch.Nexus.dll</HintPath>
+        </Reference>
+        <Reference Include="Facepunch.Ping">
+          <HintPath>..\dependencies\Facepunch.Ping.dll</HintPath>
         </Reference>
         <Reference Include="Facepunch.Raknet">
             <HintPath>..\dependencies\Facepunch.Raknet.dll</HintPath>
@@ -91,8 +130,23 @@
         <Reference Include="Fleck">
             <HintPath>..\dependencies\Fleck.dll</HintPath>
         </Reference>
-        <Reference Include="GA">
-            <HintPath>..\dependencies\GA.dll</HintPath>
+        <Reference Include="GBG.PlayableGraphMonitor.Tests">
+          <HintPath>..\dependencies\GBG.PlayableGraphMonitor.Tests.dll</HintPath>
+        </Reference>
+        <Reference Include="glTFast">
+          <HintPath>..\dependencies\glTFast.dll</HintPath>
+        </Reference>
+        <Reference Include="glTFast.Documentation.Examples">
+          <HintPath>..\dependencies\glTFast.Documentation.Examples.dll</HintPath>
+        </Reference>
+        <Reference Include="glTFast.dots">
+          <HintPath>..\dependencies\glTFast.dots.dll</HintPath>
+        </Reference>
+        <Reference Include="glTFast.Export">
+          <HintPath>..\dependencies\glTFast.Export.dll</HintPath>
+        </Reference>
+        <Reference Include="glTFast.Newtonsoft">
+          <HintPath>..\dependencies\glTFast.Newtonsoft.dll</HintPath>
         </Reference>
         <Reference Include="I18N">
             <HintPath>..\dependencies\I18N.dll</HintPath>
@@ -115,6 +169,9 @@
         <Reference Include="Ionic.Zip.Reduced">
             <HintPath>..\dependencies\Ionic.Zip.Reduced.dll</HintPath>
         </Reference>
+        <Reference Include="LeTai.TrueShadow">
+          <HintPath>..\dependencies\LeTai.TrueShadow.dll</HintPath>
+        </Reference>
         <Reference Include="LZ4">
             <HintPath>..\dependencies\LZ4.dll</HintPath>
         </Reference>
@@ -123,6 +180,15 @@
         </Reference>
         <Reference Include="Melanchall.DryWetMidi">
             <HintPath>..\dependencies\Melanchall.DryWetMidi.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.Identity.Client">
+          <HintPath>..\dependencies\Microsoft.Identity.Client.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.Identity.Client.Extensions.Msal">
+          <HintPath>..\dependencies\Microsoft.Identity.Client.Extensions.Msal.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.IdentityModel.Abstractions">
+          <HintPath>..\dependencies\Microsoft.IdentityModel.Abstractions.dll</HintPath>
         </Reference>
         <Reference Include="MidiJack">
             <HintPath>..\dependencies\MidiJack.dll</HintPath>
@@ -139,9 +205,6 @@
         <Reference Include="Mono.Cecil.Rocks">
             <HintPath>..\dependencies\Mono.Cecil.Rocks.dll</HintPath>
         </Reference>
-        <Reference Include="Mono.Data.Sqlite">
-            <HintPath>..\dependencies\Mono.Data.Sqlite.dll</HintPath>
-        </Reference>
         <Reference Include="Mono.Data.Tds">
             <HintPath>..\dependencies\Mono.Data.Tds.dll</HintPath>
         </Reference>
@@ -154,11 +217,11 @@
         <Reference Include="mscorlib">
             <HintPath>..\dependencies\mscorlib.dll</HintPath>
         </Reference>
-        <Reference Include="MySql.Data">
-            <HintPath>..\dependencies\MySql.Data.dll</HintPath>
-        </Reference>
         <Reference Include="netstandard">
             <HintPath>..\dependencies\netstandard.dll</HintPath>
+        </Reference>
+        <Reference Include="NewAssembly">
+          <HintPath>..\dependencies\NewAssembly.dll</HintPath>
         </Reference>
         <Reference Include="Oxide.Common">
             <HintPath>..\dependencies\Oxide.Common.dll</HintPath>
@@ -193,6 +256,9 @@
         <Reference Include="Oxide.Unity">
             <HintPath>..\dependencies\Oxide.Unity.dll</HintPath>
         </Reference>
+        <Reference Include="RTLTMPro">
+          <HintPath>..\dependencies\RTLTMPro.dll</HintPath>
+        </Reference>
         <Reference Include="Rust.Clans">
             <HintPath>..\dependencies\Rust.Clans.dll</HintPath>
         </Reference>
@@ -207,6 +273,9 @@
         </Reference>
         <Reference Include="Rust.FileSystem">
             <HintPath>..\dependencies\Rust.FileSystem.dll</HintPath>
+        </Reference>
+        <Reference Include="Rust.Friends">
+          <HintPath>..\dependencies\Rust.Friends.dll</HintPath>
         </Reference>
         <Reference Include="Rust.Global">
             <HintPath>..\dependencies\Rust.Global.dll</HintPath>
@@ -226,6 +295,12 @@
         <Reference Include="Rust.Platform.Steam">
             <HintPath>..\dependencies\Rust.Platform.Steam.dll</HintPath>
         </Reference>
+        <Reference Include="Rust.RenderPipeline">
+          <HintPath>..\dependencies\Rust.RenderPipeline.dll</HintPath>
+        </Reference>
+        <Reference Include="Rust.RenderPipeline.Tests">
+          <HintPath>..\dependencies\Rust.RenderPipeline.Tests.dll</HintPath>
+        </Reference>
         <Reference Include="Rust.UI">
             <HintPath>..\dependencies\Rust.UI.dll</HintPath>
         </Reference>
@@ -235,11 +310,17 @@
         <Reference Include="Rust.World">
             <HintPath>..\dependencies\Rust.World.dll</HintPath>
         </Reference>
+        <Reference Include="SingularityGroup.HotReload.Runtime.Public">
+          <HintPath>..\dependencies\SingularityGroup.HotReload.Runtime.Public.dll</HintPath>
+        </Reference>
         <Reference Include="System">
             <HintPath>..\dependencies\System.dll</HintPath>
         </Reference>
         <Reference Include="System.Buffers">
             <HintPath>..\dependencies\System.Buffers.dll</HintPath>
+        </Reference>
+        <Reference Include="System.ClientModel">
+          <HintPath>..\dependencies\System.ClientModel.dll</HintPath>
         </Reference>
         <Reference Include="System.ComponentModel.Composition">
             <HintPath>..\dependencies\System.ComponentModel.Composition.dll</HintPath>
@@ -262,6 +343,9 @@
         <Reference Include="System.Data.SQLite">
             <HintPath>..\dependencies\System.Data.SQLite.dll</HintPath>
         </Reference>
+        <Reference Include="System.Diagnostics.DiagnosticSource">
+          <HintPath>..\dependencies\System.Diagnostics.DiagnosticSource.dll</HintPath>
+        </Reference>
         <Reference Include="System.Drawing">
             <HintPath>..\dependencies\System.Drawing.dll</HintPath>
         </Reference>
@@ -274,8 +358,14 @@
         <Reference Include="System.IO.Compression.FileSystem">
             <HintPath>..\dependencies\System.IO.Compression.FileSystem.dll</HintPath>
         </Reference>
+        <Reference Include="System.IO.Hashing">
+          <HintPath>..\dependencies\System.IO.Hashing.dll</HintPath>
+        </Reference>
         <Reference Include="System.Memory">
             <HintPath>..\dependencies\System.Memory.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Memory.Data">
+          <HintPath>..\dependencies\System.Memory.Data.dll</HintPath>
         </Reference>
         <Reference Include="System.Net.Http">
             <HintPath>..\dependencies\System.Net.Http.dll</HintPath>
@@ -298,11 +388,11 @@
         <Reference Include="System.ServiceModel.Internals">
             <HintPath>..\dependencies\System.ServiceModel.Internals.dll</HintPath>
         </Reference>
+        <Reference Include="System.Text.Json">
+          <HintPath>..\dependencies\System.Text.Json.dll</HintPath>
+        </Reference>
         <Reference Include="System.Threading.Channels">
             <HintPath>..\dependencies\System.Threading.Channels.dll</HintPath>
-        </Reference>
-        <Reference Include="System.Threading.Tasks.Extensions">
-            <HintPath>..\dependencies\System.Threading.Tasks.Extensions.dll</HintPath>
         </Reference>
         <Reference Include="System.Transactions">
             <HintPath>..\dependencies\System.Transactions.dll</HintPath>
@@ -316,32 +406,59 @@
         <Reference Include="TimeZoneConverter">
             <HintPath>..\dependencies\TimeZoneConverter.dll</HintPath>
         </Reference>
+        <Reference Include="UIEffect">
+          <HintPath>..\dependencies\UIEffect.dll</HintPath>
+        </Reference>
+        <Reference Include="UniTask">
+          <HintPath>..\dependencies\UniTask.dll</HintPath>
+        </Reference>
+        <Reference Include="UniTask.Addressables">
+          <HintPath>..\dependencies\UniTask.Addressables.dll</HintPath>
+        </Reference>
+        <Reference Include="UniTask.DOTween">
+          <HintPath>..\dependencies\UniTask.DOTween.dll</HintPath>
+        </Reference>
+        <Reference Include="UniTask.Linq">
+          <HintPath>..\dependencies\UniTask.Linq.dll</HintPath>
+        </Reference>
+        <Reference Include="UniTask.TextMeshPro">
+          <HintPath>..\dependencies\UniTask.TextMeshPro.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.AI.Navigation">
+          <HintPath>..\dependencies\Unity.AI.Navigation.dll</HintPath>
+        </Reference>
         <Reference Include="Unity.Burst">
             <HintPath>..\dependencies\Unity.Burst.dll</HintPath>
-        </Reference>
-        <Reference Include="Unity.Burst.Cecil">
-            <HintPath>..\dependencies\Unity.Burst.Cecil.dll</HintPath>
-        </Reference>
-        <Reference Include="Unity.Burst.Cecil.Mdb">
-            <HintPath>..\dependencies\Unity.Burst.Cecil.Mdb.dll</HintPath>
-        </Reference>
-        <Reference Include="Unity.Burst.Cecil.Pdb">
-            <HintPath>..\dependencies\Unity.Burst.Cecil.Pdb.dll</HintPath>
-        </Reference>
-        <Reference Include="Unity.Burst.Cecil.Rocks">
-            <HintPath>..\dependencies\Unity.Burst.Cecil.Rocks.dll</HintPath>
         </Reference>
         <Reference Include="Unity.Burst.Unsafe">
             <HintPath>..\dependencies\Unity.Burst.Unsafe.dll</HintPath>
         </Reference>
+        <Reference Include="Unity.Collections">
+          <HintPath>..\dependencies\Unity.Collections.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Collections.LowLevel.ILSupport">
+          <HintPath>..\dependencies\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Formats.Fbx.Runtime">
+          <HintPath>..\dependencies\Unity.Formats.Fbx.Runtime.dll</HintPath>
+        </Reference>
         <Reference Include="Unity.Mathematics">
             <HintPath>..\dependencies\Unity.Mathematics.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.MemoryProfiler">
+          <HintPath>..\dependencies\Unity.MemoryProfiler.dll</HintPath>
         </Reference>
         <Reference Include="Unity.Recorder">
             <HintPath>..\dependencies\Unity.Recorder.dll</HintPath>
         </Reference>
         <Reference Include="Unity.Recorder.Base">
             <HintPath>..\dependencies\Unity.Recorder.Base.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.RenderPipelines.Core.Runtime">
+          <HintPath>..\dependencies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+          <HintPath>..\dependencies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
         </Reference>
         <Reference Include="Unity.TerrainTools">
             <HintPath>..\dependencies\Unity.TerrainTools.dll</HintPath>
@@ -381,6 +498,9 @@
         </Reference>
         <Reference Include="UnityEngine.ClusterRendererModule">
             <HintPath>..\dependencies\UnityEngine.ClusterRendererModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.ContentLoadModule">
+          <HintPath>..\dependencies\UnityEngine.ContentLoadModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
             <HintPath>..\dependencies\UnityEngine.CoreModule.dll</HintPath>
@@ -439,6 +559,9 @@
         <Reference Include="UnityEngine.ProfilerModule">
             <HintPath>..\dependencies\UnityEngine.ProfilerModule.dll</HintPath>
         </Reference>
+        <Reference Include="UnityEngine.PropertiesModule">
+          <HintPath>..\dependencies\UnityEngine.PropertiesModule.dll</HintPath>
+        </Reference>
         <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
             <HintPath>..\dependencies\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
         </Reference>
@@ -490,17 +613,11 @@
         <Reference Include="UnityEngine.UIElementsModule">
             <HintPath>..\dependencies\UnityEngine.UIElementsModule.dll</HintPath>
         </Reference>
-        <Reference Include="UnityEngine.UIElementsNativeModule">
-            <HintPath>..\dependencies\UnityEngine.UIElementsNativeModule.dll</HintPath>
-        </Reference>
         <Reference Include="UnityEngine.UIModule">
             <HintPath>..\dependencies\UnityEngine.UIModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.UmbraModule">
             <HintPath>..\dependencies\UnityEngine.UmbraModule.dll</HintPath>
-        </Reference>
-        <Reference Include="UnityEngine.UNETModule">
-            <HintPath>..\dependencies\UnityEngine.UNETModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
             <HintPath>..\dependencies\UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
@@ -552,6 +669,18 @@
         </Reference>
         <Reference Include="UnityEngine.XRModule">
             <HintPath>..\dependencies\UnityEngine.XRModule.dll</HintPath>
+        </Reference>
+        <Reference Include="Wardddev.FlexibleColorPicker">
+          <HintPath>..\dependencies\Wardddev.FlexibleColorPicker.dll</HintPath>
+        </Reference>
+        <Reference Include="websocket-sharp">
+          <HintPath>..\dependencies\websocket-sharp.dll</HintPath>
+        </Reference>
+        <Reference Include="Whinarn.UnityMeshSimplifier.Runtime">
+          <HintPath>..\dependencies\Whinarn.UnityMeshSimplifier.Runtime.dll</HintPath>
+        </Reference>
+        <Reference Include="ZString">
+          <HintPath>..\dependencies\ZString.dll</HintPath>
         </Reference>
     </ItemGroup>
 

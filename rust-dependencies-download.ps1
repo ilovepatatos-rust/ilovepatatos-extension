@@ -48,9 +48,18 @@ Remove-Item -Path $tmpDir -Force -Recurse
 
 # Delete dll breaking automated builds using git actions
 $filesToDelete = @(
-"Facepunch.Steamworks.Win64.dll",
-"UnityEngine.ARModule.dll",
-"UnityEngine.NVIDIAModule.dll"
+    "UnityEngine.ARModule.dll",
+    "UnityEngine.NVIDIAModule.dll",
+    "Microsoft.Bcl.AsyncInterfaces.dll",
+    "System.Threading.Tasks.Extensions.dll",
+    "Microsoft.Win32.Registry.dll",
+    "System.Text.Encodings.Web.dll",
+    "System.Numerics.Vectors.dll",
+    "System.Security.Cryptography.ProtectedData.dll",
+    "System.IO.FileSystem.AccessControl.dll",
+    "System.Security.Principal.Windows.dll",
+    "System.Security.AccessControl.dll",
+    "Newtonsoft.Json.dll"
 )
 
 foreach ($filename in $filesToDelete)
