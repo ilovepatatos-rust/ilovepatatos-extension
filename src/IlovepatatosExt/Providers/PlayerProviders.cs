@@ -6,7 +6,13 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public class PlayerProviders : IPlayerProvider, Pool.IPooled
 {
-    private List<IPlayerProvider> _providers;
+    private readonly List<IPlayerProvider> _providers = new();
+
+    /// <summary>
+    /// Since we can't use pool list while yielding in case it breaks/returns.
+    /// We'll assume GetPlayers() won't be called by multiple systems async and use an internal field instead.
+    /// </summary>
+    private HashSet<ulong> _playersReturned;
 
     public static PlayerProviders New(params IPlayerProvider[] providers)
     {
@@ -18,27 +24,26 @@ public class PlayerProviders : IPlayerProvider, Pool.IPooled
 
     public IEnumerable<BasePlayer> GetPlayers()
     {
-        var done = PoolUtility.Get<HashSet<ulong>>();
+        _playersReturned.Clear();
 
         foreach (IPlayerProvider provider in _providers)
         {
             foreach (BasePlayer player in provider.GetPlayers())
             {
-                if (player != null && done.Add(player.userID))
+                if (player != null && _playersReturned.Add(player.userID))
                     yield return player;
             }
         }
-
-        PoolUtility.Free(ref done);
     }
 
     void Pool.IPooled.EnterPool()
     {
-        PoolUtility.Free(ref _providers);
+        _providers.Clear();
+        PoolUtility.Free(ref _playersReturned);
     }
 
     void Pool.IPooled.LeavePool()
     {
-        _providers = PoolUtility.Get<List<IPlayerProvider>>();
+        _playersReturned = PoolUtility.Get<HashSet<ulong>>();
     }
 }
