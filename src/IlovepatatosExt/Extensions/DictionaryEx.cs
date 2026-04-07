@@ -73,8 +73,11 @@ public static class DictionaryEx
     {
         var toRemove = PoolUtility.Get<HashSet<TKey>>();
 
-        foreach (KeyValuePair<TKey, TValue> pair in dict.Where(pair => predicate(pair.Key)))
-            toRemove.Add(pair.Key);
+        foreach (TKey key in dict.Keys)
+        {
+            if (predicate(key))
+                toRemove.Add(key);
+        }
 
         foreach (TKey key in toRemove)
             dict.Remove(key);
@@ -93,8 +96,11 @@ public static class DictionaryEx
     {
         var toRemove = PoolUtility.Get<HashSet<TKey>>();
 
-        foreach (KeyValuePair<TKey, TValue> pair in dict.Where(pair => predicate(pair.Value)))
-            toRemove.Add(pair.Key);
+        foreach (KeyValuePair<TKey, TValue> keyToValue in dict)
+        {
+            if (predicate(keyToValue.Value))
+                toRemove.Add(keyToValue.Key);
+        }
 
         foreach (TKey key in toRemove)
             dict.Remove(key);
@@ -113,8 +119,11 @@ public static class DictionaryEx
     {
         var toRemove = PoolUtility.Get<HashSet<TKey>>();
 
-        foreach (KeyValuePair<TKey, TValue> pair in dict.Where(pair => predicate(pair.Key, pair.Value)))
-            toRemove.Add(pair.Key);
+        foreach (KeyValuePair<TKey, TValue> keyToValue in dict)
+        {
+            if (predicate(keyToValue.Key, keyToValue.Value))
+                toRemove.Add(keyToValue.Key);
+        }
 
         foreach (TKey key in toRemove)
             dict.Remove(key);
