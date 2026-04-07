@@ -58,7 +58,17 @@ public static class BasePlayerEx
     [MustUseReturnValue]
     public static IEnumerable<Connection> GetOnlineConnections(this IEnumerable<BasePlayer> players)
     {
-        return from player in players where player != null select player.Connection into con where con != null select con;
+        foreach (BasePlayer player in players)
+        {
+            if (player == null)
+                continue;
+
+            Connection connection = player.Connection;
+            if (connection == null)
+                continue;
+
+            yield return connection;
+        }
     }
 
     [MustUseReturnValue]
