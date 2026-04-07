@@ -64,7 +64,9 @@ public abstract class ClockUserInterface : Clock
     {
         base.Update();
 
+        TimeUserInterface?.Dispose();
         TimeUserInterface = CreateTimeUserInterface(Minutes, Seconds);
+
         BroadcastTimeUserInterface(Players.Values);
     }
 
