@@ -9,7 +9,7 @@
 
         <!-- removes the .pdb file from the output folder -->
         <DebugType>embedded</DebugType>
-        <LangVersion>11</LangVersion>
+        <LangVersion>14</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
