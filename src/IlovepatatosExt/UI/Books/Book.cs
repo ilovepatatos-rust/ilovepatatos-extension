@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using Oxide.Ext.UiFramework.Builder;
 using Oxide.Ext.UiFramework.Builder.UI;
+using Oxide.Ext.UiFramework.Plugins;
 
 namespace Oxide.Ext.IlovepatatosExt.UI;
 
@@ -16,7 +17,7 @@ public abstract class Book
     public int AmountPages => Pages.Count;
     public abstract string PanelName { get; }
 
-    public virtual bool Open(BasePlayer player, int page = 0)
+    public virtual bool Open(IUiFrameworkPlugin uiPlugin, BasePlayer player, int page = 0)
     {
         if (player == null)
             throw new ArgumentNullException(nameof(player));
@@ -32,13 +33,13 @@ public abstract class Book
 
         content.UserInterface.AddUi(player);
 
-        var builder = CreatePagesCountInterface(page);
+        var builder = CreatePagesCountInterface(uiPlugin, page);
         builder?.AddUi(player);
 
         return true;
     }
 
-    public virtual bool Open(IEnumerable<BasePlayer> players, int page = 0)
+    public virtual bool Open(IUiFrameworkPlugin uiPlugin, IEnumerable<BasePlayer> players, int page = 0)
     {
         if (players == null)
             throw new ArgumentNullException(nameof(players));
@@ -60,7 +61,7 @@ public abstract class Book
 
         content.UserInterface.AddUi(players);
 
-        var builder = CreatePagesCountInterface(page);
+        var builder = CreatePagesCountInterface(uiPlugin, page);
         builder?.AddUi(players);
 
         return true;
@@ -125,8 +126,8 @@ public abstract class Book
         Pages.Add(page);
     }
 
-    protected virtual UiBuilder CreatePagesCountInterface(int page)
+    protected virtual UiBuilder CreatePagesCountInterface(IUiFrameworkPlugin uiPlugin, int page)
     {
-        return PagesUserInterface?.CreatePageInterface(page);
+        return PagesUserInterface?.CreatePageInterface(uiPlugin, page);
     }
 }
