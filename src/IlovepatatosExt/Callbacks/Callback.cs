@@ -21,8 +21,10 @@ public class Callback : Pool.IPooled
 #region Getters/Setters
 
     public bool StopOnCompletion { get; set; } = true;
+
     public bool IsCounting { get; private set; }
-    
+    public bool IsCompleted { get; private set; }
+
     public float Interval { get; private set; }
     public int Duration { get; private set; }
 
@@ -38,6 +40,7 @@ public class Callback : Pool.IPooled
     public virtual void Start(int duration, float interval = 1f, Action onUpdate = null, Action onComplete = null)
     {
         IsCounting = true;
+        IsCompleted = false;
         _currentTime = 0;
 
         Duration = duration;
@@ -60,6 +63,7 @@ public class Callback : Pool.IPooled
     public virtual void Cancel()
     {
         IsCounting = false;
+        IsCompleted = false;
         _currentTime = 0;
         Duration = 0;
         TimerUtility.DestroyToPool(ref _callback);
@@ -72,19 +76,27 @@ public class Callback : Pool.IPooled
 
     protected virtual void Update()
     {
-        _onUpdateCallback?.Invoke();
+        try
+        {
+            _onUpdateCallback?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogErrorFormat("Unhandled exception while calling update callback\n{0}", ex);
+        }
     }
 
     private void InternalUpdate()
     {
         int timeUntil = TimeUntil;
+        IsCompleted = StopOnCompletion && timeUntil <= 0;
 
         if (timeUntil > 0)
             _currentTime += Mathf.RoundToInt(Interval);
 
         Update();
 
-        if (StopOnCompletion && timeUntil <= 0)
+        if (IsCompleted)
             OnComplete();
     }
 
@@ -92,8 +104,15 @@ public class Callback : Pool.IPooled
     {
         IsCounting = false;
         TimerUtility.DestroyToPool(ref _callback);
-        
-        _onCompleteCallback?.Invoke();
+
+        try
+        {
+            _onCompleteCallback?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogErrorFormat("Unhandled exception while calling complete callback\n{0}", ex);
+        }
     }
 
     void Pool.IPooled.EnterPool()
@@ -101,16 +120,17 @@ public class Callback : Pool.IPooled
         PluginOwner = null;
         _currentTime = 0;
         _timeSinceLastUpdate = 0;
-        
+
         _onUpdateCallback = null;
         _onCompleteCallback = null;
-        
+
         StopOnCompletion = true;
         IsCounting = false;
-        
+        IsCompleted = false;
+
         Interval = 0f;
         Duration = 0;
-        
+
         TimerUtility.DestroyToPool(ref _callback);
     }
 
