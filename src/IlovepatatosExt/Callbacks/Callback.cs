@@ -135,17 +135,4 @@ public class Callback : Pool.IPooled
     }
 
     void Pool.IPooled.LeavePool() { }
-
-#region Obsolete
-
-    [Obsolete("Use " + nameof(IsCompleted) + " instead.")]
-    public bool IsCompletionTick => IsCompleted;
-
-    [Obsolete("Use " + nameof(IsCompleted) + " instead.")]
-    public bool IsLastTick()
-    {
-        return IsCompleted;
-    }
-
-#endregion
 }
