@@ -58,8 +58,11 @@ public static class BasePlayerEx
     }
 
     [MustUseReturnValue]
-    public static IEnumerable<Connection> GetOnlineConnections(this IEnumerable<BasePlayer> players)
+    public static IEnumerable<Connection> GetOnlineConnections([NotNull] this IEnumerable<BasePlayer> players)
     {
+        if (players == null)
+            throw new ArgumentNullException(nameof(players));
+
         foreach (BasePlayer player in players)
         {
             if (player == null)
