@@ -3,6 +3,7 @@ using Oxide.Ext.UiFramework.Builder.UI;
 using Oxide.Ext.UiFramework.Colors;
 using Oxide.Ext.UiFramework.Enums;
 using Oxide.Ext.UiFramework.Offsets;
+using Oxide.Ext.UiFramework.Plugins;
 using Oxide.Ext.UiFramework.Positions;
 using Oxide.Ext.UiFramework.UiElements;
 
@@ -13,7 +14,7 @@ public class PagesUserInterface
 {
     public int AmountPages;
 
-    public string ParentPanelName = UiLayer.Overlay.ToString();
+    public string ParentPanelName = nameof(UiLayer.Overlay);
     public string PanelName = "pages (Panel)";
 
     public UiPosition Anchors = UiPosition.MiddleMiddle;
@@ -22,14 +23,14 @@ public class PagesUserInterface
     public int TextSize = 13;
     public string TextFormat = "{0}/{1}";
     public UiFont TextFont = UiFont.RobotoCondensedRegular;
-    public UiColor TextColor = UiColor.White;
+    public UiColor TextColor = UiColors.White;
 
     public PageButton PreviousButton { get; private set; } = PageButton.Previous;
     public PageButton NextButton { get; private set; } = PageButton.Next;
 
-    public UiBuilder CreatePageInterface(int currentPage)
+    public UiBuilder CreatePageInterface(IUiFrameworkPlugin uiPlugin, int currentPage)
     {
-        var builder = UiBuilder.Create(Anchors, Offset, PanelName, ParentPanelName);
+        var builder = UiBuilder.Create(uiPlugin, new UiReference(ParentPanelName, PanelName), Anchors, Offset);
 
         string text = string.Format(TextFormat, currentPage + 1, AmountPages);
         CreateTextInterface(builder, builder.Root, text);

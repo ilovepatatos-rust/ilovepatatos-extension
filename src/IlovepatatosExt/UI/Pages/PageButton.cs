@@ -26,11 +26,11 @@ public class PageButton
             if (isActive)
             {
                 string command = string.Format(Command, page);
-                builder.ImageFileStorageButton(parent, Anchors, Offset, UiColor.Clear, ActiveImageUrlOrPng, command);
+                builder.FileStorageImageButton(parent, Anchors, Offset, ActiveImageUrlOrPng, command, UiColors.Clear);
             }
             else
             {
-                builder.ImageFileStorage(parent, Anchors, Offset, InactiveImageUrlOrPng);
+                builder.FileStorageImage(parent, Anchors, Offset, InactiveImageUrlOrPng);
             }
         }
         else
@@ -38,7 +38,7 @@ public class PageButton
             if (isActive)
             {
                 string command = string.Format(Command, page);
-                builder.WebImageButton(parent, Anchors, Offset, UiColor.Clear, ActiveImageUrlOrPng, command);
+                builder.WebImageButton(parent, Anchors, Offset, ActiveImageUrlOrPng, command, UiColors.Clear);
             }
             else
             {
