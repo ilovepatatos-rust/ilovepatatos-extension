@@ -124,9 +124,12 @@
         <Reference Include="Oxide.Common" />
         <Reference Include="Oxide.Core" />
         <Reference Include="Oxide.CSharp" />
-        <Reference Include="Oxide.Ext.ConsoleExt" />
-        <Reference Include="Oxide.Ext.GizmosExt" />
-        <Reference Include="Oxide.Ext.UiFramework" />
+        <Reference Include="Oxide.Ext.ConsoleExt" Condition="'$(RustFramework)' == 'oxide'" />
+        <Reference Include="Oxide.Ext.GizmosExt" Condition="'$(RustFramework)' == 'oxide'" />
+        <Reference Include="Oxide.Ext.UiFramework" Condition="'$(RustFramework)' == 'oxide'" />
+        <Reference Include="Carbon.Ext.ConsoleExt" Condition="'$(RustFramework)' == 'carbon'" />
+        <Reference Include="Carbon.Ext.GizmosExt" Condition="'$(RustFramework)' == 'carbon'" />
+        <Reference Include="Carbon.Ext.UiFramework" Condition="'$(RustFramework)' == 'carbon'" />
         <Reference Include="Oxide.MySql" />
         <Reference Include="Oxide.References" />
         <Reference Include="Oxide.Rust" />
