@@ -1,0 +1,67 @@
+<Project>
+    <!--
+      Configuration = framework + branch (same names as RustProxyPlugins).
+      Platform       = Windows | Linux
+      Optional local overrides (gitignored): Directory.Build.props.user
+    -->
+    <Import Project="$(MSBuildThisFileDirectory)Directory.Build.props.user"
+            Condition="Exists('$(MSBuildThisFileDirectory)Directory.Build.props.user')" />
+
+    <PropertyGroup>
+        <Configuration Condition="'$(Configuration)' == ''">3. Oxide</Configuration>
+        <Platform Condition="'$(Platform)' == ''">Windows</Platform>
+        <Configurations>1. Main;2. Staging;3. Oxide;4. Oxide Staging;5. Carbon;6. Carbon Staging</Configurations>
+        <Platforms>Windows;Linux</Platforms>
+        <RustPlatform>$(Platform.ToLowerInvariant())</RustPlatform>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == '1. Main'">
+        <RustChannel>main</RustChannel>
+        <RustFramework Condition="'$(RustFramework)' != 'oxide+carbon'">rust</RustFramework>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == '2. Staging'">
+        <RustChannel>staging</RustChannel>
+        <RustFramework Condition="'$(RustFramework)' != 'oxide+carbon'">rust</RustFramework>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == '3. Oxide'">
+        <RustChannel>main</RustChannel>
+        <RustFramework Condition="'$(RustFramework)' != 'oxide+carbon'">oxide</RustFramework>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == '4. Oxide Staging'">
+        <RustChannel>staging</RustChannel>
+        <RustFramework Condition="'$(RustFramework)' != 'oxide+carbon'">oxide</RustFramework>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == '5. Carbon'">
+        <RustChannel>main</RustChannel>
+        <RustFramework Condition="'$(RustFramework)' != 'oxide+carbon'">carbon</RustFramework>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == '6. Carbon Staging'">
+        <RustChannel>staging</RustChannel>
+        <RustFramework Condition="'$(RustFramework)' != 'oxide+carbon'">carbon</RustFramework>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <RustChannel Condition="'$(RustChannel)' == ''">main</RustChannel>
+        <RustFramework Condition="'$(RustFramework)' == ''">oxide</RustFramework>
+        <RustPlatform Condition="'$(RustPlatform)' == ''">windows</RustPlatform>
+
+        <DependencyRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)dependencies'))</DependencyRoot>
+        <OxideDependencyDirectory>$(DependencyRoot)\$(RustChannel)\$(RustPlatform)\oxide</OxideDependencyDirectory>
+        <CarbonDependencyDirectory>$(DependencyRoot)\$(RustChannel)\$(RustPlatform)\carbon</CarbonDependencyDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(RustFramework)' != 'oxide+carbon'">
+        <DependencyDirectory>$(DependencyRoot)\$(RustChannel)\$(RustPlatform)\$(RustFramework)</DependencyDirectory>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(RustFramework)' == 'oxide+carbon'">
+        <DependencyDirectory>$(OxideDependencyDirectory)</DependencyDirectory>
+        <DefineConstants>$(DefineConstants);OXIDE;CARBON</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(RustFramework)' == 'oxide'">
+        <DefineConstants>$(DefineConstants);OXIDE</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(RustFramework)' == 'carbon'">
+        <DefineConstants>$(DefineConstants);CARBON</DefineConstants>
+    </PropertyGroup>
+</Project>

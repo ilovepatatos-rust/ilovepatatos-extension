@@ -4,12 +4,43 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IlovepatatosExt", "Ilovepat
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Release|Any CPU = Release|Any CPU
+		1. Main|Windows = 1. Main|Windows
+		1. Main|Linux = 1. Main|Linux
+		2. Staging|Windows = 2. Staging|Windows
+		2. Staging|Linux = 2. Staging|Linux
+		3. Oxide|Windows = 3. Oxide|Windows
+		3. Oxide|Linux = 3. Oxide|Linux
+		4. Oxide Staging|Windows = 4. Oxide Staging|Windows
+		4. Oxide Staging|Linux = 4. Oxide Staging|Linux
+		5. Carbon|Windows = 5. Carbon|Windows
+		5. Carbon|Linux = 5. Carbon|Linux
+		6. Carbon Staging|Windows = 6. Carbon Staging|Windows
+		6. Carbon Staging|Linux = 6. Carbon Staging|Linux
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F233DF74-E080-4385-A44A-5A2085AC23A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F233DF74-E080-4385-A44A-5A2085AC23A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F233DF74-E080-4385-A44A-5A2085AC23A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F233DF74-E080-4385-A44A-5A2085AC23A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.1. Main|Windows.ActiveCfg = 1. Main|Windows
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.1. Main|Windows.Build.0 = 1. Main|Windows
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.1. Main|Linux.ActiveCfg = 1. Main|Linux
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.1. Main|Linux.Build.0 = 1. Main|Linux
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.2. Staging|Windows.ActiveCfg = 2. Staging|Windows
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.2. Staging|Windows.Build.0 = 2. Staging|Windows
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.2. Staging|Linux.ActiveCfg = 2. Staging|Linux
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.2. Staging|Linux.Build.0 = 2. Staging|Linux
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.3. Oxide|Windows.ActiveCfg = 3. Oxide|Windows
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.3. Oxide|Windows.Build.0 = 3. Oxide|Windows
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.3. Oxide|Linux.ActiveCfg = 3. Oxide|Linux
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.3. Oxide|Linux.Build.0 = 3. Oxide|Linux
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.4. Oxide Staging|Windows.ActiveCfg = 4. Oxide Staging|Windows
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.4. Oxide Staging|Windows.Build.0 = 4. Oxide Staging|Windows
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.4. Oxide Staging|Linux.ActiveCfg = 4. Oxide Staging|Linux
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.4. Oxide Staging|Linux.Build.0 = 4. Oxide Staging|Linux
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.5. Carbon|Windows.ActiveCfg = 5. Carbon|Windows
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.5. Carbon|Windows.Build.0 = 5. Carbon|Windows
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.5. Carbon|Linux.ActiveCfg = 5. Carbon|Linux
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.5. Carbon|Linux.Build.0 = 5. Carbon|Linux
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.6. Carbon Staging|Windows.ActiveCfg = 6. Carbon Staging|Windows
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.6. Carbon Staging|Windows.Build.0 = 6. Carbon Staging|Windows
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.6. Carbon Staging|Linux.ActiveCfg = 6. Carbon Staging|Linux
+		{F233DF74-E080-4385-A44A-5A2085AC23A7}.6. Carbon Staging|Linux.Build.0 = 6. Carbon Staging|Linux
 	EndGlobalSection
 EndGlobal

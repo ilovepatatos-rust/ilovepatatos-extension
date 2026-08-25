@@ -1,0 +1,57 @@
+{
+  "outputDirectory": "./src/dependencies",
+  "publicReleases": [
+    {
+      "name": "Oxide.Ext.ConsoleExt",
+      "url": "https://github.com/ilovepatatos-rust/console-extension/releases/latest/download/Oxide.Ext.ConsoleExt.dll",
+      "frameworks": [
+        "Oxide"
+      ]
+    },
+    {
+      "name": "Carbon.Ext.ConsoleExt",
+      "url": "https://github.com/ilovepatatos-rust/console-extension/releases/latest/download/Carbon.Ext.ConsoleExt.dll",
+      "frameworks": [
+        "Carbon"
+      ]
+    },
+    {
+      "name": "Oxide.Ext.GizmosExt",
+      "url": "https://github.com/ilovepatatos-rust/gizmos-extension/releases/latest/download/Oxide.Ext.GizmosExt.dll",
+      "frameworks": [
+        "Oxide"
+      ]
+    },
+    {
+      "name": "Carbon.Ext.GizmosExt",
+      "url": "https://github.com/ilovepatatos-rust/gizmos-extension/releases/latest/download/Carbon.Ext.GizmosExt.dll",
+      "frameworks": [
+        "Carbon"
+      ]
+    },
+    {
+      "name": "Oxide.Ext.UiFramework",
+      "url": "https://github.com/ilovepatatos-rust/ui-framework/releases/latest/download/Oxide.Ext.UiFramework.dll",
+      "frameworks": [
+        "Oxide"
+      ]
+    },
+    {
+      "name": "Carbon.Ext.UiFramework",
+      "url": "https://github.com/ilovepatatos-rust/ui-framework/releases/latest/download/Carbon.Ext.UiFramework.dll",
+      "frameworks": [
+        "Carbon"
+      ]
+    }
+  ],
+  "privateReleases": [],
+  "githubNuget": [],
+  "deleteDlls": [
+    "UnityEngine.ARModule.dll",
+    "UnityEngine.NVIDIAModule.dll",
+    "Microsoft.Bcl.AsyncInterfaces.dll",
+    "Microsoft.Win32.Registry.dll",
+    "System.Text.Encodings.Web.dll",
+    "System.Numerics.Vectors.dll"
+  ]
+}
