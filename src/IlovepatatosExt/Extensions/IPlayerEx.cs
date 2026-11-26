@@ -1,7 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Oxide.Core.Libraries.Covalence;
-using Oxide.Game.Rust.Libraries.Covalence;
 #if CARBON
 using Oxide.Core;
 using Oxide.Core.Libraries;

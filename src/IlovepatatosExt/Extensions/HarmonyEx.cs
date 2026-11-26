@@ -1,9 +1,6 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-using Facepunch.Extend;
+﻿using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using Oxide.Ext.ConsoleExt;
 
 namespace Oxide.Ext.IlovepatatosExt;
 
