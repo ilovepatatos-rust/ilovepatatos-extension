@@ -7,196 +7,208 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class DictionaryEx
 {
-    [MustUseReturnValue]
-    public static int Capacity<TKey, TValue>(this Dictionary<TKey, TValue> dict)
+    extension<TKey, TValue>(Dictionary<TKey, TValue> dict)
     {
-        FieldInfo field = AccessTools.Field(dict.GetType(), "_buckets");
-        int[] array = (int[])field.GetValue(dict);
-
-        return array?.Length ?? 0;
-    }
-
-    [MustUseReturnValue]
-    public static TValue GetOrFallback<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback = default)
-    {
-        return key == null ? fallback : dict.GetValueOrDefault(key, fallback);
-    }
-
-    [MustUseReturnValue]
-    public static TValue GetOrFallbackPlusRemove<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue fallback = default)
-    {
-        return key == null ? fallback : dict.Remove(key, out TValue value) ? value : fallback;
-    }
-
-    /// <summary>
-    /// Return whether the key was overwritten.
-    /// </summary>
-    [Obsolete("Simply use dict[key] = value; now")]
-    public static bool ForceAdd<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue value)
-    {
-        if (dict.TryAdd(key, value))
-            return false;
-
-        dict[key] = value;
-        return true;
-    }
-
-    public static float Increase<TKey>(this Dictionary<TKey, float> dict, TKey key, float value)
-    {
-        if (!dict.TryAdd(key, value))
-            dict[key] += value;
-
-        return dict[key];
-    }
-
-    public static int Increase<TKey>(this Dictionary<TKey, int> dict, TKey key, int value)
-    {
-        if (!dict.TryAdd(key, value))
-            dict[key] += value;
-
-        return dict[key];
-    }
-
-    public static long Increase<TKey>(this Dictionary<TKey, long> dict, TKey key, long value)
-    {
-        if (!dict.TryAdd(key, value))
-            dict[key] += value;
-
-        return dict[key];
-    }
-
-    /// <summary>
-    /// Removes all elements that satisfy the predicate.
-    /// </summary>
-    /// <returns>The amount of elements removed.</returns>
-    public static int RemoveAll<TKey, TValue>(this Dictionary<TKey, TValue> dict, Func<TKey, bool> predicate)
-    {
-        var toRemove = PoolUtility.Get<HashSet<TKey>>();
-
-        foreach (TKey key in dict.Keys)
+        [MustUseReturnValue]
+        public int Capacity()
         {
-            if (predicate(key))
-                toRemove.Add(key);
+            FieldInfo field = AccessTools.Field(dict.GetType(), "_buckets");
+            int[] array = (int[])field.GetValue(dict);
+
+            return array?.Length ?? 0;
         }
 
-        foreach (TKey key in toRemove)
-            dict.Remove(key);
-
-        int count = toRemove.Count;
-
-        PoolUtility.Free(ref toRemove);
-        return count;
-    }
-
-    /// <summary>
-    /// Removes all elements that satisfy the predicate.
-    /// </summary>
-    /// <returns>The amount of elements removed.</returns>
-    public static int RemoveAll<TKey, TValue>(this Dictionary<TKey, TValue> dict, Func<TValue, bool> predicate)
-    {
-        var toRemove = PoolUtility.Get<HashSet<TKey>>();
-
-        foreach (KeyValuePair<TKey, TValue> keyToValue in dict)
+        [MustUseReturnValue]
+        public TValue GetOrFallback(TKey key, TValue fallback = default)
         {
-            if (predicate(keyToValue.Value))
-                toRemove.Add(keyToValue.Key);
+            return key == null ? fallback : dict.GetValueOrDefault(key, fallback);
         }
 
-        foreach (TKey key in toRemove)
-            dict.Remove(key);
-
-        int count = toRemove.Count;
-
-        PoolUtility.Free(ref toRemove);
-        return count;
-    }
-
-    /// <summary>
-    /// Removes all elements that satisfy the predicate.
-    /// </summary>
-    /// <returns>The amount of elements removed.</returns>
-    public static int RemoveAll<TKey, TValue>(this Dictionary<TKey, TValue> dict, Func<TKey, TValue, bool> predicate)
-    {
-        var toRemove = PoolUtility.Get<HashSet<TKey>>();
-
-        foreach (KeyValuePair<TKey, TValue> keyToValue in dict)
+        [MustUseReturnValue]
+        public TValue GetOrFallbackPlusRemove(TKey key, TValue fallback = default)
         {
-            if (predicate(keyToValue.Key, keyToValue.Value))
-                toRemove.Add(keyToValue.Key);
+            return key == null ? fallback : dict.Remove(key, out TValue value) ? value : fallback;
         }
 
-        foreach (TKey key in toRemove)
-            dict.Remove(key);
-
-        int count = toRemove.Count;
-
-        PoolUtility.Free(ref toRemove);
-        return count;
-    }
-
-    public static bool TryGetKey<TKey, TValue>(this Dictionary<TKey, TValue> dict, TValue value, out TKey key)
-    {
-        foreach ((TKey x, TValue y) in dict)
+        /// <summary>
+        /// Return whether the key was overwritten.
+        /// </summary>
+        [Obsolete("Simply use dict[key] = value; now")]
+        public bool ForceAdd(TKey key, TValue value)
         {
-            if (!EqualityComparer<TValue>.Default.Equals(y, value))
-                continue;
+            if (dict.TryAdd(key, value))
+                return false;
 
-            key = x;
+            dict[key] = value;
             return true;
         }
 
-        key = default;
-        return false;
+        /// <summary>
+        /// Removes all elements that satisfy the predicate.
+        /// </summary>
+        /// <returns>The amount of elements removed.</returns>
+        public int RemoveAll(Func<TKey, bool> predicate)
+        {
+            var toRemove = PoolUtility.Get<HashSet<TKey>>();
+
+            foreach (TKey key in dict.Keys)
+            {
+                if (predicate(key))
+                    toRemove.Add(key);
+            }
+
+            foreach (TKey key in toRemove)
+                dict.Remove(key);
+
+            int count = toRemove.Count;
+
+            PoolUtility.Free(ref toRemove);
+            return count;
+        }
+
+        /// <summary>
+        /// Removes all elements that satisfy the predicate.
+        /// </summary>
+        /// <returns>The amount of elements removed.</returns>
+        public int RemoveAll(Func<TValue, bool> predicate)
+        {
+            var toRemove = PoolUtility.Get<HashSet<TKey>>();
+
+            foreach (KeyValuePair<TKey, TValue> keyToValue in dict)
+            {
+                if (predicate(keyToValue.Value))
+                    toRemove.Add(keyToValue.Key);
+            }
+
+            foreach (TKey key in toRemove)
+                dict.Remove(key);
+
+            int count = toRemove.Count;
+
+            PoolUtility.Free(ref toRemove);
+            return count;
+        }
+
+        /// <summary>
+        /// Removes all elements that satisfy the predicate.
+        /// </summary>
+        /// <returns>The amount of elements removed.</returns>
+        public int RemoveAll(Func<TKey, TValue, bool> predicate)
+        {
+            var toRemove = PoolUtility.Get<HashSet<TKey>>();
+
+            foreach (KeyValuePair<TKey, TValue> keyToValue in dict)
+            {
+                if (predicate(keyToValue.Key, keyToValue.Value))
+                    toRemove.Add(keyToValue.Key);
+            }
+
+            foreach (TKey key in toRemove)
+                dict.Remove(key);
+
+            int count = toRemove.Count;
+
+            PoolUtility.Free(ref toRemove);
+            return count;
+        }
+
+        public bool TryGetKey(TValue value, out TKey key)
+        {
+            foreach ((TKey x, TValue y) in dict)
+            {
+                if (!EqualityComparer<TValue>.Default.Equals(y, value))
+                    continue;
+
+                key = x;
+                return true;
+            }
+
+            key = default;
+            return false;
+        }
+
+        /// <summary>
+        /// Returns the value that is present the most in the dictionary.
+        /// </summary>
+        [MustUseReturnValue]
+        public TValue GetMostPresentValue()
+        {
+            var valueToCount = PoolUtility.Get<Dictionary<TValue, int>>();
+
+            foreach (TValue value in dict.Values)
+            {
+                if (!valueToCount.TryAdd(value, 1))
+                    valueToCount[value]++;
+            }
+
+            int highestAmount = 0;
+            TValue highest = default;
+
+            foreach ((TValue key, int amount) in valueToCount)
+            {
+                if (amount <= highestAmount)
+                    continue;
+
+                highestAmount = amount;
+                highest = key;
+            }
+
+            PoolUtility.Free(ref valueToCount);
+            return highest;
+        }
     }
 
-    /// <summary>
-    /// Returns the key with the highest value.
-    /// </summary>
-    [MustUseReturnValue]
-    public static TKey GetMostPreventKey<TKey>(this Dictionary<TKey, int> dict)
+    extension<TKey>(Dictionary<TKey, float> dict)
     {
-        int highestAmount = 0;
-        TKey highest = default;
-
-        foreach ((TKey key, int amount) in dict)
+        public float Increase(TKey key, float value)
         {
-            if (highest != null && amount <= highestAmount)
-                continue;
+            if (!dict.TryAdd(key, value))
+                dict[key] += value;
 
-            highestAmount = amount;
-            highest = key;
+            return dict[key];
         }
-
-        return highest;
     }
 
-    /// <summary>
-    /// Returns the value that is present the most in the dictionary.
-    /// </summary>
-    [MustUseReturnValue]
-    public static TValue GetMostPresentValue<TKey, TValue>(this Dictionary<TKey, TValue> dict)
+    extension<TKey>(Dictionary<TKey, int> dict)
     {
-        var valueToCount = PoolUtility.Get<Dictionary<TValue, int>>();
-
-        foreach (TValue value in dict.Values)
+        public int Increase(TKey key, int value)
         {
-            if (!valueToCount.TryAdd(value, 1))
-                valueToCount[value]++;
+            if (!dict.TryAdd(key, value))
+                dict[key] += value;
+
+            return dict[key];
         }
 
-        int highestAmount = 0;
-        TValue highest = default;
-
-        foreach ((TValue key, int amount) in valueToCount)
+        /// <summary>
+        /// Returns the key with the highest value.
+        /// </summary>
+        [MustUseReturnValue]
+        public TKey GetMostPreventKey()
         {
-            if (amount <= highestAmount)
-                continue;
+            int highestAmount = 0;
+            TKey highest = default;
 
-            highestAmount = amount;
-            highest = key;
+            foreach ((TKey key, int amount) in dict)
+            {
+                if (highest != null && amount <= highestAmount)
+                    continue;
+
+                highestAmount = amount;
+                highest = key;
+            }
+
+            return highest;
         }
+    }
 
-        PoolUtility.Free(ref valueToCount);
-        return highest;
+    extension<TKey>(Dictionary<TKey, long> dict)
+    {
+        public long Increase(TKey key, long value)
+        {
+            if (!dict.TryAdd(key, value))
+                dict[key] += value;
+
+            return dict[key];
+        }
     }
 }

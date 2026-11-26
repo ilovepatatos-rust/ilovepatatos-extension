@@ -5,8 +5,11 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class PlayerTeamEx
 {
-    public static void ChatMessage(this RelationshipManager.PlayerTeam team, string msg, ulong steam64 = 0)
+    extension(RelationshipManager.PlayerTeam team)
     {
-        team.GetOnlineMemberConnections().ChatMessage(msg, steam64);
+        public void ChatMessage(string msg, ulong steam64 = 0)
+        {
+            team.GetOnlineMemberConnections().ChatMessage(msg, steam64);
+        }
     }
 }

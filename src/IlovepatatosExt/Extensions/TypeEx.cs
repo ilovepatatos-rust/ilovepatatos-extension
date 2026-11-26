@@ -5,24 +5,27 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 internal static class TypeEx
 {
-    internal static IEnumerable<Type> GetGenericTypes(this Type type)
+    extension(Type type)
     {
-        while (type != null)
+        internal IEnumerable<Type> GetGenericTypes()
         {
-            if (type.IsGenericType)
-                yield return type;
+            while (type != null)
+            {
+                if (type.IsGenericType)
+                    yield return type;
 
-            type = type.BaseType;
+                type = type.BaseType;
+            }
         }
-    }
 
-    internal static bool HasAnyArgumentsOfType(this Type type, Type targetType)
-    {
-        var visited = PoolUtility.Get<HashSet<Type>>();
-        bool result = HasAnyArgumentsOfType(type, targetType, visited);
+        internal bool HasAnyArgumentsOfType(Type targetType)
+        {
+            var visited = PoolUtility.Get<HashSet<Type>>();
+            bool result = HasAnyArgumentsOfType(type, targetType, visited);
 
-        PoolUtility.Free(ref visited);
-        return result;
+            PoolUtility.Free(ref visited);
+            return result;
+        }
     }
 
     // recursive

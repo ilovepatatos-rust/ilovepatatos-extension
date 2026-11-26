@@ -6,71 +6,76 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class ConnectionEx
 {
-    [MustUseReturnValue]
-    public static bool IsModerator(this Connection connection)
+    extension(Connection connection)
     {
-        return connection.authLevel > 0;
+        [MustUseReturnValue]
+        public bool IsModerator()
+        {
+            return connection.authLevel > 0;
+        }
+
+        public void ChatMessageAsCopyable(string msg, ulong steam64 = 0)
+        {
+            if (!string.IsNullOrEmpty(msg))
+                ConsoleNetwork.SendClientCommand(connection, "chat.add2", ConVar.Chat.ChatChannel.Global, steam64, msg);
+        }
+
+        public void AddUi(string json)
+        {
+            if (string.IsNullOrEmpty(json))
+                return;
+
+            RpcTarget target = RpcTarget.Player("AddUI", connection);
+            CommunityEntity.ServerInstance.ClientRPC(target, json);
+        }
+
+        public void DestroyUi(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                return;
+
+            RpcTarget target = RpcTarget.Player("DestroyUI", connection);
+            CommunityEntity.ServerInstance.ClientRPC(target, name);
+        }
     }
 
-    public static void ChatMessage(this List<Connection> connections, string msg, ulong steam64 = 0)
+    extension(List<Connection> connections)
     {
-        if (connections.Count > 0 && !string.IsNullOrEmpty(msg))
-            ConsoleNetwork.SendClientCommand(connections, "chat.add", ConVar.Chat.ChatChannel.Global, steam64, msg);
-    }
+        public void ChatMessage(string msg, ulong steam64 = 0)
+        {
+            if (connections.Count > 0 && !string.IsNullOrEmpty(msg))
+                ConsoleNetwork.SendClientCommand(connections, "chat.add", ConVar.Chat.ChatChannel.Global, steam64, msg);
+        }
 
-    public static void ChatMessageAsCopyable(this Connection connection, string msg, ulong steam64 = 0)
-    {
-        if (!string.IsNullOrEmpty(msg))
-            ConsoleNetwork.SendClientCommand(connection, "chat.add2", ConVar.Chat.ChatChannel.Global, steam64, msg);
-    }
+        public void ChatMessageAsCopyable(string msg, ulong steam64 = 0)
+        {
+            if (connections.Count > 0 && !string.IsNullOrEmpty(msg))
+                ConsoleNetwork.SendClientCommand(connections, "chat.add2", ConVar.Chat.ChatChannel.Global, steam64, msg);
+        }
 
-    public static void ChatMessageAsCopyable(this List<Connection> connections, string msg, ulong steam64 = 0)
-    {
-        if (connections.Count > 0 && !string.IsNullOrEmpty(msg))
-            ConsoleNetwork.SendClientCommand(connections, "chat.add2", ConVar.Chat.ChatChannel.Global, steam64, msg);
-    }
+        public void ShowToast(GameTip.Styles style, Translate.Phrase phrase, bool overlay = false, params string[] arguments)
+        {
+            if (connections.Count > 0 && !string.IsNullOrEmpty(phrase.english))
+                ConsoleNetwork.SendClientCommand(connections, "gametip.showtoast_translated", (int)style, phrase.token, phrase.english, overlay,
+                    arguments);
+        }
 
-    public static void ShowToast(this List<Connection> connections,
-        GameTip.Styles style, Translate.Phrase phrase, bool overlay = false, params string[] arguments)
-    {
-        if (connections.Count > 0 && !string.IsNullOrEmpty(phrase.english))
-            ConsoleNetwork.SendClientCommand(connections, "gametip.showtoast_translated", (int)style, phrase.token, phrase.english, overlay,
-                arguments);
-    }
+        public void AddUi(string json)
+        {
+            if (connections.Count == 0 || string.IsNullOrEmpty(json))
+                return;
 
-    public static void AddUi(this Connection connection, string json)
-    {
-        if (string.IsNullOrEmpty(json))
-            return;
+            RpcTarget target = RpcTarget.Players("AddUI", connections);
+            CommunityEntity.ServerInstance.ClientRPC(target, json);
+        }
 
-        RpcTarget target = RpcTarget.Player("AddUI", connection);
-        CommunityEntity.ServerInstance.ClientRPC(target, json);
-    }
+        public void DestroyUi(string name)
+        {
+            if (connections.Count == 0 || string.IsNullOrEmpty(name))
+                return;
 
-    public static void AddUi(this List<Connection> connections, string json)
-    {
-        if (connections.Count == 0 || string.IsNullOrEmpty(json))
-            return;
-
-        RpcTarget target = RpcTarget.Players("AddUI", connections);
-        CommunityEntity.ServerInstance.ClientRPC(target, json);
-    }
-
-    public static void DestroyUi(this Connection connection, string name)
-    {
-        if (string.IsNullOrEmpty(name))
-            return;
-
-        RpcTarget target = RpcTarget.Player("DestroyUI", connection);
-        CommunityEntity.ServerInstance.ClientRPC(target, name);
-    }
-
-    public static void DestroyUi(this List<Connection> connections, string name)
-    {
-        if (connections.Count == 0 || string.IsNullOrEmpty(name))
-            return;
-
-        RpcTarget target = RpcTarget.Players("DestroyUI", connections);
-        CommunityEntity.ServerInstance.ClientRPC(target, name);
+            RpcTarget target = RpcTarget.Players("DestroyUI", connections);
+            CommunityEntity.ServerInstance.ClientRPC(target, name);
+        }
     }
 }

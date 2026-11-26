@@ -5,51 +5,54 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class TimeSinceEx
 {
-    [MustUseReturnValue]
-    public static int Seconds(this TimeSince value)
+    extension(TimeSince value)
     {
-        return ((float)value).Seconds();
-    }
+        [MustUseReturnValue]
+        public int Seconds()
+        {
+            return ((float)value).Seconds();
+        }
 
-    [MustUseReturnValue]
-    public static int TotalSeconds(this TimeSince value)
-    {
-        return ((float)value).TotalSeconds();
-    }
+        [MustUseReturnValue]
+        public int TotalSeconds()
+        {
+            return ((float)value).TotalSeconds();
+        }
 
-    [MustUseReturnValue]
-    public static int Minutes(this TimeSince value)
-    {
-        return ((float)value).Minutes();
-    }
+        [MustUseReturnValue]
+        public int Minutes()
+        {
+            return ((float)value).Minutes();
+        }
 
-    [MustUseReturnValue]
-    public static int TotalMinutes(this TimeSince value)
-    {
-        return ((float)value).TotalMinutes();
-    }
+        [MustUseReturnValue]
+        public int TotalMinutes()
+        {
+            return ((float)value).TotalMinutes();
+        }
 
-    [MustUseReturnValue]
-    public static int Hours(this TimeSince value)
-    {
-        return ((float)value).Hours();
-    }
+        [MustUseReturnValue]
+        public int Hours()
+        {
+            return ((float)value).Hours();
+        }
 
-    [MustUseReturnValue]
-    public static int TotalHours(this TimeSince value)
-    {
-        return ((float)value).TotalHours();
-    }
+        [MustUseReturnValue]
+        public int TotalHours()
+        {
+            return ((float)value).TotalHours();
+        }
 
-    [MustUseReturnValue]
-    public static string FormatToTime(this TimeSince value, string format = "{0:00}:{1:00}:{2:00}")
-    {
-        return ((float)value).FormatToTime(format);
-    }
+        [MustUseReturnValue]
+        public string FormatToTime(string format = "{0:00}:{1:00}:{2:00}")
+        {
+            return ((float)value).FormatToTime(format);
+        }
 
-    [MustUseReturnValue]
-    public static string FormatToTimeSmart(this TimeSince value, string hour = "h", string minute = "m", string second = "s")
-    {
-        return ((float)value).FormatToTimeSmart(hour, minute, second);
+        [MustUseReturnValue]
+        public string FormatToTimeSmart(string hour = "h", string minute = "m", string second = "s")
+        {
+            return ((float)value).FormatToTimeSmart(hour, minute, second);
+        }
     }
 }

@@ -6,15 +6,18 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class ColorEx
 {
-    [MustUseReturnValue]
-    public static Vector3 ToVector3(this Color self)
+    extension(Color self)
     {
-        return new Vector3(self.r, self.g, self.b);
-    }
+        [MustUseReturnValue]
+        public Vector3 ToVector3()
+        {
+            return new Vector3(self.r, self.g, self.b);
+        }
 
-    [MustUseReturnValue]
-    public static string ToCuiColor(this Color self, float alpha = 1)
-    {
-        return $"{self.r} {self.g} {self.b} {alpha}";
+        [MustUseReturnValue]
+        public string ToCuiColor(float alpha = 1)
+        {
+            return $"{self.r} {self.g} {self.b} {alpha}";
+        }
     }
 }

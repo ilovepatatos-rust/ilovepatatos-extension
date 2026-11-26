@@ -5,26 +5,29 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class TimeSpanEx
 {
-    [MustUseReturnValue]
-    public static TimeSpan TimeUntil(this TimeSpan from, TimeSpan to)
+    extension(TimeSpan from)
     {
-        if (from > to) // 23:00 -> 01:00
-            return new TimeSpan(24, 0, 0) - from + to;
+        [MustUseReturnValue]
+        public TimeSpan TimeUntil(TimeSpan to)
+        {
+            if (from > to) // 23:00 -> 01:00
+                return new TimeSpan(24, 0, 0) - from + to;
 
-        return to - from; // 13:00 -> 17:00
-    }
+            return to - from; // 13:00 -> 17:00
+        }
 
-    [MustUseReturnValue]
-    public static string FormatToTime(this TimeSpan value, string format = "{0:00}:{1:00}:{2:00}")
-    {
-        float seconds = (float)value.TotalSeconds;
-        return seconds.FormatToTime(format);
-    }
+        [MustUseReturnValue]
+        public string FormatToTime(string format = "{0:00}:{1:00}:{2:00}")
+        {
+            float seconds = (float)from.TotalSeconds;
+            return seconds.FormatToTime(format);
+        }
 
-    [MustUseReturnValue]
-    public static string FormatToTimeSmart(this TimeSpan value, string hour = "h", string minute = "m", string second = "s")
-    {
-        float seconds = (float)value.TotalSeconds;
-        return seconds.FormatToTimeSmart(hour, minute, second);
+        [MustUseReturnValue]
+        public string FormatToTimeSmart(string hour = "h", string minute = "m", string second = "s")
+        {
+            float seconds = (float)from.TotalSeconds;
+            return seconds.FormatToTimeSmart(hour, minute, second);
+        }
     }
 }

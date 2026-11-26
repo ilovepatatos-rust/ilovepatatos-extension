@@ -5,9 +5,12 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class VendingMachineEx
 {
-    public static void SetTitle(this VendingMachine vending, string title)
+    extension(VendingMachine vending)
     {
-        vending.shopName = title;
-        vending.FullUpdate();
+        public void SetTitle(string title)
+        {
+            vending.shopName = title;
+            vending.FullUpdate();
+        }
     }
 }

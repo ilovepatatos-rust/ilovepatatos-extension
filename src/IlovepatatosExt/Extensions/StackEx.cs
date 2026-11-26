@@ -7,12 +7,15 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class StackEx
 {
-    [MustUseReturnValue]
-    public static int Capacity<T>(this Stack<T> queue)
+    extension<T>(Stack<T> queue)
     {
-        FieldInfo field = AccessTools.Field(queue.GetType(), "_array");
-        var array = (T[])field.GetValue(queue);
+        [MustUseReturnValue]
+        public int Capacity()
+        {
+            FieldInfo field = AccessTools.Field(queue.GetType(), "_array");
+            var array = (T[])field.GetValue(queue);
 
-        return array.Length;
+            return array.Length;
+        }
     }
 }

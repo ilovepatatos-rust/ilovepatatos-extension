@@ -7,100 +7,103 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class StringArrayEx
 {
-    [MustUseReturnValue]
-    public static bool HasArgs(this string[] args, int index)
+    extension(string[] args)
     {
-        return args != null && args.Length > index;
-    }
+        [MustUseReturnValue]
+        public bool HasArgs(int index)
+        {
+            return args != null && args.Length > index;
+        }
 
-    [MustUseReturnValue]
-    public static string GetString(this string[] args, int index, string fallback = "")
-    {
-        return args.HasArgs(index) ? args[index] : fallback;
-    }
+        [MustUseReturnValue]
+        public string GetString(int index, string fallback = "")
+        {
+            return args.HasArgs(index) ? args[index] : fallback;
+        }
 
-    [MustUseReturnValue]
-    public static string GetAllStrings(this string[] args, int from)
-    {
-        var sb = PoolUtility.Get<StringBuilder>();
-        sb.Clear();
+        [MustUseReturnValue]
+        public string GetAllStrings(int from)
+        {
+            var sb = PoolUtility.Get<StringBuilder>();
+            sb.Clear();
 
-        for (var i = from; i < args.Length; i++)
-            sb.Append($"{args.GetString(i)} ");
+            for (var i = from; i < args.Length; i++)
+                sb.Append($"{args.GetString(i)} ");
 
-        string text = sb.ToString().Trim();
-        PoolUtility.Free(ref sb);
+            string text = sb.ToString().Trim();
+            PoolUtility.Free(ref sb);
 
-        return text;
-    }
+            return text;
+        }
 
-    [MustUseReturnValue]
-    public static bool GetBool(this string[] args, int index, bool fallback = false)
-    {
-        string value = args.GetString(index);
+        [MustUseReturnValue]
+        public bool GetBool(int index, bool fallback = false)
+        {
+            string value = args.GetString(index);
 
-        if (string.Equals(value, "1") || string.Equals(value, "true", StringComparison.InvariantCultureIgnoreCase))
-            return true;
+            if (string.Equals(value, "1") || string.Equals(value, "true", StringComparison.InvariantCultureIgnoreCase))
+                return true;
 
-        if (string.Equals(value, "0") || string.Equals(value, "false", StringComparison.InvariantCultureIgnoreCase))
-            return false;
+            if (string.Equals(value, "0") || string.Equals(value, "false", StringComparison.InvariantCultureIgnoreCase))
+                return false;
 
-        return fallback;
-    }
+            return fallback;
+        }
 
-    [MustUseReturnValue]
-    public static float GetFloat(this string[] args, int index, float fallback = 0)
-    {
-        string s = args.GetString(index);
-        return float.TryParse(s, out float result) ? result : fallback;
-    }
+        [MustUseReturnValue]
+        public float GetFloat(int index, float fallback = 0)
+        {
+            string s = args.GetString(index);
+            return float.TryParse(s, out float result) ? result : fallback;
+        }
 
-    [MustUseReturnValue]
-    public static int GetInt(this string[] args, int index, int fallback = 0)
-    {
-        string s = args.GetString(index);
-        return int.TryParse(s, out int result) ? result : fallback;
-    }
+        [MustUseReturnValue]
+        public int GetInt(int index, int fallback = 0)
+        {
+            string s = args.GetString(index);
+            return int.TryParse(s, out int result) ? result : fallback;
+        }
 
-    [MustUseReturnValue]
-    public static uint GetUint(this string[] args, int index, uint fallback = 0)
-    {
-        string s = args.GetString(index);
-        return uint.TryParse(s, out uint result) ? result : fallback;
-    }
+        [MustUseReturnValue]
+        public uint GetUint(int index, uint fallback = 0)
+        {
+            string s = args.GetString(index);
+            return uint.TryParse(s, out uint result) ? result : fallback;
+        }
 
-    [MustUseReturnValue]
-    public static long GetLong(this string[] args, int index, long fallback = 0)
-    {
-        string s = args.GetString(index);
-        return long.TryParse(s, out long result) ? result : fallback;
-    }
+        [MustUseReturnValue]
+        public long GetLong(int index, long fallback = 0)
+        {
+            string s = args.GetString(index);
+            return long.TryParse(s, out long result) ? result : fallback;
+        }
 
-    [MustUseReturnValue]
-    public static ulong GetUlong(this string[] args, int index, ulong fallback = 0)
-    {
-        string s = args.GetString(index);
-        return ulong.TryParse(s, out ulong result) ? result : fallback;
-    }
+        [MustUseReturnValue]
+        public ulong GetUlong(int index, ulong fallback = 0)
+        {
+            string s = args.GetString(index);
+            return ulong.TryParse(s, out ulong result) ? result : fallback;
+        }
 
-    [MustUseReturnValue]
-    public static Color GetColor(this string[] args, int index, Color fallback = default)
-    {
-        string str = GetString(args, index);
-        return string.IsNullOrEmpty(str) ? fallback : str.ToColor();
-    }
+        [MustUseReturnValue]
+        public Color GetColor(int index, Color fallback = default)
+        {
+            string str = GetString(args, index);
+            return string.IsNullOrEmpty(str) ? fallback : str.ToColor();
+        }
 
-    [MustUseReturnValue]
-    public static Vector3 GetVector3(this string[] args, int index, Vector3 fallback = default)
-    {
-        string str = GetString(args, index);
-        return string.IsNullOrEmpty(str) ? fallback : str.ToVector3();
-    }
+        [MustUseReturnValue]
+        public Vector3 GetVector3(int index, Vector3 fallback = default)
+        {
+            string str = GetString(args, index);
+            return string.IsNullOrEmpty(str) ? fallback : str.ToVector3();
+        }
 
-    [MustUseReturnValue]
-    public static Quaternion GetQuaternion(this string[] args, int index, Vector3 fallback = default)
-    {
-        Vector3 euler = GetVector3(args, index, fallback);
-        return Quaternion.Euler(euler);
+        [MustUseReturnValue]
+        public Quaternion GetQuaternion(int index, Vector3 fallback = default)
+        {
+            Vector3 euler = GetVector3(args, index, fallback);
+            return Quaternion.Euler(euler);
+        }
     }
 }

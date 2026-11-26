@@ -8,22 +8,25 @@ public static class StringEx
 {
     private static readonly Regex s_placeholderRegex = new(@"\{(\d+)(?:\:([^}]+))?\}", RegexOptions.Compiled);
 
-    [MustUseReturnValue]
-    public static string FormatNoThrow(this string format, params object[] args)
+    extension(string format)
     {
-        if (format == null)
-            throw new ArgumentNullException(nameof(format));
-
-        if (args.IsNullOrEmpty())
-            return format;
-
-        try
+        [MustUseReturnValue]
+        public string FormatNoThrow(params object[] args)
         {
-            return string.Format(format, args);
-        }
-        catch
-        {
-            return s_placeholderRegex.Replace(format, match => EvaluatePlaceholder(match, args));
+            if (format == null)
+                throw new ArgumentNullException(nameof(format));
+
+            if (args.IsNullOrEmpty())
+                return format;
+
+            try
+            {
+                return string.Format(format, args);
+            }
+            catch
+            {
+                return s_placeholderRegex.Replace(format, match => EvaluatePlaceholder(match, args));
+            }
         }
     }
 

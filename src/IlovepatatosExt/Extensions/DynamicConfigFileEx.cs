@@ -8,15 +8,18 @@ public static class DynamicConfigFileEx
 {
     private static readonly MethodInfo s_checkPathMethod = typeof(DynamicConfigFile).GetMethod("CheckPath", BindingFlags.Instance | BindingFlags.NonPublic);
 
-    public static void WriteObject<T>(this DynamicConfigFile self, T obj, Formatting format)
+    extension(DynamicConfigFile self)
     {
-        string filename = (string)s_checkPathMethod.Invoke(self, new object[] { self.Filename });
-        string directory = Core.Utility.GetDirectoryName(filename);
+        public void WriteObject<T>(T obj, Formatting format)
+        {
+            string filename = (string)s_checkPathMethod.Invoke(self, new object[] { self.Filename });
+            string directory = Core.Utility.GetDirectoryName(filename);
 
-        if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
-            Directory.CreateDirectory(directory);
+            if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
 
-        string json = JsonConvert.SerializeObject(obj, format, self.Settings);
-        File.WriteAllText(filename, json);
+            string json = JsonConvert.SerializeObject(obj, format, self.Settings);
+            File.WriteAllText(filename, json);
+        }
     }
 }

@@ -5,9 +5,12 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class TooltipMsgEx
 {
-    [MustUseReturnValue]
-    public static float TotalTime(this IEnumerable<TooltipMsg> messages)
+    extension(IEnumerable<TooltipMsg> messages)
     {
-        return messages.Sum(message => message.SecondsBefore + message.SecondsAfter);
+        [MustUseReturnValue]
+        public float TotalTime()
+        {
+            return messages.Sum(message => message.SecondsBefore + message.SecondsAfter);
+        }
     }
 }

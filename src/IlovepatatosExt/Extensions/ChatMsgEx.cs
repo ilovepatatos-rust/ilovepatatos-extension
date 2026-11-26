@@ -5,9 +5,12 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class ChatMsgEx
 {
-    [MustUseReturnValue]
-    public static float TotalTime(this IEnumerable<ChatMsg> messages)
+    extension(IEnumerable<ChatMsg> messages)
     {
-        return messages.Sum(message => message.SecondsBefore + message.SecondsAfter);
+        [MustUseReturnValue]
+        public float TotalTime()
+        {
+            return messages.Sum(message => message.SecondsBefore + message.SecondsAfter);
+        }
     }
 }

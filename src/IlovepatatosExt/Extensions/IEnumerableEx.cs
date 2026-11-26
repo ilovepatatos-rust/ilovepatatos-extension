@@ -6,24 +6,27 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class IEnumerableEx
 {
-    [MustUseReturnValue]
-    public static List<T> ToPooledList<T>(this IEnumerable<T> enumerable)
+    extension<T>(IEnumerable<T> enumerable)
     {
-        var list = PoolUtility.Get<List<T>>();
-        list.AddRange(enumerable);
-        return list;
-    }
+        [MustUseReturnValue]
+        public List<T> ToPooledList()
+        {
+            var list = PoolUtility.Get<List<T>>();
+            list.AddRange(enumerable);
+            return list;
+        }
 
-    [MustUseReturnValue]
-    public static T PickRandom<T>(this IEnumerable<T> enumerable)
-    {
-        if (enumerable is List<T> value)
-            return value.GetRandom();
+        [MustUseReturnValue]
+        public T PickRandom()
+        {
+            if (enumerable is List<T> value)
+                return value.GetRandom();
 
-        var list = enumerable.ToPooledList();
-        T result = list.GetRandom();
-        PoolUtility.Free(ref list);
+            var list = enumerable.ToPooledList();
+            T result = list.GetRandom();
+            PoolUtility.Free(ref list);
 
-        return result;
+            return result;
+        }
     }
 }

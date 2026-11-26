@@ -6,77 +6,80 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class FloatEx
 {
-    [MustUseReturnValue]
-    public static int ToInt(this float value)
+    extension(float value)
     {
-        return Mathf.RoundToInt(value);
-    }
+        [MustUseReturnValue]
+        public int ToInt()
+        {
+            return Mathf.RoundToInt(value);
+        }
 
-    [MustUseReturnValue]
-    public static int FloorToInt(this float value)
-    {
-        return Mathf.Floor(value)
-            .ToInt();
-    }
+        [MustUseReturnValue]
+        public int FloorToInt()
+        {
+            return Mathf.Floor(value)
+                .ToInt();
+        }
 
-    [MustUseReturnValue]
-    public static int CeilToInt(this float value)
-    {
-        return Mathf.Ceil(value)
-            .ToInt();
-    }
+        [MustUseReturnValue]
+        public int CeilToInt()
+        {
+            return Mathf.Ceil(value)
+                .ToInt();
+        }
 
-    [MustUseReturnValue]
-    public static int Seconds(this float value)
-    {
-        return Mathf.RoundToInt(value)
-            .Seconds();
-    }
+        [MustUseReturnValue]
+        public int Seconds()
+        {
+            return Mathf.RoundToInt(value)
+                .Seconds();
+        }
 
-    [MustUseReturnValue]
-    public static int TotalSeconds(this float value)
-    {
-        return Mathf.RoundToInt(value)
-            .TotalSeconds();
-    }
+        [MustUseReturnValue]
+        public int TotalSeconds()
+        {
+            return Mathf.RoundToInt(value)
+                .TotalSeconds();
+        }
 
-    [MustUseReturnValue]
-    public static int Minutes(this float value)
-    {
-        return Mathf.RoundToInt(value)
-            .Minutes();
-    }
+        [MustUseReturnValue]
+        public int Minutes()
+        {
+            return Mathf.RoundToInt(value)
+                .Minutes();
+        }
 
-    [MustUseReturnValue]
-    public static int TotalMinutes(this float value)
-    {
-        return Mathf.RoundToInt(value)
-            .TotalMinutes();
-    }
+        [MustUseReturnValue]
+        public int TotalMinutes()
+        {
+            return Mathf.RoundToInt(value)
+                .TotalMinutes();
+        }
 
-    [MustUseReturnValue]
-    public static int Hours(this float value)
-    {
-        return Mathf.RoundToInt(value)
-            .Hours();
-    }
+        [MustUseReturnValue]
+        public int Hours()
+        {
+            return Mathf.RoundToInt(value)
+                .Hours();
+        }
 
-    [MustUseReturnValue]
-    public static int TotalHours(this float value)
-    {
-        return Mathf.RoundToInt(value)
-            .TotalHours();
-    }
+        [MustUseReturnValue]
+        public int TotalHours()
+        {
+            return Mathf.RoundToInt(value)
+                .TotalHours();
+        }
 
-    [MustUseReturnValue]
-    public static string FormatToTime(this float value, string format = "{0:00}:{1:00}:{2:00}")
-    {
-        return Mathf.RoundToInt(value).FormatToTime(format);
-    }
+        [MustUseReturnValue]
+        public string FormatToTime(string format = "{0:00}:{1:00}:{2:00}")
+        {
+            return Mathf.RoundToInt(value).FormatToTime(format);
+        }
 
-    [MustUseReturnValue]
-    public static string FormatToTimeSmart(this float value, string hour = "h", string minute = "m", string second = "s")
-    {
-        return Mathf.RoundToInt(value).FormatToTimeSmart(hour, minute, second);
+        [MustUseReturnValue]
+        public string FormatToTimeSmart(string hour = "h", string minute = "m", string second = "s")
+        {
+            return Mathf.RoundToInt(value).FormatToTimeSmart(hour, minute, second);
+        }
     }
 }

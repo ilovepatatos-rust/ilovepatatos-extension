@@ -6,120 +6,123 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class PlayerInventoryEx
 {
-    [MustUseReturnValue]
-    public static bool IsEmpty(this PlayerInventory inventory)
+    extension(PlayerInventory inventory)
     {
-        if (!inventory.containerWear.IsEmpty())
-            return false;
-
-        if (!inventory.containerMain.IsEmpty())
-            return false;
-
-        if (!inventory.containerBelt.IsEmpty())
-            return false;
-
-        return true;
-    }
-
-    [MustUseReturnValue]
-    public static bool IsFull(this PlayerInventory inventory)
-    {
-        return inventory.containerMain.IsFull() && inventory.containerBelt.IsFull();
-    }
-
-    [MustUseReturnValue]
-    public static int GetAmount(this PlayerInventory inventory, int itemId, bool onlyUsable = false)
-    {
-        int amount = 0;
-
-        if (inventory.containerMain != null)
-            amount += inventory.containerMain.GetAmount(itemId, onlyUsable);
-
-        if (inventory.containerBelt != null)
-            amount += inventory.containerBelt.GetAmount(itemId, onlyUsable);
-
-        if (inventory.containerWear != null)
-            amount += inventory.containerWear.GetAmount(itemId, onlyUsable);
-
-        return amount;
-    }
-
-    [MustUseReturnValue]
-    public static int GetAmount(this PlayerInventory inventory, string shortname, bool onlyUsable = false)
-    {
-        ItemDefinition def = ItemManager.FindItemDefinition(shortname);
-        return def == null ? 0 : inventory.GetAmount(def.itemid, onlyUsable);
-    }
-
-    [MustUseReturnValue]
-    public static bool HasAmount(this PlayerInventory inventory, int itemId, int amount, bool onlyUsable = false)
-    {
-        int count = inventory.GetAmount(itemId, onlyUsable);
-        return count >= amount;
-    }
-
-    public static int Take(this PlayerInventory inventory, int itemId, int amount)
-    {
-        var items = PoolUtility.Get<List<Item>>();
-        int count = inventory.Take(items, itemId, amount);
-
-        foreach (Item item in items)
-            item.Remove();
-
-        if (count > 0)
+        [MustUseReturnValue]
+        public bool IsEmpty()
         {
-            BasePlayer owner = inventory.GetBaseEntity() as BasePlayer;
+            if (!inventory.containerWear.IsEmpty())
+                return false;
 
-            if (owner != null && owner.IsConnected)
-                owner.Command("note.inv", itemId, -count);
-        }
+            if (!inventory.containerMain.IsEmpty())
+                return false;
 
-        PoolUtility.Free(ref items);
-        return count;
-    }
+            if (!inventory.containerBelt.IsEmpty())
+                return false;
 
-    public static int Take(this PlayerInventory inventory, string shortname, int amount)
-    {
-        ItemDefinition def = ItemManager.FindItemDefinition(shortname);
-        return def != null ? inventory.Take(def.itemid, amount) : 0;
-    }
-
-    [MustUseReturnValue]
-    public static bool HasInventorySpaceFor(this PlayerInventory inventory, string shortname, int amount)
-    {
-        ItemDefinition def = ItemManager.FindItemDefinition(shortname);
-        if (def == null) return false;
-
-        ItemContainer main = inventory.containerMain;
-        ItemContainer belt = inventory.containerBelt;
-
-        // Complete all stacks in main container
-        foreach (Item item in main.itemList)
-        {
-            if (item.info != null && string.Equals(item.info.shortname, shortname))
-                amount -= Math.Max(0, item.info.stackable - item.amount);
-        }
-
-        if (amount <= 0)
             return true;
-
-        // Complete all stacks in belt container
-        foreach (Item item in belt.itemList)
-        {
-            if (item.info != null && string.Equals(item.info.shortname, shortname))
-                amount -= Math.Max(0, item.info.stackable - item.amount);
         }
 
-        if (amount <= 0)
-            return true;
+        [MustUseReturnValue]
+        public bool IsFull()
+        {
+            return inventory.containerMain.IsFull() && inventory.containerBelt.IsFull();
+        }
 
-        // Search for inventory space for remaining stack(s)
-        int amountStacks = Mathf.CeilToInt((float)amount / def.stackable);
+        [MustUseReturnValue]
+        public int GetAmount(int itemId, bool onlyUsable = false)
+        {
+            int amount = 0;
 
-        int amountSlotsTaken = main.itemList.Count + belt.itemList.Count;
-        int amountSlotsTotal = main.capacity + belt.capacity;
+            if (inventory.containerMain != null)
+                amount += inventory.containerMain.GetAmount(itemId, onlyUsable);
 
-        bool hasSpace = amountStacks <= amountSlotsTotal - amountSlotsTaken;
-        return hasSpace;
+            if (inventory.containerBelt != null)
+                amount += inventory.containerBelt.GetAmount(itemId, onlyUsable);
+
+            if (inventory.containerWear != null)
+                amount += inventory.containerWear.GetAmount(itemId, onlyUsable);
+
+            return amount;
+        }
+
+        [MustUseReturnValue]
+        public int GetAmount(string shortname, bool onlyUsable = false)
+        {
+            ItemDefinition def = ItemManager.FindItemDefinition(shortname);
+            return def == null ? 0 : inventory.GetAmount(def.itemid, onlyUsable);
+        }
+
+        [MustUseReturnValue]
+        public bool HasAmount(int itemId, int amount, bool onlyUsable = false)
+        {
+            int count = inventory.GetAmount(itemId, onlyUsable);
+            return count >= amount;
+        }
+
+        public int Take(int itemId, int amount)
+        {
+            var items = PoolUtility.Get<List<Item>>();
+            int count = inventory.Take(items, itemId, amount);
+
+            foreach (Item item in items)
+                item.Remove();
+
+            if (count > 0)
+            {
+                BasePlayer owner = inventory.GetBaseEntity() as BasePlayer;
+
+                if (owner != null && owner.IsConnected)
+                    owner.Command("note.inv", itemId, -count);
+            }
+
+            PoolUtility.Free(ref items);
+            return count;
+        }
+
+        public int Take(string shortname, int amount)
+        {
+            ItemDefinition def = ItemManager.FindItemDefinition(shortname);
+            return def != null ? inventory.Take(def.itemid, amount) : 0;
+        }
+
+        [MustUseReturnValue]
+        public bool HasInventorySpaceFor(string shortname, int amount)
+        {
+            ItemDefinition def = ItemManager.FindItemDefinition(shortname);
+            if (def == null) return false;
+
+            ItemContainer main = inventory.containerMain;
+            ItemContainer belt = inventory.containerBelt;
+
+            // Complete all stacks in main container
+            foreach (Item item in main.itemList)
+            {
+                if (item.info != null && string.Equals(item.info.shortname, shortname))
+                    amount -= Math.Max(0, item.info.stackable - item.amount);
+            }
+
+            if (amount <= 0)
+                return true;
+
+            // Complete all stacks in belt container
+            foreach (Item item in belt.itemList)
+            {
+                if (item.info != null && string.Equals(item.info.shortname, shortname))
+                    amount -= Math.Max(0, item.info.stackable - item.amount);
+            }
+
+            if (amount <= 0)
+                return true;
+
+            // Search for inventory space for remaining stack(s)
+            int amountStacks = Mathf.CeilToInt((float)amount / def.stackable);
+
+            int amountSlotsTaken = main.itemList.Count + belt.itemList.Count;
+            int amountSlotsTotal = main.capacity + belt.capacity;
+
+            bool hasSpace = amountStacks <= amountSlotsTotal - amountSlotsTaken;
+            return hasSpace;
+        }
     }
 }

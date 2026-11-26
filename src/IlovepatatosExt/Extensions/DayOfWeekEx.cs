@@ -7,11 +7,14 @@ public static class DayOfWeekEx
 {
     public static readonly int AmountDays = Enum.GetNames(typeof(DayOfWeek)).Length;
 
-    [MustUseReturnValue]
-    public static DayOfWeek NextDay(this DayOfWeek day)
+    extension(DayOfWeek day)
     {
-        int value = (int)day;
-        int nextValue = (value + 1) % AmountDays;
-        return (DayOfWeek)nextValue;
+        [MustUseReturnValue]
+        public DayOfWeek NextDay()
+        {
+            int value = (int)day;
+            int nextValue = (value + 1) % AmountDays;
+            return (DayOfWeek)nextValue;
+        }
     }
 }

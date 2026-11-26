@@ -5,15 +5,21 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class BaseNetworkableEx
 {
-    public static void KillOnce(this BaseNetworkable networkable, BaseNetworkable.DestroyMode mode = BaseNetworkable.DestroyMode.None)
+    extension(BaseNetworkable networkable)
     {
-        if (networkable != null && !networkable.IsDestroyed)
-            networkable.Kill(mode);
+        public void KillOnce(BaseNetworkable.DestroyMode mode = BaseNetworkable.DestroyMode.None)
+        {
+            if (networkable != null && !networkable.IsDestroyed)
+                networkable.Kill(mode);
+        }
     }
 
-    public static void KillAll(this IEnumerable<BaseNetworkable> networkables, BaseNetworkable.DestroyMode mode = BaseNetworkable.DestroyMode.None)
+    extension(IEnumerable<BaseNetworkable> networkables)
     {
-        foreach (BaseNetworkable networkable in networkables)
-            networkable.KillOnce(mode);
+        public void KillAll(BaseNetworkable.DestroyMode mode = BaseNetworkable.DestroyMode.None)
+        {
+            foreach (BaseNetworkable networkable in networkables)
+                networkable.KillOnce(mode);
+        }
     }
 }

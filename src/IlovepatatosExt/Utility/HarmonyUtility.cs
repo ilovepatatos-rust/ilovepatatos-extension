@@ -15,18 +15,21 @@ internal static class HarmonyUtility
                method.HasAttribute(typeof(HarmonyTranspiler));
     }
 
-    internal static void TrySmartPatch(this Harmony harmony, MethodInfo method)
+    extension(Harmony harmony)
     {
-        string result = TrySmartPatchInternal(harmony, method);
-        if (string.IsNullOrEmpty(result)) return;
+        internal void TrySmartPatch(MethodInfo method)
+        {
+            string result = TrySmartPatchInternal(harmony, method);
+            if (string.IsNullOrEmpty(result)) return;
 
-        StackTrace stackTrace = new(2, false); // skip itself & HarmonyEx
-        StackFrame frame = stackTrace.GetFrame(0);
+            StackTrace stackTrace = new(2, false); // skip itself & HarmonyEx
+            StackFrame frame = stackTrace.GetFrame(0);
 
-        Type type = frame?.GetMethod().DeclaringType;
-        string caller = type?.Name ?? "Unknown";
+            Type type = frame?.GetMethod().DeclaringType;
+            string caller = type?.Name ?? "Unknown";
 
-        OxideConsole.Log($"[{caller}] Harmony exception! {result}", OxideConsole.YELLOW);
+            OxideConsole.Log($"[{caller}] Harmony exception! {result}", OxideConsole.YELLOW);
+        }
     }
 
     private static string TrySmartPatchInternal(Harmony harmony, MethodInfo method)

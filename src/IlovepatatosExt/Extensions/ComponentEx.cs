@@ -6,20 +6,23 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public static class ComponentEx
 {
-    public static bool TryDestroyComponent<T>(this Component obj, bool immediate = false) where T : Component
+    extension(Component obj)
     {
-        var comp = obj.GetComponent<T>();
-        if (comp == null) return false;
-
-        if (immediate)
+        public bool TryDestroyComponent<T>(bool immediate = false) where T : Component
         {
-            UnityEngine.Object.DestroyImmediate(comp);
-        }
-        else
-        {
-            UnityEngine.Object.Destroy(comp);
-        }
+            var comp = obj.GetComponent<T>();
+            if (comp == null) return false;
 
-        return true;
+            if (immediate)
+            {
+                UnityEngine.Object.DestroyImmediate(comp);
+            }
+            else
+            {
+                UnityEngine.Object.Destroy(comp);
+            }
+
+            return true;
+        }
     }
 }
