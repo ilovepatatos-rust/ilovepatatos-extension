@@ -1,5 +1,8 @@
 ﻿using JetBrains.Annotations;
 using Network;
+#if CARBON
+using Oxide.Core.Libraries.Covalence;
+#endif
 using Rust;
 using UnityEngine;
 
@@ -36,7 +39,15 @@ public static class BasePlayerEx
 
     public static void Reply(this BasePlayer player, string msg)
     {
+#if CARBON
+        IPlayer iPlayer = player.AsIPlayer();
+        if (iPlayer != null)
+            IPlayerEx.Reply(iPlayer, msg);
+        else
+            player.ChatMessage(msg);
+#else
         player.IPlayer?.Reply(msg);
+#endif
     }
 
     [Obsolete("Use " + nameof(Reply) + "() instead")]
@@ -48,13 +59,23 @@ public static class BasePlayerEx
     [MustUseReturnValue]
     public static bool HasAnyPerms(this BasePlayer player, params string[] perms)
     {
+#if CARBON
+        IPlayer iPlayer = player.AsIPlayer();
+        return iPlayer != null && iPlayer.HasAnyPerms(perms);
+#else
         return player != null && player.IPlayer.HasAnyPerms(perms);
+#endif
     }
 
     [MustUseReturnValue]
     public static bool HasAnyPerms(this BasePlayer player, bool warn, params string[] perms)
     {
+#if CARBON
+        IPlayer iPlayer = player.AsIPlayer();
+        return iPlayer != null && iPlayer.HasAnyPerms(warn, perms);
+#else
         return player != null && player.IPlayer.HasAnyPerms(warn, perms);
+#endif
     }
 
     [MustUseReturnValue]

@@ -2,7 +2,6 @@
 using Oxide.Ext.ConsoleExt;
 using Oxide.Plugins;
 using UnityEngine;
-using Timer = Oxide.Plugins.Timer;
 
 namespace Oxide.Ext.IlovepatatosExt;
 
@@ -11,7 +10,7 @@ public class WeeklyCycles
 {
     public CycleSettings CycleSettings;
 
-    private Timer _callback;
+    private Plugins.Timer _callback;
     private readonly PluginTimers _pluginTimers;
     private readonly IConsoleLogger _console;
 

@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Newtonsoft.Json;
-using Oxide.Core;
 using Oxide.Core.Configuration;
 
 namespace Oxide.Ext.IlovepatatosExt;
@@ -12,7 +11,7 @@ public static class DynamicConfigFileEx
     public static void WriteObject<T>(this DynamicConfigFile self, T obj, Formatting format)
     {
         string filename = (string)s_checkPathMethod.Invoke(self, new object[] { self.Filename });
-        string directory = Utility.GetDirectoryName(filename);
+        string directory = Core.Utility.GetDirectoryName(filename);
 
         if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
             Directory.CreateDirectory(directory);

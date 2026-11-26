@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿#if OXIDE
+using JetBrains.Annotations;
 using Oxide.Core;
 using Oxide.Core.Extensions;
 
@@ -7,11 +8,9 @@ namespace Oxide.Ext.IlovepatatosExt;
 [UsedImplicitly]
 public class IlovepatatosExt : Extension
 {
-    private static readonly VersionNumber s_extensionVersion = new(1, 0, 0);
-
     public override string Name => "IlovepatatosExt";
     public override string Author => "Ilovepatatos";
-    public override VersionNumber Version => s_extensionVersion;
+    public override VersionNumber Version => new(1, 0, 0);
 
     public override bool SupportsReloading => true;
 
@@ -23,3 +22,5 @@ public class IlovepatatosExt : Extension
         JsonConvertersHandler.Initialize();
     }
 }
+
+#endif

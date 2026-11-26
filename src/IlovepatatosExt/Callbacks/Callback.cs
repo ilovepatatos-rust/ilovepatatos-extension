@@ -2,7 +2,6 @@
 using JetBrains.Annotations;
 using Oxide.Core.Plugins;
 using UnityEngine;
-using Timer = Oxide.Core.Libraries.Timer;
 
 namespace Oxide.Ext.IlovepatatosExt;
 
@@ -14,7 +13,7 @@ public class Callback : Pool.IPooled
     private int _currentTime;
     private TimeSince _timeSinceLastUpdate;
 
-    private Timer.TimerInstance _callback;
+    private Oxide.Core.Libraries.Timer.TimerInstance _callback;
 
     private Action _onUpdateCallback, _onCompleteCallback;
 
