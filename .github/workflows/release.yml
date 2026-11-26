@@ -21,6 +21,6 @@ jobs:
       project: src/IlovepatatosExt/IlovepatatosExt.csproj
       asset: Oxide.Ext.IlovepatatosExt.dll, Carbon.Ext.IlovepatatosExt.dll
       targets: oxide, carbon
-      publicize: false
+      publicize: true
       keep_versions: 3
     secrets: inherit
