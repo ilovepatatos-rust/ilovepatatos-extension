@@ -68,7 +68,7 @@ public static class PlayerInventoryEx
 
         if (count > 0)
         {
-            BasePlayer owner = inventory._baseEntity;
+            BasePlayer owner = inventory.GetBaseEntity() as BasePlayer;
 
             if (owner != null && owner.IsConnected)
                 owner.Command("note.inv", itemId, -count);
